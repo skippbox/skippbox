@@ -1,0 +1,9 @@
+{
+  "name": "kube-demo",
+  "version": "0.0.1",
+  "main": "index.html",
+  "description": "A demo of a NW base k8s UI",
+  "keywords": ["proto", "k8s", "nw.js" ],
+  "author": "Sebastien Goasguen",
+  "license": "ASL v2"
+}
