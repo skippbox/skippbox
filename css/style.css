@@ -1,0 +1,51 @@
+@import url(https://fonts.googleapis.com/css?family=Droid+Sans:400,700);
+body { background-color: #EDFFED; font-family: 'Droid Sans', sans-serif; -webkit-font-smoothing: antialiased; color: #666; font-weight: 400; }
+.h1, h1, .h2, h2, .h3, h3, .h4, h4, .h5, h5, .h6, h6 { font-weight: 700; letter-spacing: 0.66px; }
+.h1, h1 { font-size: 26px; }
+.h2, h2 { font-size: 22px; }
+.h3, h3 { font-size: 20px; }
+.h4, h4 { font-size: 18px; }
+.h5, h5 { font-size: 16px; }
+.h6, h6 { font-size: 14px; }
+a {     transition: .3s ease all;}
+.navbar-wrapper { background: #259b24; border-bottom: 1px solid rgba(240, 255, 239, 0.61); box-shadow: 6px 0px 11px rgba(0, 0, 0, 0.44); }
+.navbar-inverse { background: none; border: none; margin-bottom: 0px; }
+.navbar-inverse .navbar-nav>li>a { line-height: 30px; color: #ECF7EC; text-transform: capitalize; font-weight: normal; font-size: 16px; }
+.navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.active>a:focus, .navbar-inverse .navbar-nav>.active>a:hover, .navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:focus, .navbar-inverse .navbar-nav>.open>a:hover { background-color: #2CB92A; color: #FFF; }
+.navbar-inverse .navbar-nav>li>a:focus, .navbar-inverse .navbar-nav>li>a:hover { color: #fff; background-color: #2CB92A; }
+.navbar-inverse .navbar-brand { color: #F0FFEF; letter-spacing: 0.638px; padding: 0px; margin: 0px; text-shadow: 1px 0px 2px rgba(0, 0, 0, 0.54); font-weight: 400; }
+.company-logo { font-size: 2.8em; margin: 6px 10px 0px 0px; overflow: hidden; clear: both; display: inline-block; float: left; }
+.company-name { font-size: 1.8em; margin: 0px 10px 0px 0px; line-height: 2em; display: inline-block; clear: both; }
+.dropdown-menu { background-color: #2CB92A; }
+.dropdown-menu>li>a { color: #ECF7EC; text-transform: capitalize; font-weight: normal; font-size: 14px; }
+.dropdown-menu>li>a:focus, .dropdown-menu>li>a:hover { color: #FFF; text-decoration: none; background-color: #259B24; }
+.main { padding: 60px 0px; }
+.section-title h2 { margin: 0px 0px 20px; padding: 0px; }
+.widget { background-color: #f1f1f1; border: 1px solid #D4D4D4; margin: 0px 0px 20px; position: relative; }
+.widget-title { background: rgb(44, 185, 42); color: #fff; padding: 10px 16px 5px; text-transform: capitalize; }
+.widget-title.img-title { background: #22A056; }
+.widget-title h3 { margin: 0px; padding: 0px; font-size: 16px; max-width: 100%; display: inline-block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; position: relative; line-height: 20px; text-transform: capitalize; }
+.widget-title p { margin: 0px; padding: 0px }
+.widget-content { padding: 12px; }
+.widget-content .widget-img { text-align: center; display: block; margin: 12px 0px; }
+.widget-content .widget-img img { height: 100px; width: auto; }
+.margin-bottom { margin-bottom: 16px; }
+.widget-action { background-color: #BDEFBD; color: #777; border-top: 1px solid #93D893; }
+.widget-action a { cursor: pointer; padding: 8px 8px; color: #666; margin: 0px; display: inline-block; border-left: 1px solid #8AD689; }
+.widget-action a i { cursor: pointer; margin: 0px 0px 0px 6px; }
+.widget-action a:hover i, .widget-action a:hover { color: #0B97C4; text-decoration: none; }
+.footer-widget { background-color: #55A255; padding: 30px 0px; }
+.footer-widget h4 { padding: 0px; color: #ECF7EC; font-size: 16px; font-weight: 700; text-shadow: 1px 0px 3px rgba(0, 0, 0, 0.22); margin: 0px 0px 16px 0px; }
+.footer { color: #ECF7EC; }
+.footer-widget ul { margin: 0px; padding: 0px; list-style: none; }
+.footer-widget ul li { color: #ECF7EC; width: 100%; clear: both; margin: 10px 0px 0px 0px; padding: 0px; font-size: 13px; font-weight: normal; letter-spacing: 0.6px; }
+.footer-widget ul li a { color: #ECF7EC; text-decoration: none; }
+.footer-widget ul.addess-info li i { display: inline-block; width: 20px; font-size: 14px; color: #ECF7EC; float: left; }
+.footer-widget ul.addess-info li i.fa-mobile { font-size: 18px; }
+.footer-widget ul.addess-info li span, ul.addess-info li address { margin-bottom: 16px; font-style: normal; line-height: 1.42857143; display: inline-block; float: left; width: 80%; }
+ul.social-links li { list-stle: none; padding: 0px; display: inline-block; margin: 0px; }
+ul.social-links li a { text-decoration: none; color: #ECF7EC; padding: 12px 10px; }
+ul.social-links li a:hover { background-color: #2CB92A; }
+.privacy-footer { background-color: #259B24; padding: 0px 0px 0px; margin: 0px; }
+.privacy-footer p, .privacy-footer ul { margin: 0px; padding: 0px; }
+.privacy-footer p { padding: 10px 0px; }
