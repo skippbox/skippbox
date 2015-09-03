@@ -23,14 +23,26 @@ kuiApp.controller('kuiListController', function ($scope) {
 
         client.pods.getBy({"namespace": "default"}, function (err, podsArr) {
             if (!err) {
-                $scope.pods = podsArr;
+                $scope.pods = podsArr.items;
                 $scope.podLoaded = true;
-                console.log($scope.pods);
+                window.document.getElementById('podvar').value = podsArr.items;
             } else {
                 $scope.error = err;
             }
         });
     }
 
-    $scope.getPod();
+    $scope.showContainers = function() {
+        $scope.bcontainers = !$scope.bcontainers;
+    }
+
+    $scope.start = function () {
+        alert("Start invoked.");
+    }
+    $scope.stop = function () {
+        alert("Stop invoked.");
+    }
+    $scope.delete = function () {
+        alert("Delete invoked.");
+    }
 });
