@@ -59,17 +59,37 @@ kuiApp.controller("kuiController", function ($scope, $location) {
 
 kuiApp.controller("podController", function ( $scope, $location ) {
 
+    $scope.getPods = function () {
+
+        $scope.client.pods.get({"namespace": "default"}, function (err, pods) {
+            if (!err) {
+                $scope.pods = pods[0].items;
+                console.log('pods:'+pods[0].items);
+            } else {
+                $scope.error = err;
+            }
+        });
+    }
+
+    $scope.getPods();
+
 });
 
 kuiApp.controller("servicesController", function ( $scope, $location ) {
 
-    $scope.client.services.getBy({"namespace": "default"}, function (err, servicesArr) {
-        if (!err) {
-            $scope.services = servicesArr.items;
-        } else {
-            $scope.error = err;
-        }
-    });
+    $scope.getServices = function () {
+
+        $scope.client.services.get({"namespace": "default"}, function (err, services) {
+            if (!err) {
+                $scope.services = services[0].items;
+                console.log('svc:'+services[0].items);
+            } else {
+                $scope.error = err;
+            }
+        });
+    }
+
+    $scope.getServices();
 
 });
 
@@ -80,8 +100,7 @@ kuiApp.controller("rcController", function ( $scope, $location ) {
        $scope.client.replicationControllers.get({"namespace": "default"}, function (err, rcs) {
           if (!err) {
               console.log('rc:',rcs[0].items);
-              $scope.rc = rcs[0];
-              window.document.getElementById('rcs').value = rcs[0].items;
+              $scope.rc = rcs[0].items;
           } else {
               console.log(err)
               $scope.error = err;
@@ -89,7 +108,6 @@ kuiApp.controller("rcController", function ( $scope, $location ) {
        });
 
    }
-
    $scope.getRC();
 
 });

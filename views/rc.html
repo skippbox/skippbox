@@ -1,17 +1,18 @@
-<div ng-hide>
-    <input id='rcs' type="hidden" ng-model="rcs"/>
-</div>
+<button ng-click='getRC()'>Load RC</button>
 <table class="table table-condensed">
     <thead>
         <tr>
             <th>Name</th>
+            <th>UID</th>
             <th>SelfLink</th>
         </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="r in rcs">
+        <tr ng-repeat="r in rc">
             <td>{{r.metadata.name}}</td>
             <td>{{r.metadata.uid}}</td>
+            <td>{{r.metadata.selfLink}}</td>
         </tr>
     </tbody>
 </table>
+</div>

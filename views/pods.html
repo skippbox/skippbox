@@ -1,2 +1,18 @@
-<h2>My Pods</h2>
-<h3>Just a place holder, we might search for tags here</h3>
+<button ng-click='getPods()'>Load Pods</button>
+<table class="table table-condensed">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>UID</th>
+            <th>SelfLink</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="p in pods">
+            <td>{{p.metadata.name}}</td>
+            <td>{{p.metadata.uid}}</td>
+            <td>{{p.metadata.selfLink}}</td>
+        </tr>
+    </tbody>
+</table>
+</div>
