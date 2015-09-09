@@ -1,0 +1,39 @@
+<div class="main" data-ng-controller="podController">
+    <div ng-hide>
+        <input id='podvar' type="hidden" ng-model="pods"/>
+    </div>
+    <section class="product-item">
+        <div class="container">
+            <div class="row">
+                <div ng-repeat="p in pods">
+                    <div>
+                        <div class="widget">
+                            <div class="widget-title">
+                                <h3>{{p.metadata.name}} <a class='btn btn-info' ng-click="showContainers()">
+                                    Show </a>
+                                </h3>
+                            </div>
+                            <div class="widget-content">
+
+                                <p class="desc_title"><b>Description</b> : {{p.metadata.selfLink}}
+                                </p>
+
+                                <p class="desc_title"><b>created</b> : {{p.metadata.creationTimestamp}}
+                                </p>
+
+                                <p class="desc_title"><b>Uuid</b> : {{p.metadata.uid}}
+                                </p>
+
+                                <p class="desc_title"><b>Status</b> : <span class=""> {{p.status.phase}} </span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </section>
+
+</div>
+
