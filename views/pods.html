@@ -1,18 +1,23 @@
-<button ng-click='getPods()'>Load Pods</button>
-<table class="table table-condensed">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>UID</th>
-            <th>SelfLink</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr ng-repeat="p in pods">
-            <td>{{p.metadata.name}}</td>
-            <td>{{p.metadata.uid}}</td>
-            <td>{{p.metadata.selfLink}}</td>
-        </tr>
-    </tbody>
-</table>
-</div>
+<section>
+        <div class="row">
+                <div class="col-sm-3"><b>Name</b></div>
+                <div class="col-sm-3"><b>Namespace</b></div>
+                <div class="col-sm-3"><b>Status</b></div>
+                <div class="col-sm-3"><b>Actions</b></div>
+        </div>
+        <div class="row">
+                <div ng-repeat="p in pods">
+                        <div ng-class="{gray: hover}" ng-mouseenter="hover=true" ng-mouseleave="hover=false" ng-click="showpod=!showpod" class="row">
+                        	<div class="col-sm-3" ng-show=true>{{p.metadata.name}}</div>
+                        	<div class="col-sm-3" ng-show=true>{{p.metadata.namespace}}</div>
+                        	<div class="col-sm-3" ng-show=true>{{p.status.phase}}</div>
+				<div class="col-sm-3" ng-show=true>
+					<a ng-click="start(p.metadata.name);showpod=!showpod" class="" title="start"> <i class="fa fa-play"></i></a>
+					<a ng-click="stop(p.metadata.name);showpod=!showpod" class="" title="stop"> <i class="fa fa-stop"></i></a>
+                                        <a ng-click="delete(p.metadata.name);showpod=!showpod" class="" title="delete"> <i class="fa fa-trash"></i></a></div>
+                                <div class="col-sm-12" ng-show="showpod"><pre>{{p | json}}</pre></div>
+                        </div>
+                </div>
+        </div>
+        </div>
+</section>

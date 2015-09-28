@@ -4,35 +4,17 @@
 
 kuiApp.controller("kuiController", function ($scope, $location) {
     $scope.headerSrc = "views/header.html";
-    $scope.podLoaded = false;
-    $scope.Client = require('node-kubernetes-client');
-    $scope.client = new $scope.Client({
-                    host: '127.0.0.1:8080',
-                    protocol: 'http',
-                    version: 'v1',
-                    token: ''
-                    });
 
-    $scope.getPod = function () {
-
-        var pods, podId;
-
-        client.pods.getBy({"namespace": "default"}, function (err, podsArr) {
-            if (!err) {
-                $scope.pods = podsArr.items;
-                $scope.podLoaded = true;
-                console.log('pods:', podsArr);
-                window.document.getElementById('podvar').value = podsArr.items;
-            } else {
-                $scope.error = err;
-            }
-        });
-
-    }
-
-    $scope.showContainers = function() {
-        $scope.bcontainers = !$scope.bcontainers;
-    }
+    yaml = require('js-yaml');
+    fs   = require('fs');
+ 
+    // Get document, or throw exception on error
+    try {
+      config = yaml.safeLoad(fs.readFileSync('/Users/sebastiengoasguen/.kube/config', 'utf8'));
+      console.log(config);
+    } catch (e) {
+      console.log(e);
+     }
 
     $scope.back = function () {
         window.history.back();
@@ -46,68 +28,101 @@ kuiApp.controller("kuiController", function ($scope, $location) {
         return ($location.path()).indexOf(route) >= 0;
     }
 
-    $scope.start = function () {
-        alert("Start invoked.");
-    }
-    $scope.stop = function () {
-        alert("Stop invoked.");
-    }
-    $scope.delete = function () {
-        alert("Delete invoked.");
-    }
 });
 
-kuiApp.controller("podController", function ( $scope, $location ) {
 
-    $scope.getPods = function () {
+kuiApp.factory('k8s', function($resource) {
+  return {
+     Services: $resource('http://127.0.0.1:8080/api/v1/namespaces/default/services/:name'),
+     Pods: $resource('http://127.0.0.1:8080/api/v1/namespaces/default/pods/:name'),
+     Replicationcontrollers: $resource('http://127.0.0.1:8080/api/v1/namespaces/default/replicationcontrollers/:name'),
+     Namespaces: $resource('http://127.0.0.1:8080/api/v1/namespaces/:name'),
+     Nodes: $resource('http://127.0.0.1:8080/api/v1/nodes/:name'),
+     Secrets: $resource('http://127.0.0.1:8080/api/v1/namespaces/default/secrets/:name'),
+     Resourcequotas: $resource('http://127.0.0.1:8080/api/v1/namespaces/default/resourcequotas/:name'),
+   };
+});
 
-        $scope.client.pods.get({"namespace": "default"}, function (err, pods) {
-            if (!err) {
-                $scope.pods = pods[0].items;
-                console.log('pods:'+pods[0].items);
-            } else {
-                $scope.error = err;
-            }
-        });
+kuiApp.factory('socket', function($rootScope) {
+  io = require('socket.io');
+  var socket = io('http://127.0.0.1:8080/api/v1/watch/namespaces/default/pods');
+  return {
+        on: function(eventName, fn) {
+            socket.on(eventName, function(data) {
+                $rootScope.$apply(function() {
+                    fn(data);
+                });
+            });
+        },
+  };
+});
+
+kuiApp.controller("podController", function ( $scope, k8s, socket) {
+
+  //$scope.socket.on('connection', function(){
+  //  console.log('received socket info');
+  //});
+
+  var items = k8s.Pods.get(function(){
+    $scope.pods = items.items;
+    console.log('pods:',$scope.pods);
+  });
+
+  $scope.start = function ( pod ) {
+        alert("Start invoked for:".concat(pod));
     }
 
-    $scope.getPods();
+  $scope.stop = function ( pod ) {
+        alert("Stop invoked.".concat(pod));
+    }
+
+  $scope.delete = function ( pod ) {
+        k8s.Pods.delete({name: pod});
+        alert("Delete invoked.".concat(pod));
+    }
 
 });
 
-kuiApp.controller("servicesController", function ( $scope, $location ) {
+kuiApp.controller("servicesController", function ( $scope, k8s ) {
 
-    $scope.getServices = function () {
+  var items = k8s.Services.get(function(){
+      $scope.services = items.items;
+      console.log('services:',$scope.services);
+    });
 
-        $scope.client.services.get({"namespace": "default"}, function (err, services) {
-            if (!err) {
-                $scope.services = services[0].items;
-                console.log('svc:'+services[0].items);
-            } else {
-                $scope.error = err;
-            }
-        });
+  $scope.start = function ( service ) {
+        alert("Start invoked for:".concat(service));
     }
 
-    $scope.getServices();
+  $scope.stop = function ( service ) {
+        alert("Stop invoked.".concat(service));
+    }
+
+  $scope.delete = function ( service ) {
+        k8s.Services.delete({name: service});
+        alert("Delete invoked.".concat(service));
+    }
 
 });
 
-kuiApp.controller("rcController", function ( $scope, $location ) {
+kuiApp.controller("rcController", function ( $scope, k8s) {
 
-   $scope.getRC = function () {
+  var items = k8s.Replicationcontrollers.get(function(){
+      $scope.rc = items.items;
+      console.log('rc:',$scope.rc);
+    });
 
-       $scope.client.replicationControllers.get({"namespace": "default"}, function (err, rcs) {
-          if (!err) {
-              console.log('rc:',rcs[0].items);
-              $scope.rc = rcs[0].items;
-          } else {
-              console.log(err)
-              $scope.error = err;
-          }
-       });
+  $scope.start = function ( rc ) {
+        alert("Start invoked for:".concat(rc));
+    }
 
-   }
-   $scope.getRC();
+  $scope.stop = function ( rc) {
+        alert("Stop invoked.".concat(rc));
+    }
+
+  $scope.delete = function ( rc ) {
+        k8s.Replicationcontrollers.delete({name: rc});
+        alert("Delete invoked.".concat(rc));
+    }
 
 });

@@ -4,6 +4,9 @@ body {
 #container {
     padding: 39px 0px;
 }
+.gray {
+  color: gray;
+}
 .thumb-big
 {
     height: 199px;

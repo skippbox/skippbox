@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-ng-app="kuiApp">
+<html ng-app="kuiApp">
 <head>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/font-awesome.min.css" rel="stylesheet">
@@ -19,14 +19,17 @@
     <script src="js/router/routes.js"></script>
     <script src="js/controllers/controller.js"></script>
 
+    <link href="bower_components/angular-xeditable/dist/css/xeditable.css" rel="stylesheet">
+    <script src="bower_components/angular-xeditable/dist/js/xeditable.js"></script>
+
     <title>Manage Kubernetes</title>
 
 </head>
 
 <body class="container" data-ng-controller="kuiController">
-    <div data-ng-include src="headerSrc"></div>
-    <div id="container">
-        <div data-ng-view=""></div>
+    <div ng-include src="headerSrc"></div>
+    <div id="container"
+        <div ng-view=""></div>
     </div>
 </body>
 
