@@ -3,5 +3,5 @@
  * @type {*|module}
  */
 
-kuiApp = angular.module('kuiApp', ['ngResource', 'ngRoute', 'xeditable']);
+kuiApp = angular.module('kuiApp', ['ngResource', 'ngRoute']);
 

@@ -57,7 +57,7 @@ kuiApp.factory('socket', function($rootScope) {
   };
 });
 
-kuiApp.controller("podController", function ( $scope, k8s, socket) {
+kuiApp.controller("podController", function ( $scope, k8s) {
 
   //$scope.socket.on('connection', function(){
   //  console.log('received socket info');
