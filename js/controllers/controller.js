@@ -5,17 +5,6 @@
 kuiApp.controller("kuiController", function ($scope, $location) {
     $scope.headerSrc = "views/header.html";
 
-    yaml = require('js-yaml');
-    fs   = require('fs');
- 
-    // Get document, or throw exception on error
-    try {
-      config = yaml.safeLoad(fs.readFileSync('/Users/sebastiengoasguen/.kube/config', 'utf8'));
-      console.log(config);
-    } catch (e) {
-      console.log(e);
-     }
-
     $scope.back = function () {
         window.history.back();
     };
@@ -29,7 +18,6 @@ kuiApp.controller("kuiController", function ($scope, $location) {
     }
 
 });
-
 
 kuiApp.factory('k8s', function($resource) {
   return {
@@ -55,6 +43,74 @@ kuiApp.factory('socket', function($rootScope) {
             });
         },
   };
+});
+
+kuiApp.factory('config', function($filter) {
+  yaml = require('js-yaml');
+  fs   = require('fs');
+
+  // Get document, or throw exception on error
+  try {
+    config = yaml.safeLoad(fs.readFileSync('/Users/sebastiengoasguen/.kube/config', 'utf8'));
+    console.log(config);
+  } catch (e) {
+    console.log(e);
+    }
+
+  var contexts = [];
+  var users = [];
+  var clusters = [];
+
+  angular.forEach(config.users, function(value, key){
+    var user = {};
+    user.name = value.name;
+    user.password = value.user.password;
+    user.username = value.user.username;
+    user.token = value.user.token;
+    user.client_key = value.user['client-key'];
+    user.client_certificate = value.user['client-certificate'];
+    users.push(user);
+  });
+
+  angular.forEach(config.clusters, function(value, key){
+    var cluster = {};
+    cluster.name = value.name;
+    cluster.server = value.cluster.server;
+    if (typeof value.cluster["certificate-authority"] != 'undefined') {
+      cluster.certificate_authority = value.cluster["certificate-authority"];
+    }
+    if (typeof value.cluster["api-version"] != 'undefined') {
+      cluster.api_version = value.cluster["api-version"];
+    }
+    //if (typeof value.cluster["insecure-skip-tls-verify"] != 'undefined') {
+      cluster.insecure_skip_tls_verify = value.cluster["insecure-skip-tls-verify"];
+    //}
+    clusters.push(cluster);
+  });
+
+  angular.forEach(config.contexts, function(value, key){
+    var context = {};
+    context.name = value.name;
+    context.cluster = $filter('filter')(clusters, {'name': value.context.cluster})[0];
+    context.user = $filter('filter')(users, {'name': value.context.user})[0];
+    contexts.push(context);
+  });
+  
+  return {
+    Contexts: contexts,
+    Users: users,
+    Clusters: clusters,
+  };
+});
+
+kuiApp.controller("contextController", function ( $scope, $location, config) {
+
+  console.log(config)
+
+  $scope.contexts = config.Contexts;
+  $scope.clusters = config.Clusters;
+  $scope.users = config.Users;
+
 });
 
 kuiApp.controller("podController", function ( $scope, k8s) {

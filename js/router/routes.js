@@ -15,6 +15,9 @@ kuiApp.config(function ($routeProvider) {
         }).when("/rc", {
             templateUrl: "views/rc.html",
             controller: "rcController"
+        }).when("/context", {
+            templateUrl: "views/context.html",
+            controller: "contextController"
         }).otherwise({
             redirectTo: '/'
         });
