@@ -31,7 +31,15 @@ kuiApp.controller("kuiController", function ($scope, $location) {
 
 });
 
+
 kuiApp.factory('k8s', function ($resource) {
+    /*
+     Pods: $resource('http://127.0.0.1:8080/api/v1/namespaces/default/pods/:name', {}, {
+     query: { method: 'GET' },
+     del: { method: 'DELETE', params: {name: '@name'} }
+     }
+     ),
+     */
     return {
         Services: $resource('http://127.0.0.1:8080/api/v1/namespaces/default/services/:name'),
         Pods: $resource('http://127.0.0.1:8080/api/v1/namespaces/default/pods/:name'),
@@ -128,10 +136,23 @@ kuiApp.controller("contextController", function ($scope, $location, config) {
 
 kuiApp.controller("podController", function ($scope, k8s) {
     function refreshPods() {
-        var items = k8s.Pods.get(function () {
-            $scope.pods = items.items;
+        $scope.podsReady = false;
+        var items = k8s.Pods.get(function (pd) {
+            $scope.pods = []
+            for(var i=0; i< pd.items.length; i++ ) {
+                $scope.pods.push({pod: pd.items[i], id: "pod_" + i})
+            }
             console.log('pods:', $scope.pods);
         });
+        $scope.podsReady = true;
+
+    }
+
+    $scope.editPod = function(id, pod) {
+        if (id && pod) {
+            $scope["pod_" + id] = true;
+            $scope.pStr = JSON.stringify(pod);
+        }
     }
 
     var ws = new WebSocket("ws://127.0.0.1:8080/api/v1/namespaces/default/pods?watch=true");
@@ -146,8 +167,10 @@ kuiApp.controller("podController", function ($scope, k8s) {
 
     function listener(data) {
         var messageObj = data;
-        console.log("Received data from websocket: ", messageObj);
-        refreshPods();
+        if (data) {
+            console.log("Received data from websocket: ", messageObj);
+            refreshPods();
+        }
     }
 
 //
@@ -211,6 +234,10 @@ kuiApp.controller("servicesController", function ($scope, k8s) {
     $scope.delete = function (service) {
         k8s.Services.delete({name: service});
         alert("Delete invoked.".concat(service));
+    }
+
+    $scope.onChange = function (value) {
+        alert(value);
     }
 
 });

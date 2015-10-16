@@ -14,25 +14,41 @@
    limitations under the License.
 -->
 <section>
-        <div class="row">
-                <div class="col-sm-3"><b>Name</b></div>
-                <div class="col-sm-3"><b>Namespace</b></div>
-                <div class="col-sm-3"><b>Status</b></div>
-                <div class="col-sm-3"><b>Actions</b></div>
-        </div>
-        <div class="row">
-                <div ng-repeat="p in pods">
-                        <div ng-class="{gray: hover}" ng-mouseenter="hover=true" ng-mouseleave="hover=false" ng-click="showpod=!showpod" class="row">
-                        	<div class="col-sm-3" ng-show=true>{{p.metadata.name}}</div>
-                        	<div class="col-sm-3" ng-show=true>{{p.metadata.namespace}}</div>
-                        	<div class="col-sm-3" ng-show=true>{{p.status.phase}}</div>
-				<div class="col-sm-3" ng-show=true>
-					<a ng-click="start(p.metadata.name);showpod=!showpod" class="" title="start"> <i class="fa fa-play"></i></a>
-					<a ng-click="stop(p.metadata.name);showpod=!showpod" class="" title="stop"> <i class="fa fa-stop"></i></a>
-                                        <a ng-click="delete(p.metadata.name);showpod=!showpod" class="" title="delete"> <i class="fa fa-trash"></i></a></div>
-                                <div class="col-sm-12" ng-show="showpod"><pre>{{p | json}}</pre></div>
-                        </div>
+    <div class="row">
+        <div class="col-sm-3"><b>Name</b></div>
+        <div class="col-sm-3"><b>Namespace</b></div>
+        <div class="col-sm-3"><b>Status</b></div>
+        <div class="col-sm-3"><b>Actions</b></div>
+    </div>
+    <div class="row" ng-if="podsReady">
+        <div ng-repeat="p in pods">
+            <div ng-class="{gray: hover}" ng-mouseenter="hover=true" ng-mouseleave="hover=false"
+                 class="row">
+                <div class="col-sm-3" ng-click="showpod=!showpod" ng-show=true>{{p.pod.metadata.name}}</div>
+                <div class="col-sm-3" ng-show=true>{{p.pod.metadata.namespace}}</div>
+                <div class="col-sm-3" ng-show=true>{{p.pod.status.phase}}</div>
+                <div class="col-sm-3" ng-show=true>
+                    <a ng-click="editPressed=!editPressed;editPod(p.id, p.pod);"  class="" title="Edit"> <i
+                            class="fa fa-edit"></i></a>
+                    <a ng-click="start(p.pod.metadata.name);" class="" title="start"> <i
+                            class="fa fa-play"></i></a>
+                    <a ng-click="stop(p.pod.metadata.name);" class="" title="stop"> <i
+                            class="fa fa-stop"></i></a>
+                    <a ng-click="delete(p.pod.metadata.name);" class="" title="delete"> <i
+                            class="fa fa-trash"></i></a></div>
+                <div class="col-sm-12" ng-show="showpod">
+                    <pre>{{p | json}}</pre>
                 </div>
+                <div ng-show="pod_{{p.id}} && pStr">
+                    <textarea id="jsonTextarea" ng-model="pStr" class="ng-pristine ng-valid"></textarea>
+                    <!--<json child="p" default-collapsed="true" type="object"></json>-->
+                </div>
+            </div>
         </div>
-        </div>
+
+
+
+
+    </div>
+    </div>
 </section>
