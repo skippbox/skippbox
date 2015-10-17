@@ -194,3 +194,82 @@ kuiApp.controller("rcController", function ( $scope, k8s) {
     }
 
 });
+
+kuiApp.factory('appstore', function( $q ) {
+
+  GitHubApi = require("github");
+  github = new GitHubApi({
+    // required
+    version: "3.0.0",
+    // optional
+    debug: true,
+    protocol: "https",
+    host: "api.github.com", // should be api.github.com for GitHub
+    pathPrefix: "", // for some GHEs; none for GitHub
+    timeout: 5000,
+  });
+
+  github.authenticate({
+      type: "basic",
+      username: "runseb",
+      password: "BreiZh35!"
+  });
+
+  var getCommits = function() {
+
+      var deferred = $q.defer();
+
+      github.repos.getCommits({
+        user: "skippbox",
+        repo: "appstore"
+        }, function(err, res) {
+          deferred.resolve(res[0].sha);
+      });
+
+      return deferred.promise;
+  };
+
+  var getRepo = function() {
+
+      var deferred = $q.defer();
+
+      github.repos.get({
+        user: "skippbox",
+        repo: "appstore"
+        }, function(err, git) {
+          deferred.resolve(git);
+          console.log(git);
+      });
+
+      return deferred.promise;
+  };
+
+  var getTree = function() {
+
+      var deferred = $q.defer();
+
+      github.gitdata.getTree({
+        user: "skippbox",
+        repo: "appstore"
+        }, function(err, res) {
+          deferred.resolve(res);
+          console.log(res);
+      });  
+
+      return deferred.promise;
+  };
+
+  return {
+    getCommits: getCommits,
+    getRepo: getRepo,
+    getTree: getTree,
+  };
+});
+
+kuiApp.controller("storeController", function ( $scope, appstore ) {
+
+  $scope.r = appstore.getRepo();
+  $scope.f = appstore.getTree();
+  $scope.sha = appstore.getCommits();
+
+});
