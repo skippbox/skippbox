@@ -14,7 +14,7 @@
  limitations under the License.
  */
 
-kuiApp.controller("podController", function ($scope, k8s) {
+kuiApp.controller("podController", function ($scope, k8s, $filter) {
     function refreshPods() {
         $scope.podsReady = false;
         var items = k8s.Pods.get(function (pd) {
@@ -28,11 +28,11 @@ kuiApp.controller("podController", function ($scope, k8s) {
 
     }
 
-    $scope.setLabelStr = function(l) {
+    $scope.setLabelStr = function (l) {
         $scope.labelStr = JSON.stringify(l);
     }
 
-    $scope.updateLabel = function(l, p) {
+    $scope.updateLabel = function (l, p) {
 
         var Client = require('node-kubernetes-client');
         client = new Client({
@@ -64,10 +64,85 @@ kuiApp.controller("podController", function ($scope, k8s) {
         $scope.labelStr = null;
     }
 
+    $scope.$watch('jsonData', function (json) {
+        $scope.pStr = $filter('json')(json);
+    }, true);
+
+    $scope.$watch('pStr', function (json) {
+        try {
+            $scope.jsonData = JSON.parse(json);
+            $scope.wellFormed = true;
+        } catch (e) {
+            $scope.wellFormed = false;
+        }
+    }, true);
+
+    $scope.createPod = function (npStr) {
+        var Client = require('node-kubernetes-client');
+        client = new Client({
+            "protocol": "http",
+            "host": "localhost:8080",
+            "version": "v1",
+            "namespace": "default"
+        });
+
+        var newpod = JSON.parse(npStr);
+
+        client.pods.create(newpod, function (err, p1) {
+            if (!err) {
+                console.log('pod: ' + JSON.stringify(p1));
+            } else {
+                console.log('pod: ' + JSON.stringify(err));
+                alert(JSON.stringify(err.message.message));
+            }
+            $scope.newPod = false;
+        });
+    }
+
+
+    $scope.updatePod = function (id, pStr, p) {
+
+        var Client = require('node-kubernetes-client');
+        client = new Client({
+            "protocol": "http",
+            "host": "localhost:8080",
+            "version": "v1",
+            "namespace": "default"
+        });
+
+        client.pods.get(p, function (err, p1) {
+            if (!err) {
+                var newpod = JSON.parse(pStr);
+                client.pods.update(p, newpod, function (err, pnew) {
+                    if (!err) {
+                        console.log('pod: ' + JSON.stringify(pnew));
+                    } else {
+                        console.log('pod: ' + JSON.stringify(err));
+                        alert(JSON.stringify(err.message.message));
+                    }
+                });
+            } else {
+                console.log(err);
+                alert("Failed to get the resource.");
+            }
+        });
+
+        $scope["pod_" + id] = true;
+
+
+        $scope.labelStr = null;
+    }
+
+
     $scope.editPod = function (id, pod) {
-        if (id && pod) {
-            $scope["pod_" + id] = true;
-            $scope.pStr = JSON.stringify(pod);
+        for (var i = 0; i < $scope.pods.length; i++) {
+            if (("pod_" + i) == id && pod) {
+                $scope[id] = true;
+                $scope.pStr = $filter('json')(pod);
+            }
+            else {
+                $scope["pod_" + i] = false;
+            }
         }
     }
 

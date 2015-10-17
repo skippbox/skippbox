@@ -31,9 +31,9 @@
                         	<div class="col-sm-3" ng-show=true>{{s.metadata.namespace}}</div>
                         <div class="col-sm-3" ng-show=true>{{s.spec.clusterIP}}</div>
 							<div class="col-sm-3" ng-show=true>
-								<a ng-click="start(s.metadata.name);showservices=!showservices" class="" title="start"> <i class="fa fa-play"></i></a>
-								<a ng-click="stop(s.metadata.name);showservices=!showservices" class="" title="stop"> <i class="fa fa-stop"></i></a>
-                    			<a ng-click="delete(s.metadata.name);showservices=!showservices" class="" title="delete"> <i class="fa fa-trash"></i></a>
+								<a ng-click="start(s.metadata.name);showservices=!showservices" class="btn btn-info" title="start"> <i class="fa fa-play"></i></a>
+								<a ng-click="stop(s.metadata.name);showservices=!showservices" class="btn btn-info" title="stop"> <i class="fa fa-stop"></i></a>
+                    			<a ng-click="delete(s.metadata.name);showservices=!showservices" class="btn btn-warning" title="delete"> <i class="fa fa-trash"></i></a>
                     		</div>
                             <div class="col-sm-12" ng-show="showservices">
                             	<pre>{{s | json}}</pre>
