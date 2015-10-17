@@ -14,29 +14,40 @@
    limitations under the License.
 -->
 <section>
-        <div class="row">
-                <div class="col-sm-2"><b>Name</b></div>
-                <div class="col-sm-2"><b>Namespace</b></div>
-                <div class="col-sm-2"><b>Replicas</b></div>
-                <div class="col-sm-2"><b>Labels</b></div>
-                <div class="col-sm-2"><b>Actions</b></div>
-        </div>
-        <div class="row">
-                <div ng-repeat="r in rc">
-                        <div ng-class="{gray: hover}" ng-mouseenter="hover=true" ng-mouseleave="hover=false" ng-click="showrc=!showrc" class="row">
-                                <div class="col-sm-2" ng-show=true>{{r.metadata.name}}</div>
-                                <div class="col-sm-2" ng-show=true>{{r.metadata.namespace}}</div>
-                                <div class="col-sm-2" ng-show=true>{{r.spec.replicas}}</a></div>
-                                <div class="col-sm-2" ng-show=true>{{r.metadata.labels}}</div>
-                                <div class="col-sm-2" ng-show=true>
-                                        <a ng-click="start(r.metadata.name);showrc=!showrc" class="" title="start"> <i class="fa fa-play"></i></a>
-                                        <a ng-click="stop(r.metadata.name);showrc=!showrc" class="" title="stop"> <i class="fa fa-stop"></i></a>
-                                        <a ng-click="delete(r.metadata.name);showrc=!showrc" class="" title="delete"> <i class="fa fa-trash"></i></a>
-                                </div>
-                                <div class="col-sm-12" ng-show="showrc">
-                                        <pre>{{r | json}}</pre>
-                                </div>
-                        </div>
+    <div class="row">
+        <div class="col-sm-2"><b>Name</b></div>
+        <div class="col-sm-2"><b>Namespace</b></div>
+        <div class="col-sm-2"><b>Replicas</b></div>
+        <div class="col-sm-2"><b>Labels</b></div>
+        <div class="col-sm-2"><b>Actions</b></div>
+    </div>
+    <div class="row">
+        <div ng-repeat="r in rc">
+            <div ng-class="{gray: hover}" ng-mouseenter="hover=true" ng-mouseleave="hover=false"
+                 class="row">
+                <div class="col-sm-2" ng-click="showrc=!showrc" ng-show=true>{{r.metadata.name}}</div>
+                <div class="col-sm-2" ng-show=true>{{r.metadata.namespace}}</div>
+                <div class="col-sm-2" ng-show=true>
+                    <span ng-hide="editing" ng-click="editing = true">{{r.spec.replicas}}</span>
+
+                    <form ng-show="editing" ng-submit="editing = false;updateReplica(replicaCnt, r.metadata.name);">
+                        <input type="Number" ng-model="replicaCnt" placeholder="{{r.spec.replicas}}" ng-required/>
+                        <button class="btn" type="submit">Save</button>
+                    </form>
                 </div>
+
+                <div class="col-sm-2" ng-show=true>{{r.metadata.labels}}</div>
+                <div class="col-sm-2" ng-show=true>
+                    <a ng-click="start(r.metadata.name);showrc=!showrc" class="" title="start"> <i
+                            class="fa fa-play"></i></a>
+                    <a ng-click="stop(r.metadata.name);showrc=!showrc" class="" title="stop"> <i class="fa fa-stop"></i></a>
+                    <a ng-click="delete(r.metadata.name);showrc=!showrc" class="" title="delete"> <i
+                            class="fa fa-trash"></i></a>
+                </div>
+                <div class="col-sm-12" ng-show="showrc">
+                    <pre>{{r | json}}</pre>
+                </div>
+            </div>
         </div>
+    </div>
 </section>
