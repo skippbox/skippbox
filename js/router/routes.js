@@ -19,13 +19,13 @@ kuiApp.config(function ($routeProvider) {
         .when("/", { templateUrl: "views/home.html",
             controller: "kuiController"
         }).when("/pods", {
-            templateUrl: "views/pods.html",
+            templateUrl: "views/k8s/pods.html",
             controller: "podController"
         }).when("/services", {
-            templateUrl: "views/services.html",
+            templateUrl: "views/k8s/services.html",
             controller: "servicesController"
         }).when("/rc", {
-            templateUrl: "views/rc.html",
+            templateUrl: "views/k8s/rc.html",
             controller: "rcController"
         }).when("/context", {
             templateUrl: "views/context.html",
