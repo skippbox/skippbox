@@ -28,7 +28,7 @@
                 <div class="col-sm-3" ng-show=true>{{p.pod.metadata.namespace}}</div>
                 <div class="col-sm-3" ng-show=true>{{p.pod.status.phase}}</div>
                 <div class="col-sm-3" ng-show=true>
-                    <a ng-click="editPressed=!editPressed;editPod(p.id, p.pod);"  class="" title="Edit"> <i
+                    <a ng-click="editPressed=!editPressed;editPod(p.id, p.pod);" class="" title="Edit"> <i
                             class="fa fa-edit"></i></a>
                     <a ng-click="start(p.pod.metadata.name);" class="" title="start"> <i
                             class="fa fa-play"></i></a>
@@ -36,6 +36,7 @@
                             class="fa fa-stop"></i></a>
                     <a ng-click="delete(p.pod.metadata.name);" class="" title="delete"> <i
                             class="fa fa-trash"></i></a></div>
+
                 <div class="col-sm-12" ng-show="showpod">
                     <pre>{{p | json}}</pre>
                 </div>
@@ -44,11 +45,19 @@
                     <!--<json child="p" default-collapsed="true" type="object"></json>-->
                 </div>
             </div>
+            <div class="row" ng-show=true>
+                <div class="col-sm-3" ng-show=true></div>
+                <div class="col-sm-3" ng-show=true>labels</div>
+                <div class="col-sm-6" ng-show=true>
+                    <span ng-hide="editing" ng-click="editing = true; setLabelStr(p.pod.metadata.labels);">{{p.pod.metadata.labels}}</span>
+
+                    <form ng-show="editing" ng-submit="editing = false;updateLabel(labelStr, p.pod.metadata.name);">
+                        <textarea id="jsonLabelArea" ng-model="labelStr" class="ng-pristine ng-valid"  ng-required></textarea>
+                        <button class="btn" type="submit">Save</button>
+                    </form>
+                </div>
+            </div>
         </div>
-
-
-
-
     </div>
     </div>
 </section>

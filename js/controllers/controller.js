@@ -148,6 +148,42 @@ kuiApp.controller("podController", function ($scope, k8s) {
 
     }
 
+    $scope.setLabelStr = function(l) {
+        $scope.labelStr = JSON.stringify(l);
+    }
+
+    $scope.updateLabel = function(l, p) {
+
+        var Client = require('node-kubernetes-client');
+        client = new Client({
+            "protocol": "http",
+            "host": "localhost:8080",
+            "version": "v1",
+            "namespace": "default"
+        });
+
+        client.pods.get(p, function (err, p1) {
+            if (!err) {
+                var oldlabel = p1.metadata.labels;
+                p1.metadata.labels = JSON.parse(l);
+                var newlabel = p1.metadata.labels;
+                client.pods.update(p, p1, function (err, pnew) {
+                    if (!err) {
+                        console.log('pod: ' + JSON.stringify(pnew));
+                    } else {
+                        console.log('pod: ' + JSON.stringify(err));
+                        alert(JSON.stringify(err.message.message));
+                    }
+                });
+            } else {
+                console.log(err);
+                alert("Failed to get the resource.");
+            }
+        });
+
+        $scope.labelStr = null;
+    }
+
     $scope.editPod = function (id, pod) {
         if (id && pod) {
             $scope["pod_" + id] = true;
@@ -240,6 +276,43 @@ kuiApp.controller("servicesController", function ($scope, k8s) {
         alert(value);
     }
 
+    $scope.setLabelStr = function(l) {
+        $scope.labelStr = JSON.stringify(l);
+    }
+
+    $scope.updateLabel = function(l, p) {
+
+        var Client = require('node-kubernetes-client');
+        client = new Client({
+            "protocol": "http",
+            "host": "localhost:8080",
+            "version": "v1",
+            "namespace": "default"
+        });
+
+        client.services.get(p, function (err, p1) {
+            if (!err) {
+                var oldlabel = p1.metadata.labels;
+                p1.metadata.labels = JSON.parse(l);
+                var newlabel = p1.metadata.labels;
+                client.services.update(p, p1, function (err, pnew) {
+                    if (!err) {
+                        console.log('pod: ' + JSON.stringify(pnew));
+                    } else {
+                        console.log('pod: ' + JSON.stringify(err));
+                        alert(JSON.stringify(err.message.message));
+                    }
+                });
+            } else {
+                console.log(err);
+                alert("Failed to get the resource.");
+            }
+        });
+
+        $scope.labelStr = null;
+    }
+
+
 });
 
 kuiApp.controller("rcController", function ($scope, k8s) {
@@ -309,6 +382,42 @@ kuiApp.controller("rcController", function ($scope, k8s) {
     $scope.delete = function (rc) {
         k8s.Replicationcontrollers.delete({name: rc});
         alert("Delete invoked.".concat(rc));
+    }
+
+    $scope.setLabelStr = function(l) {
+        $scope.labelStr = JSON.stringify(l);
+    }
+
+    $scope.updateLabel = function(l, p) {
+
+        var Client = require('node-kubernetes-client');
+        client = new Client({
+            "protocol": "http",
+            "host": "localhost:8080",
+            "version": "v1",
+            "namespace": "default"
+        });
+
+        client.replicationControllers.get(p, function (err, p1) {
+            if (!err) {
+                var oldlabel = p1.metadata.labels;
+                p1.metadata.labels = JSON.parse(l);
+                var newlabel = p1.metadata.labels;
+                client.replicationControllers.update(p, p1, function (err, pnew) {
+                    if (!err) {
+                        console.log('pod: ' + JSON.stringify(pnew));
+                    } else {
+                        console.log('pod: ' + JSON.stringify(err));
+                        alert(JSON.stringify(err.message.message));
+                    }
+                });
+            } else {
+                console.log(err);
+                alert("Failed to get the resource.");
+            }
+        });
+
+        $scope.labelStr = null;
     }
 
 });

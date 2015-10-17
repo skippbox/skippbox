@@ -25,7 +25,7 @@
 	                <div ng-class="{gray: hover}" ng-mouseenter="hover=true" ng-mouseleave="hover=false" ng-click="showservices=!showservices" class="row">
                         	<div class="col-sm-3" ng-show=true>{{s.metadata.name}}</div>
                         	<div class="col-sm-3" ng-show=true>{{s.metadata.namespace}}</div>
-                        	<div class="col-sm-3" ng-show=true>{{s.spec.clusterIP}}</div>
+                        <div class="col-sm-3" ng-show=true>{{s.spec.clusterIP}}</div>
 							<div class="col-sm-3" ng-show=true>
 								<a ng-click="start(s.metadata.name);showservices=!showservices" class="" title="start"> <i class="fa fa-play"></i></a>
 								<a ng-click="stop(s.metadata.name);showservices=!showservices" class="" title="stop"> <i class="fa fa-stop"></i></a>
@@ -35,6 +35,18 @@
                             	<pre>{{s | json}}</pre>
                             </div>
                     </div>
+                <div class="row" ng-show=true>
+                    <div class="col-sm-3" ng-show=true>labels</div>
+                    <div class="col-sm-9" ng-show=true>
+                        <span ng-hide="editingLabel" ng-click="editingLabel = true; setLabelStr(s.metadata.labels);">{{s.metadata.labels}}</span>
+
+                        <form ng-show="editingLabel" ng-submit="editingLabel = false;updateLabel(labelStr, s.metadata.name);">
+                            <textarea id="jsonLabelArea" ng-model="labelStr" class="ng-pristine ng-valid"  ng-required></textarea>
+                            <button class="btn" type="submit">Save</button>
+                        </form>
+                    </div>
+                </div>
         	</div>
+
 		</div>
 </section>

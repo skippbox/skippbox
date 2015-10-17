@@ -18,7 +18,6 @@
         <div class="col-sm-2"><b>Name</b></div>
         <div class="col-sm-2"><b>Namespace</b></div>
         <div class="col-sm-2"><b>Replicas</b></div>
-        <div class="col-sm-2"><b>Labels</b></div>
         <div class="col-sm-2"><b>Actions</b></div>
     </div>
     <div class="row">
@@ -36,7 +35,6 @@
                     </form>
                 </div>
 
-                <div class="col-sm-2" ng-show=true>{{r.metadata.labels}}</div>
                 <div class="col-sm-2" ng-show=true>
                     <a ng-click="start(r.metadata.name);showrc=!showrc" class="" title="start"> <i
                             class="fa fa-play"></i></a>
@@ -46,6 +44,18 @@
                 </div>
                 <div class="col-sm-12" ng-show="showrc">
                     <pre>{{r | json}}</pre>
+                </div>
+
+            </div>
+            <div class="row" ng-show=true>
+                <div class="col-sm-3" ng-show=true>labels</div>
+                <div class="col-sm-9" ng-show=true>
+                    <span ng-hide="editingLabel" ng-click="editingLabel = true; setLabelStr(r.metadata.labels);">{{r.metadata.labels}}</span>
+
+                    <form ng-show="editingLabel" ng-submit="editingLabel = false;updateLabel(labelStr, r.metadata.name);">
+                        <textarea id="jsonLabelArea" ng-model="labelStr" class="ng-pristine ng-valid"  ng-required></textarea>
+                        <button class="btn" type="submit">Save</button>
+                    </form>
                 </div>
             </div>
         </div>
