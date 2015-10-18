@@ -15,6 +15,8 @@
  */
 
 kuiApp.controller("podController", function ($scope, k8s, $filter) {
+
+
     function refreshPods() {
         $scope.podsReady = false;
         var items = k8s.Pods.get(function (pd) {

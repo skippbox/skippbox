@@ -15,13 +15,137 @@
  */
 
 
-kuiApp.controller("servicesController", function ($scope, k8s) {
+kuiApp.controller("servicesController", function ($scope, k8s, $filter) {
 
     function refreshServices() {
-        var items = k8s.Services.get(function () {
-            $scope.services = items.items;
+        $scope.servicesReady = false;
+        var items = k8s.Services.get(function (pd) {
+            $scope.services = []
+            for (var i = 0; i < pd.items.length; i++) {
+                $scope.services.push({service: pd.items[i], id: "service_" + i})
+            }
             console.log('services:', $scope.services);
         });
+        $scope.servicesReady = true;
+
+    }
+
+    $scope.setLabelStr = function (l) {
+        $scope.labelStr = JSON.stringify(l);
+    }
+
+    $scope.updateLabel = function (l, p) {
+
+        var Client = require('node-kubernetes-client');
+        client = new Client({
+            "protocol": "http",
+            "host": "localhost:8080",
+            "version": "v1",
+            "namespace": "default"
+        });
+
+        client.services.get(p, function (err, p1) {
+            if (!err) {
+                var oldlabel = p1.metadata.labels;
+                p1.metadata.labels = JSON.parse(l);
+                var newlabel = p1.metadata.labels;
+                client.services.update(p, p1, function (err, pnew) {
+                    if (!err) {
+                        console.log('Service: ' + JSON.stringify(pnew));
+                    } else {
+                        console.log('Service: ' + JSON.stringify(err));
+                        alert(JSON.stringify(err.message.message));
+                    }
+                });
+            } else {
+                console.log(err);
+                alert("Failed to get the resource.");
+            }
+        });
+
+        $scope.labelStr = null;
+    }
+
+    $scope.$watch('jsonData', function (json) {
+        $scope.pStr = $filter('json')(json);
+    }, true);
+
+    $scope.$watch('pStr', function (json) {
+        try {
+            $scope.jsonData = JSON.parse(json);
+            $scope.wellFormed = true;
+        } catch (e) {
+            $scope.wellFormed = false;
+        }
+    }, true);
+
+    $scope.createService = function (npStr) {
+        var Client = require('node-kubernetes-client');
+        client = new Client({
+            "protocol": "http",
+            "host": "localhost:8080",
+            "version": "v1",
+            "namespace": "default"
+        });
+
+        var newservice = JSON.parse(npStr);
+
+        client.services.create(newservice, function (err, p1) {
+            if (!err) {
+                console.log('service: ' + JSON.stringify(p1));
+            } else {
+                console.log('service: ' + JSON.stringify(err));
+                alert(JSON.stringify(err.message.message));
+            }
+            $scope.newService = false;
+        });
+    }
+
+
+    $scope.updateService = function (id, pStr, p) {
+
+        var Client = require('node-kubernetes-client');
+        client = new Client({
+            "protocol": "http",
+            "host": "localhost:8080",
+            "version": "v1",
+            "namespace": "default"
+        });
+
+        client.services.get(p, function (err, p1) {
+            if (!err) {
+                var newservice = JSON.parse(pStr);
+                client.services.update(p, newservice, function (err, pnew) {
+                    if (!err) {
+                        console.log('service: ' + JSON.stringify(pnew));
+                    } else {
+                        console.log('service: ' + JSON.stringify(err));
+                        alert(JSON.stringify(err.message.message));
+                    }
+                });
+            } else {
+                console.log(err);
+                alert("Failed to get the resource.");
+            }
+        });
+
+        $scope["service_" + id] = true;
+
+
+        $scope.labelStr = null;
+    }
+
+
+    $scope.editService = function (id, service) {
+        for (var i = 0; i < $scope.services.length; i++) {
+            if (("service_" + i) == id && service) {
+                $scope[id] = true;
+                $scope.pStr = $filter('json')(service);
+            }
+            else {
+                $scope["service_" + i] = false;
+            }
+        }
     }
 
     var ws = new WebSocket("ws://127.0.0.1:8080/api/v1/namespaces/default/services?watch=true");
@@ -59,42 +183,5 @@ kuiApp.controller("servicesController", function ($scope, k8s) {
     $scope.onChange = function (value) {
         alert(value);
     }
-
-    $scope.setLabelStr = function(l) {
-        $scope.labelStr = JSON.stringify(l);
-    }
-
-    $scope.updateLabel = function(l, p) {
-
-        var Client = require('node-kubernetes-client');
-        client = new Client({
-            "protocol": "http",
-            "host": "localhost:8080",
-            "version": "v1",
-            "namespace": "default"
-        });
-
-        client.services.get(p, function (err, p1) {
-            if (!err) {
-                var oldlabel = p1.metadata.labels;
-                p1.metadata.labels = JSON.parse(l);
-                var newlabel = p1.metadata.labels;
-                client.services.update(p, p1, function (err, pnew) {
-                    if (!err) {
-                        console.log('pod: ' + JSON.stringify(pnew));
-                    } else {
-                        console.log('pod: ' + JSON.stringify(err));
-                        alert(JSON.stringify(err.message.message));
-                    }
-                });
-            } else {
-                console.log(err);
-                alert("Failed to get the resource.");
-            }
-        });
-
-        $scope.labelStr = null;
-    }
-
 
 });
