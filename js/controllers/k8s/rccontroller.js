@@ -14,13 +14,138 @@
  limitations under the License.
  */
 
-kuiApp.controller("rcController", function ($scope, k8s) {
 
-    function refreshServices() {
-        var items = k8s.Replicationcontrollers.get(function () {
-            $scope.rc = items.items;
+kuiApp.controller("rcController", function ($scope, k8s, $filter) {
+
+    function refreshRcs() {
+        $scope.rcsReady = false;
+        var items = k8s.Replicationcontrollers.get(function (pd) {
+            $scope.rc = []
+            for (var i = 0; i < pd.items.length; i++) {
+                $scope.rc.push({rc: pd.items[i], id: "rc_" + i})
+            }
             console.log('rc:', $scope.rc);
         });
+        $scope.rcsReady = true;
+
+    }
+
+    $scope.setLabelStr = function (l) {
+        $scope.labelStr = JSON.stringify(l);
+    }
+
+    $scope.updateLabel = function (l, p) {
+
+        var Client = require('node-kubernetes-client');
+        client = new Client({
+            "protocol": "http",
+            "host": "localhost:8080",
+            "version": "v1",
+            "namespace": "default"
+        });
+
+        client.replicationControllers.get(p, function (err, p1) {
+            if (!err) {
+                var oldlabel = p1.metadata.labels;
+                p1.metadata.labels = JSON.parse(l);
+                var newlabel = p1.metadata.labels;
+                client.replicationControllers.update(p, p1, function (err, pnew) {
+                    if (!err) {
+                        console.log('rc: ' + JSON.stringify(pnew));
+                    } else {
+                        console.log('rc: ' + JSON.stringify(err));
+                        alert(JSON.stringify(err.message.message));
+                    }
+                });
+            } else {
+                console.log(err);
+                alert("Failed to get the resource.");
+            }
+        });
+
+        $scope.labelStr = null;
+    }
+
+    $scope.$watch('jsonData', function (json) {
+        $scope.pStr = $filter('json')(json);
+    }, true);
+
+    $scope.$watch('pStr', function (json) {
+        try {
+            $scope.jsonData = JSON.parse(json);
+            $scope.wellFormed = true;
+        } catch (e) {
+            $scope.wellFormed = false;
+        }
+    }, true);
+
+    $scope.createRc = function (npStr) {
+        var Client = require('node-kubernetes-client');
+        client = new Client({
+            "protocol": "http",
+            "host": "localhost:8080",
+            "version": "v1",
+            "namespace": "default"
+        });
+
+        var newrc = JSON.parse(npStr);
+
+        client.replicationControllers.create(newrc, function (err, p1) {
+            if (!err) {
+                console.log('rc: ' + JSON.stringify(p1));
+            } else {
+                console.log('rc: ' + JSON.stringify(err));
+                alert(JSON.stringify(err.message.message));
+            }
+            $scope.newRc = false;
+        });
+    }
+
+
+    $scope.updateRc = function (id, pStr, p) {
+
+        var Client = require('node-kubernetes-client');
+        client = new Client({
+            "protocol": "http",
+            "host": "localhost:8080",
+            "version": "v1",
+            "namespace": "default"
+        });
+
+        client.replicationControllers.get(p, function (err, p1) {
+            if (!err) {
+                var newrc = JSON.parse(pStr);
+                client.replicationControllers.update(p, newrc, function (err, pnew) {
+                    if (!err) {
+                        console.log('rc: ' + JSON.stringify(pnew));
+                    } else {
+                        console.log('rc: ' + JSON.stringify(err));
+                        alert(JSON.stringify(err.message.message));
+                    }
+                });
+            } else {
+                console.log(err);
+                alert("Failed to get the resource.");
+            }
+        });
+
+        $scope["rc_" + id] = true;
+
+
+        $scope.labelStr = null;
+    }
+
+
+    $scope.editRc = function (id, rc) {
+        for (var i = 0; i < $scope.rc.length; i++) {
+            if (("rc_" + i) == id && rc) {
+                $scope[id] = true;
+                $scope.pStr = $filter('json')(rc);
+            }
+            else {
+                $scope["rc_" + i] = false;
+            }
+        }
     }
 
     var ws = new WebSocket("ws://127.0.0.1:8080/api/v1/namespaces/default/replicationcontrollers?watch=true");
@@ -36,11 +161,11 @@ kuiApp.controller("rcController", function ($scope, k8s) {
     function listener(data) {
         var messageObj = data;
         console.log("Received data from websocket: ", messageObj);
-        refreshServices();
+        refreshRcs();
 
     }
 
-    refreshServices();
+    refreshRcs();
 
     $scope.updateReplica = function (cnt, rc) {
 
@@ -81,42 +206,6 @@ kuiApp.controller("rcController", function ($scope, k8s) {
     $scope.delete = function (rc) {
         k8s.Replicationcontrollers.delete({name: rc});
         alert("Delete invoked.".concat(rc));
-    }
-
-    $scope.setLabelStr = function(l) {
-        $scope.labelStr = JSON.stringify(l);
-    }
-
-    $scope.updateLabel = function(l, p) {
-
-        var Client = require('node-kubernetes-client');
-        client = new Client({
-            "protocol": "http",
-            "host": "localhost:8080",
-            "version": "v1",
-            "namespace": "default"
-        });
-
-        client.replicationControllers.get(p, function (err, p1) {
-            if (!err) {
-                var oldlabel = p1.metadata.labels;
-                p1.metadata.labels = JSON.parse(l);
-                var newlabel = p1.metadata.labels;
-                client.replicationControllers.update(p, p1, function (err, pnew) {
-                    if (!err) {
-                        console.log('pod: ' + JSON.stringify(pnew));
-                    } else {
-                        console.log('pod: ' + JSON.stringify(err));
-                        alert(JSON.stringify(err.message.message));
-                    }
-                });
-            } else {
-                console.log(err);
-                alert("Failed to get the resource.");
-            }
-        });
-
-        $scope.labelStr = null;
     }
 
 });
