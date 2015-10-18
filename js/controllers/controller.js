@@ -14,8 +14,22 @@
  limitations under the License.
  */
 
-kuiApp.controller("kuiController", function ($scope, $location, $route) {
+kuiApp.controller("kuiController", function ($scope, $location, $route, config, contextService) {
+
     $scope.headerSrc = "views/header.html";
+
+    $scope.contexts = config.Contexts;
+    $scope.clusters = config.Clusters;
+    $scope.users = config.Users;
+
+    if ($scope.clusters) {
+        $scope.selected_context = $scope.clusters[0].server;
+        contextService.setSelectedURL($scope.clusters[0].server);
+    }
+
+    $scope.changeContext = function (cluster) {
+        contextService.setSelectedURL(cluster);
+    }
 
     $scope.back = function () {
         window.history.back();
@@ -29,14 +43,44 @@ kuiApp.controller("kuiController", function ($scope, $location, $route) {
         return ($location.path()).indexOf(route) >= 0;
     }
 
-    $scope.refresh = function() {
+    $scope.refresh = function () {
         $route.reload();
     }
 
+
+});
+
+kuiApp.factory('contextService', function (config, $rootScope, $location) {
+
+    var contextService = {};
+
+    var selectedURL = null;
+    var host = null;
+    var protocol = null;
+
+    contextService.setSelectedURL = function (cluster) {
+        selectedURL = cluster;
+        protocol = selectedURL.substring(0, selectedURL.indexOf('//')-1);
+        host = selectedURL.substring(selectedURL.indexOf('//') + 2);
+    }
+
+    contextService.getSelectedURL = function () {
+        return selectedURL;
+    }
+
+    contextService.getProtocol = function () {
+        return protocol;
+    }
+
+    contextService.getHost = function () {
+        return host;
+    }
+
+    return contextService;
 });
 
 
-kuiApp.factory('k8s', function ($resource) {
+kuiApp.factory('k8s', function ($resource, contextService) {
     /*
      Pods: $resource('http://127.0.0.1:8080/api/v1/namespaces/default/pods/:name', {}, {
      query: { method: 'GET' },
@@ -44,20 +88,21 @@ kuiApp.factory('k8s', function ($resource) {
      }
      ),
      */
+
     return {
-        Services: $resource('http://127.0.0.1:8080/api/v1/namespaces/default/services/:name'),
-        Pods: $resource('http://127.0.0.1:8080/api/v1/namespaces/default/pods/:name'),
-        Replicationcontrollers: $resource('http://127.0.0.1:8080/api/v1/namespaces/default/replicationcontrollers/:name'),
-        Namespaces: $resource('http://127.0.0.1:8080/api/v1/namespaces/:name'),
-        Nodes: $resource('http://127.0.0.1:8080/api/v1/nodes/:name'),
-        Secrets: $resource('http://127.0.0.1:8080/api/v1/namespaces/default/secrets/:name'),
-        Resourcequotas: $resource('http://127.0.0.1:8080/api/v1/namespaces/default/resourcequotas/:name')
+        Services: $resource(contextService.getSelectedURL() + '/api/v1/namespaces/default/services/:name'),
+        Pods: $resource(contextService.getSelectedURL() + '/api/v1/namespaces/default/pods/:name'),
+        Replicationcontrollers: $resource(contextService.getSelectedURL() + '/api/v1/namespaces/default/replicationcontrollers/:name'),
+        Namespaces: $resource(contextService.getSelectedURL() + '/api/v1/namespaces/:name'),
+        Nodes: $resource(contextService.getSelectedURL() + '/api/v1/nodes/:name'),
+        Secrets: $resource(contextService.getSelectedURL() + '/api/v1/namespaces/default/secrets/:name'),
+        Resourcequotas: $resource(contextService.getSelectedURL() + '/api/v1/namespaces/default/resourcequotas/:name')
     };
 });
 
 // User websockets instead!
 //kuiApp.factory('socket', function ($rootScope) {
-//    var socket = io.connect('http://127.0.0.1:8080/api/v1/namespace/default/pods?watch=true');
+//    var socket = io.connect(contextService.getSelectedURL() + '/api/v1/namespace/default/pods?watch=true');
 //    return {
 //        on: function (eventName, callback) {
 //            socket.on(eventName, function (arguments) {
@@ -76,10 +121,11 @@ kuiApp.factory('config', function ($filter) {
 
     // Get document, or throw exception on error
     try {
-        config = yaml.safeLoad(fs.readFileSync('/Users/sebastiengoasguen/.kube/config', 'utf8'));
+        config = yaml.safeLoad(fs.readFileSync('config.sample', 'utf8'));
         console.log(config);
     } catch (e) {
         console.log(e);
+        return;
     }
 
     var contexts = [];

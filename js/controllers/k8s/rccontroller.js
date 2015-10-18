@@ -15,7 +15,7 @@
  */
 
 
-kuiApp.controller("rcController", function ($scope, k8s, $filter) {
+kuiApp.controller("rcController", function ($scope, k8s, $filter, contextService) {
 
     function refreshRcs() {
         $scope.rcsReady = false;
@@ -38,8 +38,8 @@ kuiApp.controller("rcController", function ($scope, k8s, $filter) {
 
         var Client = require('node-kubernetes-client');
         client = new Client({
-            "protocol": "http",
-            "host": "localhost:8080",
+            "protocol": contextService.getProtocol(),
+            "host": contextService.getHost(),
             "version": "v1",
             "namespace": "default"
         });
@@ -82,8 +82,8 @@ kuiApp.controller("rcController", function ($scope, k8s, $filter) {
     $scope.createRc = function (npStr) {
         var Client = require('node-kubernetes-client');
         client = new Client({
-            "protocol": "http",
-            "host": "localhost:8080",
+            "protocol": contextService.getProtocol(),
+            "host": contextService.getHost(),
             "version": "v1",
             "namespace": "default"
         });
@@ -106,8 +106,8 @@ kuiApp.controller("rcController", function ($scope, k8s, $filter) {
 
         var Client = require('node-kubernetes-client');
         client = new Client({
-            "protocol": "http",
-            "host": "localhost:8080",
+            "protocol": contextService.getProtocol(),
+            "host": contextService.getHost(),
             "version": "v1",
             "namespace": "default"
         });
@@ -171,8 +171,8 @@ kuiApp.controller("rcController", function ($scope, k8s, $filter) {
 
         var Client = require('node-kubernetes-client');
         client = new Client({
-            "protocol": "http",
-            "host": "localhost:8080",
+            "protocol": contextService.getProtocol(),
+            "host": contextService.getHost(),
             "version": "v1",
             "namespace": "default"
         });

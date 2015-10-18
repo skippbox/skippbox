@@ -14,7 +14,7 @@
  limitations under the License.
  */
 
-kuiApp.controller("podController", function ($scope, k8s, $filter) {
+kuiApp.controller("podController", function ($scope, k8s, $filter, contextService) {
 
 
     function refreshPods() {
@@ -38,8 +38,8 @@ kuiApp.controller("podController", function ($scope, k8s, $filter) {
 
         var Client = require('node-kubernetes-client');
         client = new Client({
-            "protocol": "http",
-            "host": "localhost:8080",
+            "protocol": contextService.getProtocol(),
+            "host": contextService.getHost(),
             "version": "v1",
             "namespace": "default"
         });
@@ -82,8 +82,8 @@ kuiApp.controller("podController", function ($scope, k8s, $filter) {
     $scope.createPod = function (npStr) {
         var Client = require('node-kubernetes-client');
         client = new Client({
-            "protocol": "http",
-            "host": "localhost:8080",
+            "protocol": contextService.getProtocol(),
+            "host": contextService.getHost(),
             "version": "v1",
             "namespace": "default"
         });
@@ -106,8 +106,8 @@ kuiApp.controller("podController", function ($scope, k8s, $filter) {
 
         var Client = require('node-kubernetes-client');
         client = new Client({
-            "protocol": "http",
-            "host": "localhost:8080",
+            "protocol": contextService.getProtocol(),
+            "host": contextService.getHost(),
             "version": "v1",
             "namespace": "default"
         });
@@ -148,7 +148,7 @@ kuiApp.controller("podController", function ($scope, k8s, $filter) {
         }
     }
 
-    var ws = new WebSocket("ws://127.0.0.1:8080/api/v1/namespaces/default/pods?watch=true");
+    var ws = new WebSocket("ws://" + contextService.getHost() + "/api/v1/namespaces/default/pods?watch=true");
 
     ws.onopen = function () {
         console.log("Socket has been opened!");

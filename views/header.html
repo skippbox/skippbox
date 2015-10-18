@@ -22,7 +22,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Kui</a>
+            <a class="navbar-brand">kUI</a>
         </div>
         <!--/.navbar-collapse -->
         <div class="collapse navbar-collapse">
@@ -30,22 +30,29 @@
                 <li data-ng-class="{active:isActive('/')}">
                     <a href="#/">Home</a>
                 </li>
-                <li data-ng-class="{active:isActive('/pods')}" >
+                <li data-ng-class="{active:isActive('/pods')}">
                     <a href="#/pods">Pods</a>
                 </li>
-                <li data-ng-class="{active:isActive('/services')}" >
+                <li data-ng-class="{active:isActive('/services')}">
                     <a href="#/services">Services</a>
                 </li>
-                <li data-ng-class="{active:isActive('/rc')}" >
+                <li data-ng-class="{active:isActive('/rc')}">
                     <a href="#/rc">Replication Controllers</a>
                 </li>
-                <li data-ng-class="{active:isActive('/rc')}" >
+                <li data-ng-class="{active:isActive('/rc')}">
                     <a href="#/context">Contexts</a>
                 </li>
-                <li data-ng-class="{active:isActive('/rc')}" >
+                <li data-ng-class="{active:isActive('/rc')}">
                     <a ng-click="refresh()"><i class="fa fa-refresh"></i> </a>
                 </li>
+
             </ul>
+            <select class="btn-info" name="singleSelect" ng-model="selected_context" ng-change="changeContext(selected_context)">
+                <option ng-repeat="c in clusters" value="{{c.server}}">{{c.server}}</option>
+            </select>
+
+
         </div>
+
     </div>
 </div>
