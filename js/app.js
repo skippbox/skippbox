@@ -14,5 +14,5 @@
    limitations under the License.
  */
 
-kuiApp = angular.module('kuiApp', ['ngResource', 'ngRoute']);
+kuiApp = angular.module('kuiApp', ['ngResource', 'ngRoute','ngTable', 'ngSanitize']);
 

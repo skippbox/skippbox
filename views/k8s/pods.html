@@ -13,7 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 -->
-<section>
+<section ng-controller="podController as podc">
     <div class="row" style="text-align: right" ng-click="newPod=!newPod">
         <i class="btn btn-success fa fa-plus"> New </i>
     </div>
@@ -30,9 +30,7 @@
             </form>
         </div>
     </div>
-
-    <hr/>
-    <div class="row">
+   <!-- <div class="row">
         <div class="col-sm-3"><b>Name</b></div>
         <div class="col-sm-3"><b>Namespace</b></div>
         <div class="col-sm-3"><b>Status</b></div>
@@ -51,15 +49,15 @@
                 <div class="col-sm-3" ng-show=true>
                     <a ng-click="editPressed=!editPressed;editPod(p.id, p.pod);" class="btn btn-info" title="Edit"> <i
                             class="fa fa-edit"></i></a>
-                    <!--<a ng-click="start(p.pod.metadata.name);" class="" title="start"> <i-->
-                    <!--class="fa fa-play"></i></a>-->
-                    <!--<a ng-click="stop(p.pod.metadata.name);" class="" title="stop"> <i-->
-                    <!--class="fa fa-stop"></i></a>-->
+                    &lt;!&ndash;<a ng-click="start(p.pod.metadata.name);" class="" title="start"> <i&ndash;&gt;
+                    &lt;!&ndash;class="fa fa-play"></i></a>&ndash;&gt;
+                    &lt;!&ndash;<a ng-click="stop(p.pod.metadata.name);" class="" title="stop"> <i&ndash;&gt;
+                    &lt;!&ndash;class="fa fa-stop"></i></a>&ndash;&gt;
                     <a ng-click="delete(p.pod.metadata.name);" class="btn btn-warning" title="delete"> <i
                             class="fa fa-trash"></i></a>
                 </div>
             </div>
-            <div class="row">
+          &lt;!&ndash;  <div class="row">
                 <div class="col-sm-12" ng-if="(showpod || editPressed) && pStr">
                     <form ng-show="{{p.id}} && pStr"
                           ng-submit="updatePod(p.id, pStr, p.pod.metadata.name);">
@@ -70,10 +68,10 @@
                         <button class="btn-small" type="cancel"><i class="glyphicon glyphicon-remove"> </i></button>
                         <button class="btn-small" type="submit"><i class="glyphicon glyphicon-ok"> </i></button>
                             </span>
-                        <!--<json child="p" default-collapsed="true" type="object"></json>-->
+                        &lt;!&ndash;<json child="p" default-collapsed="true" type="object"></json>&ndash;&gt;
                     </form>
                 </div>
-            </div>
+            </div>&ndash;&gt;
             <div class="row" ng-show=true>
                 <div class="col-sm-3" ng-show=true></div>
                 <div class="col-sm-3" ng-show=true>labels</div>
@@ -91,6 +89,65 @@
             </div>
             <hr/>
         </div>
+    </div>-->
+
+
+    <div class="row" ng-if="podsReady">
+        <table  ng-table="podc.tableParams" class="table table-bordered table-responsive" show-filter="true">
+            <tr  ng-repeat="p in pods">
+                <td ng-click="showpod=!showpod; editPod(p.id, p.pod);"   title="'Name'" filter="{ name: 'text'}" sortable="'name'">
+                    {{p.pod.metadata.name}}
+
+
+                    <div  ng-if="(showpod || editPressed) && pStr">
+                        <form ng-show="{{p.id}} && pStr"
+                              ng-submit="updatePod(p.id, pStr, p.pod.metadata.name);">
+                            <textarea id="jsonTextarea" ng-model="pStr" class="ng-pristine ng-valid"
+                                      ng-disabled="!editPressed"></textarea>
+                        <span ng-show="editPressed">
+                        <br/>
+                        <button class="btn-small" type="cancel"><i class="glyphicon glyphicon-remove"> </i></button>
+                        <button class="btn-small" type="submit"><i class="glyphicon glyphicon-ok"> </i></button>
+                            </span>
+                            <!--<json child="p" default-collapsed="true" type="object"></json>-->
+                        </form>
+                    </div>
+
+                </td>
+                <td title="'Namespace'" filter="{ age: 'text'}" sortable="'namespace'">
+                    {{p.pod.metadata.namespace}}
+                    </br>   <span>Labels</span>
+
+
+                </td>
+                <td title="'Status'" filter="{ status: 'text'}" sortable="'phase'">
+                    {{p.pod.status.phase}}
+
+                    </br>
+                    <span ng-hide="editing" ng-click="editing = true; setLabelStr(p.pod.metadata.labels);">{{p.pod.metadata.labels}}</span>
+
+                    <form ng-show="editing" ng-submit="editing = false;updateLabel(labelStr, p.pod.metadata.name);">
+                        <textarea id="jsonLabelArea" ng-model="labelStr" class="ng-pristine ng-valid"
+                                  ng-required></textarea>
+                        <br/>
+                        <button class="btn-small" type="cancel"><i class="glyphicon glyphicon-remove"> </i></button>
+                        <button class="btn-small" type="submit"><i class="glyphicon glyphicon-ok"> </i></button>
+                    </form>
+
+                </td>
+                <td class="table-actions" title="'Actions'">
+                    <a ng-click="editPressed=!editPressed;editPod(p.id, p.pod);" class="btn btn-info" title="Edit"> <i
+                            class="fa fa-edit"></i></a>
+                    <a ng-click="delete(p.pod.metadata.name);" class="btn btn-warning" title="delete"> <i
+                            class="fa fa-trash"></i></a>
+                </td>
+            </tr>
+        </table>
     </div>
+
+
+
     </div>
+
+
 </section>
