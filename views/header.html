@@ -47,8 +47,8 @@
                 </li>
 
             </ul>
-            <select class="btn-info" name="singleSelect" ng-model="selected_context" ng-change="changeContext(selected_context)">
-                <option ng-repeat="c in clusters" value="{{c.server}}">{{c.server}}</option>
+            <select class="btn-info" name="singleSelect" ng-model="selected_context" ng-change="changeContext(selected_context)" ng-init="contexts[0].name">
+                <option ng-repeat="c in contexts" value="{{c.name}}">{{c.name}}</option>
             </select>
 
 

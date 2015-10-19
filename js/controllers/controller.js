@@ -22,13 +22,13 @@ kuiApp.controller("kuiController", function ($scope, $location, $route, config, 
     $scope.clusters = config.Clusters;
     $scope.users = config.Users;
 
-    if ($scope.clusters) {
-        $scope.selected_context = $scope.clusters[0].server;
-        contextService.setSelectedURL($scope.clusters[0].server);
+    if ($scope.contexts) {
+        $scope.selected_context = $scope.contexts[0];
+        contextService.setSelectedURL($scope.contexts[0]);
     }
 
-    $scope.changeContext = function (cluster) {
-        contextService.setSelectedURL(cluster);
+    $scope.changeContext = function (context) {
+        contextService.setSelectedURL(context);
     }
 
     $scope.back = function () {
@@ -50,16 +50,22 @@ kuiApp.controller("kuiController", function ($scope, $location, $route, config, 
 
 });
 
-kuiApp.factory('contextService', function (config, $rootScope, $location) {
+kuiApp.factory('contextService', function (config, $rootScope, $location, $filter) {
 
     var contextService = {};
 
     var selectedURL = null;
     var host = null;
     var protocol = null;
+    contexts = config.Contexts;
 
-    contextService.setSelectedURL = function (cluster) {
-        selectedURL = cluster;
+    contextService.setSelectedURL = function (context_name, $rootScope) {
+        console.log(context_name);
+        selectedContext = $filter('filter')(contexts, {name: context_name.name})[0];
+        console.log(selectedContext);
+        //selectedContext = $filter('filter')(contexts, {'name': context.name})[0];
+        //selectedContext = $filter('filter')(contexts, {'name': context.name})[0];        
+        selectedURL = selectedContext.cluster.server;
         protocol = selectedURL.substring(0, selectedURL.indexOf('//')-1);
         host = selectedURL.substring(selectedURL.indexOf('//') + 2);
     }
@@ -162,8 +168,16 @@ kuiApp.factory('config', function ($filter) {
     angular.forEach(config.contexts, function (value, key) {
         var context = {};
         context.name = value.name;
-        context.cluster = $filter('filter')(clusters, {'name': value.context.cluster})[0];
-        context.user = $filter('filter')(users, {'name': value.context.user})[0];
+        if (value.context.cluster == ""){
+          context.cluster = "";
+        } else {
+          context.cluster = $filter('filter')(clusters, {name: value.context.cluster})[0];          
+        }
+        if (value.context.user == ""){
+          context.user = "";
+        } else {
+          context.user = $filter('filter')(users, {name: value.context.user})[0];
+        }
         contexts.push(context);
     });
 
