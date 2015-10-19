@@ -18,18 +18,23 @@
 <head>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/ng-table.min.css" rel="stylesheet">
     <link href="css/app.css" rel="stylesheet">
     <!--[if lt IE 9]>
     <script src="js/lib/html5shiv.min.js"></script>
     <script src="js/lib/respond.min.js"></script>
     <![endif]-->
 
-    <script src="js/lib/angular.min.js"></script>
-    <script src="js/lib/angular-resource.min.js"></script>
-    <script src="js/lib/angular-route.min.js"></script>
+
     <script src="js/lib/jquery.min.js"></script>
     <script src="js/lib/bootstrap.js"></script>
     <script src="js/lib/bootstrap.min.js"></script>
+    <script src="js/lib/angular.min.js"></script>
+    <script src="js/lib/angular-sanitize.js"></script>
+    <script src="js/lib/angular-resource.min.js"></script>
+    <script src="js/lib/angular-route.min.js"></script>
+    <script src="js/lib/ng-table.min.js"></script>
+    <script src="js/lib/angular-touch.min.js"></script>
     <script src="js/app.js"></script>
     <script src="js/router/routes.js"></script>
     <script src="js/controllers/controller.js"></script>
@@ -43,7 +48,7 @@
 
 <body class="container" data-ng-controller="kuiController">
     <div ng-include src="headerSrc"></div>
-    <div id="container"
+    <div id="container">
         <div ng-view=""></div>
     </div>
 </body>

@@ -14,8 +14,8 @@
  limitations under the License.
  */
 
-kuiApp.controller("podController", function ($scope, k8s, $filter, contextService) {
-
+kuiApp.controller("podController", function ($scope, k8s, $filter, contextService, NgTableParams) {
+    var self = this;
 
     function refreshPods() {
         $scope.podsReady = false;
@@ -25,6 +25,9 @@ kuiApp.controller("podController", function ($scope, k8s, $filter, contextServic
                 $scope.pods.push({pod: pd.items[i], id: "pod_" + i})
             }
             console.log('pods:', $scope.pods);
+            self.tableParams = new NgTableParams({ count: 5}, { counts: [5, 10, 25], data: $scope.pods});
+
+
         });
         $scope.podsReady = true;
 

@@ -42,3 +42,7 @@ body {
     height: 149px;
     padding-right: 21px;
 }
+
+.ng-table th.filter,  .ng-table th.filter .input-filter  { display:none;}
+
+.table  { margin:20px 0px ;}
