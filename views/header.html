@@ -51,6 +51,10 @@
                 <option ng-repeat="c in contexts" value="{{c.name}}">{{c.name}}</option>
             </select>
 
+            <form ng-submit="searchString(search)">
+                <input type="text" ng-model="search">
+            </form>
+
 
         </div>
 

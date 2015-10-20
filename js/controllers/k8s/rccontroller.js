@@ -14,7 +14,7 @@
  limitations under the License.
  */
 
-kuiApp.controller("rcController", function ($scope, k8s, $filter, contextService, NgTableParams) {
+kuiApp.controller("rcController", function ($rootScope, $scope, k8s, $filter, contextService, NgTableParams) {
     var self = this;
 
     //    $scope.$watch($rootScope.client, function () {
@@ -22,6 +22,35 @@ kuiApp.controller("rcController", function ($scope, k8s, $filter, contextService
 //        refreshServices();
 //    }, true);
 //
+
+    var searchMatch = function (haystack, needle) {
+        if (!needle) {
+            return true;
+        }
+        if (!haystack) {
+            return false;
+        }
+        return (haystack.toString()).toLowerCase().indexOf((needle.toString()).toLowerCase()) !== -1;
+    };
+
+    $rootScope.$on('searchTag', function (e1, txt) {
+        $scope.filteredItems = $filter('filter')($scope.rc, function (item) {
+            if (item.rc.metadata.labels) {
+                var l = item.rc.metadata.labels;
+                for (var fn in l) {
+                    if (fn) {
+                        if (searchMatch(l[fn], txt) || searchMatch(fn, txt)) {
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+            }
+            return false;
+        });
+        self.tableParams = new NgTableParams({ count: 5}, { counts: [5, 10, 25], data: $scope.filteredItems});
+    });
+
 
     function refreshRcs() {
         contextService.getConnection().replicationControllers.get(function (err, rlist) {
@@ -50,9 +79,7 @@ kuiApp.controller("rcController", function ($scope, k8s, $filter, contextService
 
         contextService.getConnection().replicationControllers.get(p, function (err, p1) {
             if (!err) {
-                var oldlabel = p1.metadata.labels;
                 p1.metadata.labels = JSON.parse(l);
-                var newlabel = p1.metadata.labels;
                 contextService.getConnection().replicationControllers.update(p, p1, function (err, pnew) {
                     if (!err) {
                         console.log('rc: ' + JSON.stringify(pnew));

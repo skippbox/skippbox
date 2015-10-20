@@ -35,7 +35,7 @@
 
     <div class="row" ng-if="podsReady">
         <table  ng-table="podc.tableParams" class="table table-bordered table-responsive" show-filter="true">
-            <tr  ng-repeat="p in $data">
+            <tr  ng-repeat="p in $data ">
                 <td title="'Name'" filter="{ name: 'text'}" sortable="'pod.metadata.name'">
                     <span  class="click_item" ng-click="showpod=!showpod; editPod(p.id, p.pod);"> {{p.pod.metadata.name}} </span>
                     <div  ng-if="(showpod || editPressed) && pStr">

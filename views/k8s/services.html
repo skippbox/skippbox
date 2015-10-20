@@ -33,7 +33,7 @@
 
     <div class="row">
     <table  ng-table="servicesco.tableParams" class="table table-bordered table-responsive" show-filter="true">
-        <tr ng-repeat="s in $data">
+        <tr ng-repeat="s in $data ">
             <td  title="'Name'" filter="{ name: 'text'}" sortable="'service.metadata.name'">
                <span  class="click_item"  ng-click="showservice=!showservice;editService(s.id, s.service);">{{s.service.metadata.name}}</span>
                 <div class="col-sm-12" ng-if="(showservice || editPressed) && pStr">

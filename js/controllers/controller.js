@@ -14,7 +14,7 @@
  limitations under the License.
  */
 
-kuiApp.controller("kuiController", function ($scope, $location, $route, config, contextService) {
+kuiApp.controller("kuiController", function ($rootScope, $scope, $location, $route, config, contextService) {
 
     $scope.headerSrc = "views/header.html";
 
@@ -54,6 +54,11 @@ kuiApp.controller("kuiController", function ($scope, $location, $route, config, 
 
     $scope.refresh = function () {
         $route.reload();
+    }
+
+    $scope.searchString = function(txt) {
+        $rootScope.searchText = txt;
+        $rootScope.$broadcast('searchTag', txt);
     }
 
 });
