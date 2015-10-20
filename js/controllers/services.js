@@ -24,11 +24,7 @@ kuiApp.factory('contextService', function (config, $rootScope, $location, $filte
     contexts = config.Contexts;
 
     contextService.setSelectedURL = function (context_name, $rootScope) {
-        console.log(context_name);
         selectedContext = $filter('filter')(contexts, {name: context_name.name})[0];
-        console.log(selectedContext);
-        //selectedContext = $filter('filter')(contexts, {'name': context.name})[0];
-        //selectedContext = $filter('filter')(contexts, {'name': context.name})[0];        
         selectedURL = selectedContext.cluster.server;
         protocol = selectedURL.substring(0, selectedURL.indexOf('//') - 1);
         host = selectedURL.substring(selectedURL.indexOf('//') + 2);
@@ -95,7 +91,6 @@ kuiApp.factory('config', function ($filter) {
     // Get document, or throw exception on error
     try {
         config = yaml.safeLoad(fs.readFileSync('config.sample', 'utf8'));
-        console.log(config);
     } catch (e) {
         console.log(e);
         return;

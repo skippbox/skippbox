@@ -61,11 +61,10 @@ kuiApp.controller("podController", function ($rootScope, $scope, k8s, $filter, c
                 for (var i = 0; i < pd.items.length; i++) {
                     $scope.pods.push({pod: pd.items[i], id: "pod_" + i})
                 }
-                console.log('pods:', $scope.pods);
                 self.tableParams = new NgTableParams({ count: 5}, { counts: [5, 10, 25], data: $scope.pods});
             }
             else {
-                console.log("Error fetching pods" + err);
+                console.log("Error fetching pods: " + err);
             }
         });
         $scope.podsReady = true;
@@ -81,16 +80,12 @@ kuiApp.controller("podController", function ($rootScope, $scope, k8s, $filter, c
             if (!err) {
                 p1.metadata.labels = JSON.parse(l);
                 contextService.getConnection().pods.update(p, p1, function (err, pnew) {
-                    if (!err) {
-                        console.log('pod: ' + JSON.stringify(pnew));
-                    } else {
-                        console.log('pod: ' + JSON.stringify(err));
-                        alert(JSON.stringify(err.message.message));
+                    if (err) {
+                        console.log('Error updating pod: ' + JSON.stringify(err));
                     }
                 });
             } else {
-                console.log(err);
-                alert("Failed to get the resource.");
+                console.log('Error updating pod: ' + JSON.stringify(err));
             }
         });
 
@@ -111,7 +106,6 @@ kuiApp.controller("podController", function ($rootScope, $scope, k8s, $filter, c
     }, true);
 
     $scope.createPod = function (npStr, yaml) {
-
         var newpod = null;
         if (!yaml)
             newpod = JSON.parse(npStr);
@@ -119,11 +113,8 @@ kuiApp.controller("podController", function ($rootScope, $scope, k8s, $filter, c
             var yamllib = require('js-yaml');
             newpod = yamllib.load(npStr);
         }
-
         contextService.getConnection().pods.create(newpod, function (err, p1) {
-            if (!err) {
-                console.log('pod: ' + JSON.stringify(p1));
-            } else {
+            if (err) {
                 console.log('pod: ' + JSON.stringify(err));
                 alert(JSON.stringify(err.message.message));
             }
@@ -132,26 +123,21 @@ kuiApp.controller("podController", function ($rootScope, $scope, k8s, $filter, c
     }
 
     $scope.updatePod = function (id, pStr, p) {
-
         contextService.getConnection().pods.get(p, function (err, p1) {
             if (!err) {
                 var newpod = JSON.parse(pStr);
                 contextService.getConnection().pods.update(p, newpod, function (err, pnew) {
-                    if (!err) {
-                        console.log('pod: ' + JSON.stringify(pnew));
-                    } else {
-                        console.log('pod: ' + JSON.stringify(err));
+                    if (err) {
+                        console.log('Error updating pod: ' + JSON.stringify(err));
                         alert(JSON.stringify(err.message.message));
                     }
                 });
             } else {
-                console.log(err);
-                alert("Failed to get the resource.");
+                console.log('Error updating pod: ' + JSON.stringify(err));
             }
         });
 
         $scope["pod_" + id] = true;
-
         $scope.labelStr = null;
     }
 
@@ -168,11 +154,6 @@ kuiApp.controller("podController", function ($rootScope, $scope, k8s, $filter, c
     }
 
     var ws = contextService.getWebSocket('pods')
-
-    ws.onopen = function () {
-        console.log("Socket has been opened!");
-    };
-
     ws.onmessage = function (message) {
         listener(JSON.parse(message.data));
     };
@@ -180,7 +161,6 @@ kuiApp.controller("podController", function ($rootScope, $scope, k8s, $filter, c
     function listener(data) {
         var messageObj = data;
         if (data && (['ADDED', 'DELETED'].indexOf(data.type) != -1)) {
-            console.log("Received data from websocket: ", messageObj);
             refreshPods();
         }
     }

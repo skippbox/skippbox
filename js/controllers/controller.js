@@ -65,8 +65,6 @@ kuiApp.controller("kuiController", function ($rootScope, $scope, $location, $rou
 
 kuiApp.controller("contextController", function ($scope, $location, config) {
 
-    console.log(config)
-
     $scope.contexts = config.Contexts;
     $scope.clusters = config.Clusters;
     $scope.users = config.Users;

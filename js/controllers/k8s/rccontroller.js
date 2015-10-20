@@ -60,11 +60,10 @@ kuiApp.controller("rcController", function ($rootScope, $scope, k8s, $filter, co
                 for (var i = 0; i < pd.items.length; i++) {
                     $scope.rc.push({rc: pd.items[i], id: "rc_" + i})
                 }
-                console.log('rc:', $scope.rc);
                 self.tableParams = new NgTableParams({ count: 5}, { counts: [5, 10, 25], data: $scope.rc});
             }
             else {
-                console.log("Error fetching rc" + err);
+                console.log("Error fetching rc: " + err);
             }
             $scope.loaded = true;
         });
@@ -81,16 +80,13 @@ kuiApp.controller("rcController", function ($rootScope, $scope, k8s, $filter, co
             if (!err) {
                 p1.metadata.labels = JSON.parse(l);
                 contextService.getConnection().replicationControllers.update(p, p1, function (err, pnew) {
-                    if (!err) {
-                        console.log('rc: ' + JSON.stringify(pnew));
-                    } else {
-                        console.log('rc: ' + JSON.stringify(err));
+                    if (err) {
+                        console.log('error updating rc: ' + JSON.stringify(err));
                         alert(JSON.stringify(err.message.message));
                     }
                 });
             } else {
-                console.log(err);
-                alert("Failed to get the resource.");
+                console.log('error updating rc: ' + JSON.stringify(err));
             }
         });
 
@@ -120,10 +116,8 @@ kuiApp.controller("rcController", function ($rootScope, $scope, k8s, $filter, co
             newrc = yamllib.load(npStr);
         }
         contextService.getConnection().replicationControllers.create(newrc, function (err, p1) {
-            if (!err) {
-                console.log('rc: ' + JSON.stringify(p1));
-            } else {
-                console.log('rc: ' + JSON.stringify(err));
+            if (err) {
+                console.log('error creating rc: ' + JSON.stringify(err));
                 alert(JSON.stringify(err.message.message));
             }
             $scope.newRc = false;
@@ -136,16 +130,13 @@ kuiApp.controller("rcController", function ($rootScope, $scope, k8s, $filter, co
             if (!err) {
                 var newrc = JSON.parse(pStr);
                 contextService.getConnection().replicationControllers.update(p, newrc, function (err, pnew) {
-                    if (!err) {
-                        console.log('rc: ' + JSON.stringify(pnew));
-                    } else {
-                        console.log('rc: ' + JSON.stringify(err));
+                    if (err) {
+                        console.log('error updating rc: ' + JSON.stringify(err));
                         alert(JSON.stringify(err.message.message));
                     }
                 });
             } else {
-                console.log(err);
-                alert("Failed to get the resource.");
+                console.log('error updating rc: ' + JSON.stringify(err));
             }
         });
 
@@ -167,11 +158,6 @@ kuiApp.controller("rcController", function ($rootScope, $scope, k8s, $filter, co
     }
 
     var ws = contextService.getWebSocket('replicationcontrollers');
-
-    ws.onopen = function () {
-        console.log("Socket has been opened!");
-    };
-
     ws.onmessage = function (message) {
         listener(JSON.parse(message.data));
     };
@@ -179,7 +165,6 @@ kuiApp.controller("rcController", function ($rootScope, $scope, k8s, $filter, co
     function listener(data) {
         var messageObj = data;
         if (data && (['ADDED', 'DELETED'].indexOf(data.type) != -1)) {
-            console.log("Received data from websocket: ", messageObj);
             if ($scope.loaded)
                 refreshRcs();
         }
@@ -193,16 +178,13 @@ kuiApp.controller("rcController", function ($rootScope, $scope, k8s, $filter, co
             if (!err) {
                 rc1.spec.replicas = cnt;
                 contextService.getConnection().replicationControllers.update(rc, rc1, function (err, rcnew) {
-                    if (!err) {
-                        console.log('rc: ' + JSON.stringify(rcnew));
-                    } else {
-                        console.log('rc: ' + JSON.stringify(err));
-                        alert("Failed to update replica count");
+                    if (err) {
+                        console.log('error updating replica: ' + JSON.stringify(err));
+                        alert(JSON.stringify(err.message.message));
                     }
                 });
             } else {
-                console.log(err);
-                alert("Failed to get the resource.");
+                console.log('error updating replica: ' + JSON.stringify(err));
             }
         });
     }

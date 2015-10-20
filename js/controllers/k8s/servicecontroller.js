@@ -62,8 +62,6 @@ kuiApp.controller("servicesController", function ($rootScope, $scope, k8s, $filt
                 for (var i = 0; i < pd.items.length; i++) {
                     $scope.services.push({service: pd.items[i], id: "service_" + i})
                 }
-
-                console.log('services:', $scope.services);
                 self.tableParams = new NgTableParams({ count: 5}, { counts: [5, 10, 25], data: $scope.services});
             }
             else {
@@ -85,10 +83,8 @@ kuiApp.controller("servicesController", function ($rootScope, $scope, k8s, $filt
             if (!err) {
                 p1.metadata.labels = JSON.parse(l);
                 contextService.getConnection().services.update(p, p1, function (err, pnew) {
-                    if (!err) {
-                        console.log('Service: ' + JSON.stringify(pnew));
-                    } else {
-                        console.log('Service: ' + JSON.stringify(err));
+                    if (err) {
+                        console.log('error updating service: ' + JSON.stringify(err));
                         alert(JSON.stringify(err.message.message));
                     }
                 });
@@ -124,10 +120,8 @@ kuiApp.controller("servicesController", function ($rootScope, $scope, k8s, $filt
             newservice = yamllib.load(npStr);
         }
         contextService.getConnection().services.create(newservice, function (err, p1) {
-            if (!err) {
-                console.log('service: ' + JSON.stringify(p1));
-            } else {
-                console.log('service: ' + JSON.stringify(err));
+            if (err) {
+                console.log('error updating service: ' + JSON.stringify(err));
                 alert(JSON.stringify(err.message.message));
             }
             $scope.newService = false;
@@ -140,16 +134,13 @@ kuiApp.controller("servicesController", function ($rootScope, $scope, k8s, $filt
             if (!err) {
                 var newservice = JSON.parse(pStr);
                 contextService.getConnection().services.update(p, newservice, function (err, pnew) {
-                    if (!err) {
-                        console.log('service: ' + JSON.stringify(pnew));
-                    } else {
-                        console.log('service: ' + JSON.stringify(err));
+                    if (err) {
+                        console.log('error updating service: ' + JSON.stringify(err));
                         alert(JSON.stringify(err.message.message));
                     }
                 });
             } else {
-                console.log(err);
-                alert("Failed to get the resource.");
+                console.log('error updating service: ' + JSON.stringify(err));
             }
         });
 
@@ -183,7 +174,6 @@ kuiApp.controller("servicesController", function ($rootScope, $scope, k8s, $filt
     function listener(data) {
         var messageObj = data;
         if (data && (['ADDED', 'DELETED'].indexOf(data.type) != -1)) {
-            console.log("Received data from websocket: ", messageObj);
             refreshServices();
         }
     }

@@ -22,14 +22,14 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand"  href="#">kUI</a>
+            <a class="navbar-brand" href="#">kUI</a>
         </div>
         <!--/.navbar-collapse -->
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li data-ng-class="{active:isActive('/')}">
-                    <a href="#/">Home</a>
-                </li>
+                <!--<li data-ng-class="{active:isActive('/')}">-->
+                <!--<a href="#/">Home</a>-->
+                <!--</li>-->
                 <li data-ng-class="{active:isActive('/pods')}">
                     <a href="#/pods">Pods</a>
                 </li>
@@ -49,9 +49,7 @@
             </ul>
 
             <div class="pull-right header-search">
-            <form ng-submit="searchString(search)">
-                <input type="text" ng-model="search" placeholder="search">
-            </form>
+                <input type="text" ng-model="search" placeholder="search" ng-change="searchString(search);">
             </div>
 
 
@@ -63,8 +61,9 @@
 
 <div class="row">
     <div class="col-sm-12"></div>
-<select class="btn-info header_dropdown" name="singleSelect" ng-model="selected_context" ng-change="changeContext(selected_context)">
-    <option ng-repeat="c in contexts" value="{{c.name}}">{{c.name}}</option>
-</select>
-    </div>
+    <select class="btn-info header_dropdown" name="singleSelect" ng-model="selected_context"
+            ng-change="changeContext(selected_context)">
+        <option ng-repeat="c in contexts" value="{{c.name}}">{{c.name}}</option>
+    </select>
+</div>
 </div>

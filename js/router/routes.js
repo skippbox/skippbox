@@ -16,9 +16,7 @@
 
 kuiApp.config(function ($routeProvider) {
     $routeProvider
-        .when("/", { templateUrl: "views/home.html",
-            controller: "kuiController"
-        }).when("/pods", {
+       .when("/pods", {
             templateUrl: "views/k8s/pods.html",
             controller: "podController"
         }).when("/services", {
@@ -31,6 +29,6 @@ kuiApp.config(function ($routeProvider) {
             templateUrl: "views/context.html",
             controller: "contextController"
         }).otherwise({
-            redirectTo: '/'
+            redirectTo: '/pods'
         });
 });
