@@ -14,20 +14,33 @@
  limitations under the License.
  */
 
-
 kuiApp.controller("servicesController", function ($rootScope, $scope, k8s, $filter, contextService, NgTableParams) {
     var self = this;
+
+//    $scope.$watch($rootScope.client, function () {
+//        alert('root changed');
+//        refreshServices();
+//    }, true);
+//
+
     function refreshServices() {
-        $scope.servicesReady = false;
-        var items = k8s.Services.get(function (pd) {
-            $scope.services = []
-            for (var i = 0; i < pd.items.length; i++) {
-                $scope.services.push({service: pd.items[i], id: "service_" + i})
+        contextService.getConnection().services.get(function (err, slist) {
+            if (!err && slist.length > 0) {
+                var pd = slist[0];
+                $scope.services = []
+                for (var i = 0; i < pd.items.length; i++) {
+                    $scope.services.push({service: pd.items[i], id: "service_" + i})
+                }
+
+                console.log('services:', $scope.services);
+                self.tableParams = new NgTableParams({ count: 5}, { counts: [5, 10, 25], data: $scope.services});
             }
-            console.log('services:', $scope.services);
-            self.tableParams = new NgTableParams({ count: 5}, { counts: [5, 10, 25], data: $scope.services});
+            else {
+                console.log("Error fetching services" + err);
+            }
+            $scope.servicesReady = true;
+
         });
-        $scope.servicesReady = true;
 
     }
 
@@ -37,20 +50,12 @@ kuiApp.controller("servicesController", function ($rootScope, $scope, k8s, $filt
 
     $scope.updateLabel = function (l, p) {
 
-        var Client = require('node-kubernetes-client');
-        client = new Client({
-            "protocol": contextService.getProtocol(),
-            "host": contextService.getHost(),
-            "version": "v1",
-            "namespace": "default"
-        });
-
-        client.services.get(p, function (err, p1) {
+        contextService.getConnection().services.get(p, function (err, p1) {
             if (!err) {
                 var oldlabel = p1.metadata.labels;
                 p1.metadata.labels = JSON.parse(l);
                 var newlabel = p1.metadata.labels;
-                client.services.update(p, p1, function (err, pnew) {
+                contextService.getConnection().services.update(p, p1, function (err, pnew) {
                     if (!err) {
                         console.log('Service: ' + JSON.stringify(pnew));
                     } else {
@@ -81,17 +86,10 @@ kuiApp.controller("servicesController", function ($rootScope, $scope, k8s, $filt
     }, true);
 
     $scope.createService = function (npStr) {
-        var Client = require('node-kubernetes-client');
-        client = new Client({
-            "protocol": contextService.getProtocol(),
-            "host": contextService.getHost(),
-            "version": "v1",
-            "namespace": "default"
-        });
 
         var newservice = JSON.parse(npStr);
 
-        client.services.create(newservice, function (err, p1) {
+        contextService.getConnection().services.create(newservice, function (err, p1) {
             if (!err) {
                 console.log('service: ' + JSON.stringify(p1));
             } else {
@@ -102,21 +100,12 @@ kuiApp.controller("servicesController", function ($rootScope, $scope, k8s, $filt
         });
     }
 
-
     $scope.updateService = function (id, pStr, p) {
 
-        var Client = require('node-kubernetes-client');
-        client = new Client({
-            "protocol": contextService.getProtocol(),
-            "host": contextService.getHost(),
-            "version": "v1",
-            "namespace": "default"
-        });
-
-        client.services.get(p, function (err, p1) {
+        contextService.getConnection().services.get(p, function (err, p1) {
             if (!err) {
                 var newservice = JSON.parse(pStr);
-                client.services.update(p, newservice, function (err, pnew) {
+                contextService.getConnection().services.update(p, newservice, function (err, pnew) {
                     if (!err) {
                         console.log('service: ' + JSON.stringify(pnew));
                     } else {
@@ -132,10 +121,8 @@ kuiApp.controller("servicesController", function ($rootScope, $scope, k8s, $filt
 
         $scope["service_" + id] = true;
 
-
         $scope.labelStr = null;
     }
-
 
     $scope.editService = function (id, service) {
         for (var i = 0; i < $scope.services.length; i++) {
@@ -149,7 +136,7 @@ kuiApp.controller("servicesController", function ($rootScope, $scope, k8s, $filt
         }
     }
 
-    var ws = new WebSocket("ws://" + contextService.getHost() + "/api/v1/namespaces/default/services?watch=true");
+    var ws = contextService.getWebSocket('services')
 
     ws.onopen = function () {
         console.log("Socket has been opened!");
@@ -161,9 +148,10 @@ kuiApp.controller("servicesController", function ($rootScope, $scope, k8s, $filt
 
     function listener(data) {
         var messageObj = data;
-        console.log("Received data from websocket: ", messageObj);
-        refreshServices();
-
+        if (data) {
+            console.log("Received data from websocket: ", messageObj);
+            refreshServices();
+        }
     }
 
     refreshServices();
@@ -176,13 +164,14 @@ kuiApp.controller("servicesController", function ($rootScope, $scope, k8s, $filt
         alert("Stop invoked.".concat(service));
     }
 
-    $scope.delete = function (service) {
-        k8s.Services.delete({name: service});
-        alert("Delete invoked.".concat(service));
+    $scope.delete = function (s) {
+        contextService.getConnection().services.delete(s, function (err) {
+            if (err) {
+                console.log('Delete failed:' + err);
     }
-
-    $scope.onChange = function (value) {
-        alert(value);
+            else {
+                console.log('Delete successful.');
     }
-
+        });
+    }
 });
