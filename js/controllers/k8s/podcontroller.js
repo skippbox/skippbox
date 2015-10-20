@@ -14,23 +14,32 @@
  limitations under the License.
  */
 
-kuiApp.controller("podController", function ($scope, k8s, $filter, contextService, NgTableParams) {
+kuiApp.controller("podController", function ($rootScope, $scope, k8s, $filter, contextService, NgTableParams) {
     var self = this;
+
+//    $scope.$watch($rootScope.client, function () {
+//        alert('root changed');
+//        refreshPods();
+//    }, true);
+//
 
     function refreshPods() {
         $scope.podsReady = false;
-        var items = k8s.Pods.get(function (pd) {
-            $scope.pods = []
-            for (var i = 0; i < pd.items.length; i++) {
-                $scope.pods.push({pod: pd.items[i], id: "pod_" + i})
+        contextService.getConnection().pods.get(function (err, plist) {
+            if (!err && plist.length > 0) {
+                var pd = plist[0];
+                $scope.pods = []
+                for (var i = 0; i < pd.items.length; i++) {
+                    $scope.pods.push({pod: pd.items[i], id: "pod_" + i})
+                }
+                console.log('pods:', $scope.pods);
+                self.tableParams = new NgTableParams({ count: 5}, { counts: [5, 10, 25], data: $scope.pods});
             }
-            console.log('pods:', $scope.pods);
-            self.tableParams = new NgTableParams({ count: 5}, { counts: [5, 10, 25], data: $scope.pods});
-
-
+            else {
+                console.log("Error fetching pods" + err);
+            }
         });
         $scope.podsReady = true;
-
     }
 
     $scope.setLabelStr = function (l) {
@@ -39,20 +48,12 @@ kuiApp.controller("podController", function ($scope, k8s, $filter, contextServic
 
     $scope.updateLabel = function (l, p) {
 
-        var Client = require('node-kubernetes-client');
-        client = new Client({
-            "protocol": contextService.getProtocol(),
-            "host": contextService.getHost(),
-            "version": "v1",
-            "namespace": "default"
-        });
-
-        client.pods.get(p, function (err, p1) {
+        contextService.getConnection().pods.get(p, function (err, p1) {
             if (!err) {
                 var oldlabel = p1.metadata.labels;
                 p1.metadata.labels = JSON.parse(l);
                 var newlabel = p1.metadata.labels;
-                client.pods.update(p, p1, function (err, pnew) {
+                contextService.getConnection().pods.update(p, p1, function (err, pnew) {
                     if (!err) {
                         console.log('pod: ' + JSON.stringify(pnew));
                     } else {
@@ -83,17 +84,10 @@ kuiApp.controller("podController", function ($scope, k8s, $filter, contextServic
     }, true);
 
     $scope.createPod = function (npStr) {
-        var Client = require('node-kubernetes-client');
-        client = new Client({
-            "protocol": contextService.getProtocol(),
-            "host": contextService.getHost(),
-            "version": "v1",
-            "namespace": "default"
-        });
 
         var newpod = JSON.parse(npStr);
 
-        client.pods.create(newpod, function (err, p1) {
+        contextService.getConnection().pods.create(newpod, function (err, p1) {
             if (!err) {
                 console.log('pod: ' + JSON.stringify(p1));
             } else {
@@ -104,21 +98,12 @@ kuiApp.controller("podController", function ($scope, k8s, $filter, contextServic
         });
     }
 
-
     $scope.updatePod = function (id, pStr, p) {
 
-        var Client = require('node-kubernetes-client');
-        client = new Client({
-            "protocol": contextService.getProtocol(),
-            "host": contextService.getHost(),
-            "version": "v1",
-            "namespace": "default"
-        });
-
-        client.pods.get(p, function (err, p1) {
+        contextService.getConnection().pods.get(p, function (err, p1) {
             if (!err) {
                 var newpod = JSON.parse(pStr);
-                client.pods.update(p, newpod, function (err, pnew) {
+                contextService.getConnection().pods.update(p, newpod, function (err, pnew) {
                     if (!err) {
                         console.log('pod: ' + JSON.stringify(pnew));
                     } else {
@@ -134,10 +119,8 @@ kuiApp.controller("podController", function ($scope, k8s, $filter, contextServic
 
         $scope["pod_" + id] = true;
 
-
         $scope.labelStr = null;
     }
-
 
     $scope.editPod = function (id, pod) {
         for (var i = 0; i < $scope.pods.length; i++) {
@@ -151,7 +134,7 @@ kuiApp.controller("podController", function ($scope, k8s, $filter, contextServic
         }
     }
 
-    var ws = new WebSocket("ws://" + contextService.getHost() + "/api/v1/namespaces/default/pods?watch=true");
+    var ws = contextService.getWebSocket('pods')
 
     ws.onopen = function () {
         console.log("Socket has been opened!");
@@ -169,11 +152,6 @@ kuiApp.controller("podController", function ($scope, k8s, $filter, contextServic
         }
     }
 
-//
-//    socket.on('connection', function(args){
-//      console.log('received socket info' +args);
-//    });
-
     refreshPods();
 
     $scope.start = function (pod) {
@@ -185,8 +163,13 @@ kuiApp.controller("podController", function ($scope, k8s, $filter, contextServic
     }
 
     $scope.delete = function (pod) {
-        k8s.Pods.delete({name: pod});
-        alert("Delete invoked.".concat(pod));
+        contextService.getConnection().pods.delete(pod, function (err) {
+            if (err) {
+                alert('Delete failed with:' + JSON.stringify(err));
+            }
+            else {
+                alert("Delete invoked.".concat(pod));
+            }
+        });
     }
-
 });
