@@ -21,7 +21,7 @@
     <div class="row">
         <div class="col-sm-12" ng-if="newService">
             <form ng-submit="createService(npStr);">
-                <textarea id="jsonTextarea1" ng-model="npStr" class="ng-pristine ng-valid"
+                <textarea id="jsonTextarea1" ng-model="npStr" class="ng-pristine ng-valid form-control"
                         ></textarea>
                 <br/>
                 <a class="cancel_button" ng-click="cancelCreateBtn();"><i class="glyphicon glyphicon-remove"> </i></a>
@@ -35,11 +35,11 @@
     <table  ng-table="servicesco.tableParams" class="table table-bordered table-responsive" show-filter="true">
         <tr ng-repeat="s in $data">
             <td  title="'Name'" filter="{ name: 'text'}" sortable="'service.metadata.name'">
-               <span  ng-click="showservice=!showservice;editService(s.id, s.service);">{{s.service.metadata.name}}</span>
+               <span  class="click_item"  ng-click="showservice=!showservice;editService(s.id, s.service);">{{s.service.metadata.name}}</span>
                 <div class="col-sm-12" ng-if="(showservice || editPressed) && pStr">
                     <form ng-show="{{s.id}} && pStr"
                           ng-submit="updateService(s.id, pStr, s.service.metadata.name);">
-                        <textarea id="jsonTextarea" ng-model="pStr" class="ng-pristine ng-valid"
+                        <textarea id="jsonTextarea" ng-model="pStr" class="ng-pristine ng-valid form-control"
                                   ng-disabled="!editPressed"></textarea>
                         <span ng-show="editPressed">
                         <br/>
@@ -55,10 +55,10 @@
                 <span> {{s.service.metadata.namespace}}   </span>  </td>
             <td  title="'Labels'" filter="{ name: 'text'}" sortable="'service.metadata.labels'">
 
-                <span ng-hide="editing" ng-click="editing = true; setLabelStr(s.service.metadata.labels);">{{s.service.metadata.labels}}</span>
+                <span  class="click_item"  ng-hide="editing" ng-click="editing = true; setLabelStr(s.service.metadata.labels);">{{s.service.metadata.labels}}</span>
 
                 <form ng-show="editing" ng-submit="editing = false;updateLabel(labelStr, s.service.metadata.name);">
-                    <textarea id="jsonLabelArea" ng-model="labelStr" class="ng-pristine ng-valid"
+                    <textarea id="jsonLabelArea" ng-model="labelStr" class="ng-pristine ng-valid form-control"
                               ng-required></textarea>
                     <br/>
                     <button class="btn-small" type="cancel"><i class="glyphicon glyphicon-remove"> </i></button>
