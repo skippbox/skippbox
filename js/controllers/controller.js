@@ -27,6 +27,15 @@ kuiApp.controller("kuiController", function ($scope, $location, $route, config, 
         contextService.setSelectedURL($scope.contexts[0]);
     }
 
+    var gui = require('nw.gui');
+    if (process.platform === "darwin") {
+        var mb = new gui.Menu({type: 'menubar'});
+        mb.createMacBuiltin('RoboPaint', {
+            hideEdit: false
+        });
+        gui.Window.get().menu = mb;
+    }
+
     $scope.changeContext = function (context) {
         contextService.setSelectedURL(context);
     }

@@ -165,10 +165,10 @@ kuiApp.controller("podController", function ($rootScope, $scope, k8s, $filter, c
     $scope.delete = function (pod) {
         contextService.getConnection().pods.delete(pod, function (err) {
             if (err) {
-                alert('Delete failed with:' + JSON.stringify(err));
+                console.log('Delete failed:' + err);
             }
             else {
-                alert("Delete invoked.".concat(pod));
+                console.log('Delete successful.');
             }
         });
     }
