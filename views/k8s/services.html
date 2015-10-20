@@ -13,7 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 -->
-<section>
+<section ng-controller="servicesController as servicesco">
     <div class="row" style="text-align: right" ng-click="newService=!newService">
         <i class="btn btn-success fa fa-plus"> New </i>
     </div>
@@ -31,32 +31,11 @@
         </div>
     </div>
 
-    <hr/>
-    <div class="row">
-        <div class="col-sm-3"><b>Name</b></div>
-        <div class="col-sm-3"><b>Namespace</b></div>
-        <div class="col-sm-3"><b>ClusterIP</b></div>
-        <div class="col-sm-3"><b>Actions</b></div>
-    </div>
-    <hr/>
     <div class="row" ng-if="servicesReady">
-        <div ng-repeat="s in services">
-            <div ng-class="{gray: hover}" ng-mouseenter="hover=true" ng-mouseleave="hover=false"
-                  class="row">
-                <div class="col-sm-3" ng-click="showservice=!showservice;editService(s.id, s.service);">{{s.service.metadata.name}}</div>
-                <div class="col-sm-3" ng-show=true>{{s.service.metadata.namespace}}</div>
-                <div class="col-sm-3" ng-show=true>{{s.service.spec.clusterIP}}</div>
-                <div class="col-sm-3" ng-show=true>
-                    <a ng-click="editPressed=!editPressed;editService(s.id, s.service);" class="btn btn-info"
-                       title="Edit"> <i
-                            class="fa fa-edit"></i></a>
-                    <!--<a ng-click="start(s.metadata.name);showservices=!showservices" class="btn btn-info" title="start"> <i class="fa fa-play"></i></a>-->
-                    <!--<a ng-click="stop(s.metadata.name);showservices=!showservices" class="btn btn-info" title="stop"> <i class="fa fa-stop"></i></a>-->
-                    <a ng-click="delete(s.service.metadata.name);showservice=!showservice" class="btn btn-warning"
-                       title="delete"> <i class="fa fa-trash"></i></a>
-                </div>
-            </div>
-            <div class="row">
+    <table  ng-table="servicesco.tableParams" class="table table-bordered table-responsive" show-filter="true">
+        <tr ng-repeat="s in $data">
+            <td  title="'Name'" filter="{ name: 'text'}" sortable="'service.metadata.name'">
+               <span  ng-click="showservice=!showservice;editService(s.id, s.service);">{{s.service.metadata.name}}</span>
                 <div class="col-sm-12" ng-if="(showservice || editPressed) && pStr">
                     <form ng-show="{{s.id}} && pStr"
                           ng-submit="updateService(s.id, pStr, s.service.metadata.name);">
@@ -70,24 +49,41 @@
                         <!--<json child="p" default-collapsed="true" type="object"></json>-->
                     </form>
                 </div>
-            </div>
-            <div class="row" ng-show=true>
-                <div class="col-sm-3" ng-show=true></div>
-                <div class="col-sm-3" ng-show=true>labels</div>
-                <div class="col-sm-6" ng-show=true>
-                    <span ng-hide="editing" ng-click="editing = true; setLabelStr(s.service.metadata.labels);">{{s.service.metadata.labels}}</span>
 
-                    <form ng-show="editing" ng-submit="editing = false;updateLabel(labelStr, s.service.metadata.name);">
-                        <textarea id="jsonLabelArea" ng-model="labelStr" class="ng-pristine ng-valid"
-                                  ng-required></textarea>
-                        <br/>
-                        <button class="btn-small" type="cancel"><i class="glyphicon glyphicon-remove"> </i></button>
-                        <button class="btn-small" type="submit"><i class="glyphicon glyphicon-ok"> </i></button>
-                    </form>
-                </div>
-            </div>
-            <hr/>
+            </td>
+            <td  title="'Namespace'" filter="{ name: 'text'}" sortable="'service.metadata.namespace'">
+                <span> {{s.service.metadata.namespace}}   </span>  </td>
+            <td  title="'Labels'" filter="{ name: 'text'}" sortable="'service.metadata.labels'">
+
+                <span ng-hide="editing" ng-click="editing = true; setLabelStr(s.service.metadata.labels);">{{s.service.metadata.labels}}</span>
+
+                <form ng-show="editing" ng-submit="editing = false;updateLabel(labelStr, s.service.metadata.name);">
+                    <textarea id="jsonLabelArea" ng-model="labelStr" class="ng-pristine ng-valid"
+                              ng-required></textarea>
+                    <br/>
+                    <button class="btn-small" type="cancel"><i class="glyphicon glyphicon-remove"> </i></button>
+                    <button class="btn-small" type="submit"><i class="glyphicon glyphicon-ok"> </i></button>
+                </form>
+            </td>
+
+            <td  title="'ClusterIP'" filter="{ name: 'text'}" sortable="'service.spec.clusterIP'">
+                <span>  {{s.service.spec.clusterIP}} </span> </td>
+
+            <td  title="'Actions'">
+                <a ng-click="editPressed=!editPressed;editService(s.id, s.service);" class="btn btn-info"
+                   title="Edit"> <i
+                        class="fa fa-edit"></i></a>
+                <!--<a ng-click="start(s.metadata.name);showservices=!showservices" class="btn btn-info" title="start"> <i class="fa fa-play"></i></a>-->
+                <!--<a ng-click="stop(s.metadata.name);showservices=!showservices" class="btn btn-info" title="stop"> <i class="fa fa-stop"></i></a>-->
+                <a ng-click="delete(s.service.metadata.name);showservice=!showservice" class="btn btn-warning"
+                   title="delete"> <i class="fa fa-trash"></i></a>
+            </td>
+
+
+        </tr>
+        </table>
         </div>
-    </div>
-    </div>
+
+
+
 </section>

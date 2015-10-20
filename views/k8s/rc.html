@@ -13,7 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 -->
-<section>
+<section ng-controller="rcController as rcc">
     <div class="row" style="text-align: right" ng-click="newRc=!newRc">
         <i class="btn btn-success fa fa-plus"> New </i>
     </div>
@@ -31,58 +31,31 @@
         </div>
     </div>
 
-    <hr/>
-    <div class="row">
-        <div class="col-sm-2"><b>Name</b></div>
-        <div class="col-sm-2"><b>Namespace</b></div>
-        <div class="col-sm-2"><b>Replicas</b></div>
-        <div class="col-sm-2"><b>Actions</b></div>
-    </div>
-    <hr/>
-    <div class="row" ng-if="rcsReady">
-        <div ng-repeat="r in rc">
-            <div ng-class="{gray: hover}" ng-mouseenter="hover=true" ng-mouseleave="hover=false"
-                 class="row">
-                <div class="col-sm-3" ng-click="showrc=!showrc;editRc(r.id, r.rc);">{{r.rc.metadata.name}}</div>
-                <div class="col-sm-2" ng-show=true>{{r.rc.metadata.namespace}}</div>
-                <div class="col-sm-2" ng-show=true>
-                    <span ng-hide="editing" ng-click="editing = true">{{r.rc.spec.replicas}}</span>
 
-                    <form ng-show="editing" ng-submit="editing = false;updateReplica(replicaCnt, r.rc.metadata.name);">
-                        <input type="Number" ng-model="replicaCnt" placeholder="{{r.rc.spec.replicas}}" ng-required/>
-                        <button class="btn-small" type="cancel"><i class="glyphicon glyphicon-remove"> </i></button>
-                        <button class="btn-small btn-success" type="submit"><i class="glyphicon glyphicon-ok"> </i></button>
-                    </form>
-                </div>
-                <div class="col-sm-2" ng-show=true>
-                    <a ng-click="editPressed=!editPressed;editRc(r.id, r.rc);" class="btn btn-info"
-                       title="Edit"> <i
-                            class="fa fa-edit"></i></a>
-                    <!--<a ng-click="start(r.metadata.name);showrc=!showrc" class="btn btn-info" title="start"> <i-->
-                            <!--class="fa fa-play"></i></a>-->
-                    <!--<a ng-click="stop(r.metadata.name);showrc=!showrc" class="btn btn-info" title="stop"> <i class="fa fa-stop"></i></a>-->
-                    <a ng-click="delete(r.rc.metadata.name);showrc=!showrc" class="btn btn-warning" title="delete"> <i
-                            class="fa fa-trash"></i></a>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-12" ng-if="(showrc || editPressed) && pStr">
-                    <form ng-show="{{r.id}} && pStr"
-                          ng-submit="updateRc(r.id, pStr, r.rc.metadata.name);">
-                        <textarea id="jsonTextarea" ng-model="pStr" class="ng-pristine ng-valid"
-                                  ng-disabled="!editPressed"></textarea>
+    <div class="row" ng-if="rcsReady">
+        <table  ng-table="rcc.tableParams" class="table table-bordered table-responsive" show-filter="true">
+            <tr  ng-repeat="r in $data">
+                <td title="'Name'" filter="{ name: 'text'}" sortable="'rc.metadata.name'">
+                    <span  ng-click="showrc=!showrc;editRc(r.id, r.rc);">{{r.rc.metadata.name}}</span>
+
+                    <div class="col-sm-12" ng-if="(showrc || editPressed) && pStr">
+                        <form ng-show="{{r.id}} && pStr"
+                              ng-submit="updateRc(r.id, pStr, r.rc.metadata.name);">
+                            <textarea id="jsonTextarea" ng-model="pStr" class="ng-pristine ng-valid"
+                                      ng-disabled="!editPressed"></textarea>
                         <span ng-show="editPressed">
                         <br/>
                         <button class="btn-small" type="cancel"><i class="glyphicon glyphicon-remove"> </i></button>
                         <button class="btn-small" type="submit"><i class="glyphicon glyphicon-ok"> </i></button>
                             </span>
-                        <!--<json child="p" default-collapsed="true" type="object"></json>-->
-                    </form>
-                </div>
-            </div>
-            <div class="row" ng-show=true>
-                <div class="col-sm-3" ng-show=true>labels</div>
-                <div class="col-sm-9" ng-show=true>
+                            <!--<json child="p" default-collapsed="true" type="object"></json>-->
+                        </form>
+                    </div>
+                </td>
+                <td title="'Namespace'" filter="{ namespace: 'text'}" sortable="'rc.metadata.namespace'">
+                     <span>{{r.rc.metadata.namespace}}</span>
+                </td>
+                <td title="'Labels'" filter="{ labels: 'text'}" sortable="'pod.metadata.name'">
                     <span ng-hide="editingLabel" ng-click="editingLabel = true; setLabelStr(r.rc.metadata.labels);">{{r.rc.metadata.labels}}</span>
 
                     <form ng-show="editingLabel" ng-submit="editingLabel = false;updateLabel(labelStr, r.rc.metadata.name);">
@@ -90,8 +63,30 @@
                         <br/>
                         <button class="btn-small" type="cancel"><i class="glyphicon glyphicon-remove"> </i></button>
                         <button class="btn-small" type="submit"><i class="glyphicon glyphicon-ok"> </i></button>                    </form>
-                </div>
-            </div>
-        </div>
+
+                </td>
+                <td title="'Replicas'" filter="{ replicas: 'text'}" sortable="'rc.spec.replicas'">
+                    <span  ng-hide="editing" ng-click="editing = true">{{r.rc.spec.replicas}}</span>
+                    <form ng-show="editing" ng-submit="editing = false;updateReplica(replicaCnt, r.rc.metadata.name);">
+                        <input type="Number" ng-model="replicaCnt" placeholder="{{r.rc.spec.replicas}}" ng-required/>
+                        <button class="btn-small" type="cancel"><i class="glyphicon glyphicon-remove"> </i></button>
+                        <button class="btn-small btn-success" type="submit"><i class="glyphicon glyphicon-ok"> </i></button>
+                    </form>
+                </td>
+                <td title="'Actions'">
+                    <a ng-click="editPressed=!editPressed;editRc(r.id, r.rc);" class="btn btn-info"
+                       title="Edit"> <i
+                            class="fa fa-edit"></i></a>
+                    <!--<a ng-click="start(r.metadata.name);showrc=!showrc" class="btn btn-info" title="start"> <i-->
+                    <!--class="fa fa-play"></i></a>-->
+                    <!--<a ng-click="stop(r.metadata.name);showrc=!showrc" class="btn btn-info" title="stop"> <i class="fa fa-stop"></i></a>-->
+                    <a ng-click="delete(r.rc.metadata.name);showrc=!showrc" class="btn btn-warning" title="delete"> <i
+                            class="fa fa-trash"></i></a>
+                </td>
+
+
+            </tr>
+        </table>
     </div>
+
 </section>

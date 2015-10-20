@@ -15,8 +15,8 @@
  */
 
 
-kuiApp.controller("servicesController", function ($scope, k8s, $filter, contextService) {
-
+kuiApp.controller("servicesController", function ($rootScope, $scope, k8s, $filter, contextService, NgTableParams) {
+    var self = this;
     function refreshServices() {
         $scope.servicesReady = false;
         var items = k8s.Services.get(function (pd) {
@@ -25,6 +25,7 @@ kuiApp.controller("servicesController", function ($scope, k8s, $filter, contextS
                 $scope.services.push({service: pd.items[i], id: "service_" + i})
             }
             console.log('services:', $scope.services);
+            self.tableParams = new NgTableParams({ count: 5}, { counts: [5, 10, 25], data: $scope.services});
         });
         $scope.servicesReady = true;
 

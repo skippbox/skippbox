@@ -15,8 +15,8 @@
  */
 
 
-kuiApp.controller("rcController", function ($scope, k8s, $filter, contextService) {
-
+kuiApp.controller("rcController", function ($scope, k8s, $filter, contextService, NgTableParams) {
+    var self = this;
     function refreshRcs() {
         $scope.rcsReady = false;
         var items = k8s.Replicationcontrollers.get(function (pd) {
@@ -25,6 +25,7 @@ kuiApp.controller("rcController", function ($scope, k8s, $filter, contextService
                 $scope.rc.push({rc: pd.items[i], id: "rc_" + i})
             }
             console.log('rc:', $scope.rc);
+            self.tableParams = new NgTableParams({ count: 5}, { counts: [5, 10, 25], data: $scope.rc});
         });
         $scope.rcsReady = true;
 
