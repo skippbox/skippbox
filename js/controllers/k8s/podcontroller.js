@@ -146,7 +146,7 @@ kuiApp.controller("podController", function ($rootScope, $scope, k8s, $filter, c
 
     function listener(data) {
         var messageObj = data;
-        if (data) {
+        if (data && (['ADDED', 'DELETED'].indexOf(data.type) != -1)) {
             console.log("Received data from websocket: ", messageObj);
             refreshPods();
         }

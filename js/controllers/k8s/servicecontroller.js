@@ -148,7 +148,7 @@ kuiApp.controller("servicesController", function ($rootScope, $scope, k8s, $filt
 
     function listener(data) {
         var messageObj = data;
-        if (data) {
+        if (data && (['ADDED', 'DELETED'].indexOf(data.type) != -1)) {
             console.log("Received data from websocket: ", messageObj);
             refreshServices();
         }

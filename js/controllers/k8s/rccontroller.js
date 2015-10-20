@@ -14,20 +14,31 @@
  limitations under the License.
  */
 
-
 kuiApp.controller("rcController", function ($scope, k8s, $filter, contextService, NgTableParams) {
     var self = this;
+
+    //    $scope.$watch($rootScope.client, function () {
+//        alert('root changed');
+//        refreshServices();
+//    }, true);
+//
+
     function refreshRcs() {
-        $scope.rcsReady = false;
-        var items = k8s.Replicationcontrollers.get(function (pd) {
-            $scope.rc = []
-            for (var i = 0; i < pd.items.length; i++) {
-                $scope.rc.push({rc: pd.items[i], id: "rc_" + i})
+        contextService.getConnection().replicationControllers.get(function (err, rlist) {
+            if (!err && rlist.length > 0) {
+                var pd = rlist[0];
+                $scope.rc = []
+                for (var i = 0; i < pd.items.length; i++) {
+                    $scope.rc.push({rc: pd.items[i], id: "rc_" + i})
+                }
+                console.log('rc:', $scope.rc);
+                self.tableParams = new NgTableParams({ count: 5}, { counts: [5, 10, 25], data: $scope.rc});
             }
-            console.log('rc:', $scope.rc);
-            self.tableParams = new NgTableParams({ count: 5}, { counts: [5, 10, 25], data: $scope.rc});
+            else {
+                console.log("Error fetching rc" + err);
+            }
+            $scope.loaded = true;
         });
-        $scope.rcsReady = true;
 
     }
 
@@ -37,20 +48,12 @@ kuiApp.controller("rcController", function ($scope, k8s, $filter, contextService
 
     $scope.updateLabel = function (l, p) {
 
-        var Client = require('node-kubernetes-client');
-        client = new Client({
-            "protocol": contextService.getProtocol(),
-            "host": contextService.getHost(),
-            "version": "v1",
-            "namespace": "default"
-        });
-
-        client.replicationControllers.get(p, function (err, p1) {
+        contextService.getConnection().replicationControllers.get(p, function (err, p1) {
             if (!err) {
                 var oldlabel = p1.metadata.labels;
                 p1.metadata.labels = JSON.parse(l);
                 var newlabel = p1.metadata.labels;
-                client.replicationControllers.update(p, p1, function (err, pnew) {
+                contextService.getConnection().replicationControllers.update(p, p1, function (err, pnew) {
                     if (!err) {
                         console.log('rc: ' + JSON.stringify(pnew));
                     } else {
@@ -81,17 +84,10 @@ kuiApp.controller("rcController", function ($scope, k8s, $filter, contextService
     }, true);
 
     $scope.createRc = function (npStr) {
-        var Client = require('node-kubernetes-client');
-        client = new Client({
-            "protocol": contextService.getProtocol(),
-            "host": contextService.getHost(),
-            "version": "v1",
-            "namespace": "default"
-        });
 
         var newrc = JSON.parse(npStr);
 
-        client.replicationControllers.create(newrc, function (err, p1) {
+        contextService.getConnection().replicationControllers.create(newrc, function (err, p1) {
             if (!err) {
                 console.log('rc: ' + JSON.stringify(p1));
             } else {
@@ -102,21 +98,12 @@ kuiApp.controller("rcController", function ($scope, k8s, $filter, contextService
         });
     }
 
-
     $scope.updateRc = function (id, pStr, p) {
 
-        var Client = require('node-kubernetes-client');
-        client = new Client({
-            "protocol": contextService.getProtocol(),
-            "host": contextService.getHost(),
-            "version": "v1",
-            "namespace": "default"
-        });
-
-        client.replicationControllers.get(p, function (err, p1) {
+        contextService.getConnection().replicationControllers.get(p, function (err, p1) {
             if (!err) {
                 var newrc = JSON.parse(pStr);
-                client.replicationControllers.update(p, newrc, function (err, pnew) {
+                contextService.getConnection().replicationControllers.update(p, newrc, function (err, pnew) {
                     if (!err) {
                         console.log('rc: ' + JSON.stringify(pnew));
                     } else {
@@ -132,10 +119,8 @@ kuiApp.controller("rcController", function ($scope, k8s, $filter, contextService
 
         $scope["rc_" + id] = true;
 
-
         $scope.labelStr = null;
     }
-
 
     $scope.editRc = function (id, rc) {
         for (var i = 0; i < $scope.rc.length; i++) {
@@ -149,7 +134,7 @@ kuiApp.controller("rcController", function ($scope, k8s, $filter, contextService
         }
     }
 
-    var ws = new WebSocket("ws://127.0.0.1:8080/api/v1/namespaces/default/replicationcontrollers?watch=true");
+    var ws = contextService.getWebSocket('replicationcontrollers');
 
     ws.onopen = function () {
         console.log("Socket has been opened!");
@@ -161,27 +146,21 @@ kuiApp.controller("rcController", function ($scope, k8s, $filter, contextService
 
     function listener(data) {
         var messageObj = data;
-        console.log("Received data from websocket: ", messageObj);
-        refreshRcs();
-
+        if (data && (['ADDED', 'DELETED'].indexOf(data.type) != -1)) {
+            console.log("Received data from websocket: ", messageObj);
+            if ($scope.loaded)
+                refreshRcs();
+        }
     }
 
     refreshRcs();
 
     $scope.updateReplica = function (cnt, rc) {
 
-        var Client = require('node-kubernetes-client');
-        client = new Client({
-            "protocol": contextService.getProtocol(),
-            "host": contextService.getHost(),
-            "version": "v1",
-            "namespace": "default"
-        });
-
-        client.replicationControllers.get(rc, function (err, rc1) {
+        contextService.getConnection().replicationControllers.get(rc, function (err, rc1) {
             if (!err) {
                 rc1.spec.replicas = cnt;
-                client.replicationControllers.update(rc, rc1, function (err, rcnew) {
+                contextService.getConnection().replicationControllers.update(rc, rc1, function (err, rcnew) {
                     if (!err) {
                         console.log('rc: ' + JSON.stringify(rcnew));
                     } else {
@@ -220,9 +199,15 @@ kuiApp.controller("rcController", function ($scope, k8s, $filter, contextService
         alert("Stop invoked.".concat(rc));
     }
 
-    $scope.delete = function (rc) {
-        k8s.Replicationcontrollers.delete({name: rc});
-        alert("Delete invoked.".concat(rc));
+    $scope.delete = function (s) {
+        contextService.getConnection().replicationControllers.delete(s, function (err) {
+            if (err) {
+                console.log('Delete failed:' + err);
+            }
+            else {
+                console.log('Delete successful.');
+            }
+        });
     }
 
 });
