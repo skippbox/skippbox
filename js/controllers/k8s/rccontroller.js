@@ -196,6 +196,22 @@ kuiApp.controller("rcController", function ($scope, k8s, $filter, contextService
         });
     }
 
+    $scope.cancelCreateBtn = function () {
+        $scope.newRc = false;
+    }
+
+    $scope.cancelBtn = function (id, rc) {
+        for (var i = 0; i < $scope.rc.length; i++) {
+            if (("rc_" + i) == id && rc) {
+                $scope[id] = true;
+                $scope.pStr = $filter('json')(rc);
+            }
+            else {
+                $scope["rc_" + i] = false;
+            }
+        }
+    }
+
     $scope.start = function (rc) {
         alert("Start invoked for:".concat(rc));
     }

@@ -14,18 +14,18 @@
    limitations under the License.
 -->
 <section>
-        <div class="row">
-                <div class="col-sm-4"><b>Name</b></div>
-                <div class="col-sm-4"><b>User</b></div>
-                <div class="col-sm-4"><b>Endpoint</b></div>                             
+        <div class="row table-row">
+                <div class="col-sm-4 border-right"><b>Name</b></div>
+                <div class="col-sm-4  border-right"><b>User</b></div>
+                <div class="col-sm-4"><b>Endpoint</b></div>
         </div>
-        <div class="row">
-                <div ng-repeat="c in contexts">
-                        <div ng-class="{gray: hover}" ng-mouseenter="hover=true" ng-mouseleave="hover=false" ng-click="showcontext=!showcontext" class="row">
+        <div class="row table-row">
+                <div ng-repeat="c in contexts" class="width-full border-bottom">
+                        <div  ng-class="{gray: hover}" ng-mouseenter="hover=true" ng-mouseleave="hover=false" ng-click="showcontext=!showcontext" >
                                 <div class="col-sm-4" ng-show=true>{{c.name}}</div>
                                 <div class="col-sm-4" ng-show=true>{{c.user}}</div>
-                                <div class="col-sm-4" ng-show=true>{{c.cluster.server}}</div>                        
-                                <div class="col-sm-12" ng-show=showcontext>
+                                <div class="col-sm-4" ng-show=true>{{c.cluster.server}}</div>
+                            <div class="col-sm-12" ng-show=showcontext>
                                         <pre>{{c| json}}</pre>
                                 </div>
                         </div>

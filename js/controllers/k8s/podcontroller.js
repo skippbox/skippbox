@@ -162,6 +162,22 @@ kuiApp.controller("podController", function ($rootScope, $scope, k8s, $filter, c
         alert("Stop invoked.".concat(pod));
     }
 
+    $scope.cancelCreateBtn = function () {
+        $scope.newPod = false;
+    }
+
+    $scope.cancelBtn = function (id, pod) {
+        for (var i = 0; i < $scope.pods.length; i++) {
+            if (("pod_" + i) == id && pod) {
+                $scope[id] = true;
+                $scope.pStr = $filter('json')(pod);
+            }
+            else {
+                $scope["pod_" + i] = false;
+            }
+        }
+    }
+
     $scope.delete = function (pod) {
         contextService.getConnection().pods.delete(pod, function (err) {
             if (err) {
@@ -172,4 +188,6 @@ kuiApp.controller("podController", function ($rootScope, $scope, k8s, $filter, c
             }
         });
     }
+
+
 });

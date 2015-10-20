@@ -156,6 +156,22 @@ kuiApp.controller("servicesController", function ($rootScope, $scope, k8s, $filt
 
     refreshServices();
 
+
+    $scope.cancelCreateBtn = function () {
+        $scope.newService = false;
+    }
+    $scope.cancelBtn = function (id, service) {
+        for (var i = 0; i < $scope.services.length; i++) {
+            if (("service_" + i) == id && service) {
+                $scope[id] = true;
+                $scope.pStr = $filter('json')(service);
+            }
+            else {
+                $scope["service_" + i] = false;
+            }
+        }
+    }
+
     $scope.start = function (service) {
         alert("Start invoked for:".concat(service));
     }

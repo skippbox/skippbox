@@ -24,7 +24,7 @@
                 <textarea id="jsonTextarea1" ng-model="npStr" class="ng-pristine ng-valid"
                         ></textarea>
                 <br/>
-                <button class="btn-small" type="cancel"><i class="glyphicon glyphicon-remove"> </i></button>
+                <a class="cancel_button" ng-click="cancelCreateBtn();"><i class="glyphicon glyphicon-remove"> </i></a>
                 <button class="btn-small" type="submit"><i class="glyphicon glyphicon-ok"> </i></button>
 
             </form>
@@ -45,7 +45,7 @@
                                       ng-disabled="!editPressed"></textarea>
                         <span ng-show="editPressed">
                         <br/>
-                        <button class="btn-small" type="cancel"><i class="glyphicon glyphicon-remove"> </i></button>
+                        <a class="cancel_button"  ng-click="cancelBtn();"><i class="glyphicon glyphicon-remove"> </i></a>
                         <button class="btn-small" type="submit"><i class="glyphicon glyphicon-ok"> </i></button>
                             </span>
                             <!--<json child="p" default-collapsed="true" type="object"></json>-->

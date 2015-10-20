@@ -46,3 +46,22 @@ body {
 .ng-table th.filter,  .ng-table th.filter .input-filter  { display:none;}
 
 .table  { margin:20px 0px ;}
+.table-row{ border: 1px solid #ddd;}
+
+.table-row:nth-child(1){   border: 1px solid #ddd;
+    border-bottom: 0px none;
+    padding: 0px 0px;
+    line-height: 30px;  }
+.border-right{ border-right : 1px solid #ddd}
+.border-bottom{ border-bottom: 1px solid #ddd;
+    line-height: 28px; }
+.width-full { width:100%; display:inline-block; }
+.border-bottom:last-child{ border-bottom : none;}
+
+.cancel_button {
+display: inline-block;
+background: #E2E2E2;
+padding: 2px 7px;
+border: 1px solid #9E9E9E;
+border-radius: 3px;
+}
