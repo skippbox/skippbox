@@ -13,6 +13,9 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 -->
+
+        <div class="row">
+            <div class="col-sm-12">
 <div ng-controller="kuiController">
     <h2>My Kubernetes</h2>
 
@@ -24,11 +27,37 @@
 
     <hr/>
 </div>
-<h2> Pods </h2>
-<div class="row" ng-include src="'./views/k8s/pods.html'"></div>
-<h2> Services </h2>
-<div class="row" ng-include src="'./views/k8s/services.html'"></div>
-<h2> Replication Controllers </h2>
+            </div>
+        </div>
 
-<div class="row" ng-include src="'./views/k8s/rc.html'"></div>
+
+<div class="row">
+    <div class="col-sm-12">
+<h2> Pods </h2>
+        <div ng-include src="'./views/k8s/pods.html'"></div>
+        </div>
+    </div>
+
+
+
+<div class="row">
+    <div class="col-sm-12">
+<h2> Services </h2>
+        <div ng-include src="'./views/k8s/services.html'"></div>
+    </div>
+</div>
+
+
+
+
+
+<div class="row">
+    <div class="col-sm-12">
+        <h2> Replication Controllers </h2>
+        <div  ng-include src="'./views/k8s/rc.html'"></div>
+    </div>
+</div>
+
+
+
 
