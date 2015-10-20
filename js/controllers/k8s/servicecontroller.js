@@ -114,10 +114,15 @@ kuiApp.controller("servicesController", function ($rootScope, $scope, k8s, $filt
         }
     }, true);
 
-    $scope.createService = function (npStr) {
+    $scope.createService = function (npStr, yaml) {
 
-        var newservice = JSON.parse(npStr);
-
+        var newservice = null;
+        if (!yaml)
+            newservice = JSON.parse(npStr);
+        else {
+            var yamllib = require('js-yaml');
+            newservice = yamllib.load(npStr);
+        }
         contextService.getConnection().services.create(newservice, function (err, p1) {
             if (!err) {
                 console.log('service: ' + JSON.stringify(p1));

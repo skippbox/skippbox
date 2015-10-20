@@ -110,9 +110,15 @@ kuiApp.controller("podController", function ($rootScope, $scope, k8s, $filter, c
         }
     }, true);
 
-    $scope.createPod = function (npStr) {
+    $scope.createPod = function (npStr, yaml) {
 
-        var newpod = JSON.parse(npStr);
+        var newpod = null;
+        if (!yaml)
+            newpod = JSON.parse(npStr);
+        else {
+            var yamllib = require('js-yaml');
+            newpod = yamllib.load(npStr);
+        }
 
         contextService.getConnection().pods.create(newpod, function (err, p1) {
             if (!err) {

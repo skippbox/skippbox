@@ -110,10 +110,15 @@ kuiApp.controller("rcController", function ($rootScope, $scope, k8s, $filter, co
         }
     }, true);
 
-    $scope.createRc = function (npStr) {
+    $scope.createRc = function (npStr, yaml) {
 
-        var newrc = JSON.parse(npStr);
-
+        var newrc = null;
+        if (!yaml)
+            newrc = JSON.parse(npStr);
+        else {
+            var yamllib = require('js-yaml');
+            newrc = yamllib.load(npStr);
+        }
         contextService.getConnection().replicationControllers.create(newrc, function (err, p1) {
             if (!err) {
                 console.log('rc: ' + JSON.stringify(p1));
