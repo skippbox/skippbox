@@ -22,7 +22,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand">kUI</a>
+            <a class="navbar-brand"  href="#">kUI</a>
         </div>
         <!--/.navbar-collapse -->
         <div class="collapse navbar-collapse">
@@ -63,7 +63,7 @@
 
 <div class="row">
     <div class="col-sm-12"></div>
-<select class="btn-info header_dropdown" name="singleSelect" ng-model="selected_context" ng-change="changeContext(selected_context)" ng-init="contexts[0].name">
+<select class="btn-info header_dropdown" name="singleSelect" ng-model="selected_context" ng-change="changeContext(selected_context)">
     <option ng-repeat="c in contexts" value="{{c.name}}">{{c.name}}</option>
 </select>
     </div>

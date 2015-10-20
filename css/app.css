@@ -83,3 +83,5 @@ float: right;
 margin: 20px 0px;
 padding: 6px 10px;
 }
+.addBtn-row  {  display: inline-block;
+margin: 0px 0px 16px; }
