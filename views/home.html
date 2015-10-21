@@ -13,6 +13,51 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 -->
-<h2>My Kubernetes</h2>
-<h3>Just a place holder, we might search for tags here</h3>
-<input type="text" placeholder="Search Tags" class="form-control" data-ng-model="search">
+
+        <div class="row">
+            <div class="col-sm-12">
+<div ng-controller="kuiController">
+    <h2>My Kubernetes</h2>
+
+    <h3>Just a place holder, we might search for tags here</h3>
+
+    <form ng-submit="searchString(search)">
+        <input type="text" placeholder="Search Tags" class="form-control" data-ng-model="search">
+    </form>
+
+    <hr/>
+</div>
+            </div>
+        </div>
+
+
+<div class="row">
+    <div class="col-sm-12">
+<h2> Pods </h2>
+        <div ng-include src="'./views/k8s/pods.html'"></div>
+        </div>
+    </div>
+
+
+
+<div class="row">
+    <div class="col-sm-12">
+<h2> Services </h2>
+        <div ng-include src="'./views/k8s/services.html'"></div>
+    </div>
+</div>
+
+
+
+
+
+<div class="row">
+    <div class="col-sm-12">
+        <h2> Replication Controllers </h2>
+        <div  ng-include src="'./views/k8s/rc.html'"></div>
+    </div>
+</div>
+
+
+
+

@@ -22,30 +22,50 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Kui</a>
+            <a class="navbar-brand" href="#">kUI</a>
         </div>
         <!--/.navbar-collapse -->
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li data-ng-class="{active:isActive('/')}">
-                    <a href="#/">Home</a>
-                </li>
-                <li data-ng-class="{active:isActive('/pods')}" >
+                <!--<li data-ng-class="{active:isActive('/')}">-->
+                <!--<a href="#/">Home</a>-->
+                <!--</li>-->
+                <li data-ng-class="{active:isActive('/pods')}">
                     <a href="#/pods">Pods</a>
                 </li>
-                <li data-ng-class="{active:isActive('/services')}" >
+                <li data-ng-class="{active:isActive('/services')}">
                     <a href="#/services">Services</a>
                 </li>
-                <li data-ng-class="{active:isActive('/rc')}" >
+                <li data-ng-class="{active:isActive('/rc')}">
                     <a href="#/rc">Replication Controllers</a>
                 </li>
-                <li data-ng-class="{active:isActive('/rc')}" >
+                <li data-ng-class="{active:isActive('/rc')}">
                     <a href="#/context">Contexts</a>
                 </li>
                 <li data-ng-class="{active:isActive('/rc')}" >
                     <a href="#/store">Store</a>
                 </li>
+                <li data-ng-class="{active:isActive('/rc')}">
+                    <a ng-click="refresh()"><i class="fa fa-refresh"></i> </a>
+                </li>
             </ul>
+
+            <div class="pull-right header-search">
+                <input type="text" ng-model="search" placeholder="search" ng-change="searchString(search);">
+            </div>
+
+
         </div>
+
     </div>
+</div>
+
+
+<div class="row">
+    <div class="col-sm-12"></div>
+    <select class="btn-info header_dropdown" name="singleSelect" ng-model="selected_context"
+            ng-change="changeContext(selected_context)">
+        <option ng-repeat="c in contexts" value="{{c.name}}">{{c.name}}</option>
+    </select>
+</div>
 </div>

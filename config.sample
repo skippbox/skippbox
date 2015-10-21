@@ -1,11 +1,11 @@
 apiVersion: v1
 clusters:
 - cluster:
-    server: http://127.0.0.1
+    server: http://127.0.0.1:8080
   name: default
 - cluster:
     insecure-skip-tls-verify: true
-    server: https://45.55.47.37:6443
+    server: https://159.203.97.80:6443
   name: kmachine
 contexts:
 - context:
@@ -20,7 +20,7 @@ contexts:
     cluster: kmachine
     user: kuser
   name: kmachine
-current-context: ""
+current-context: kmachine
 kind: Config
 preferences: {}
 users:

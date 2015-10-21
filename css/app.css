@@ -17,7 +17,7 @@ body {
     padding-top: 50px;
 }
 #container {
-    padding: 39px 0px;
+    padding:0px 0px;
 }
 .gray {
   color: gray;
@@ -42,3 +42,46 @@ body {
     height: 149px;
     padding-right: 21px;
 }
+
+.ng-table th.filter,  .ng-table th.filter .input-filter  { display:none;}
+
+.table  { margin:20px 0px ;}
+.table-row{ border: 1px solid #ddd;}
+
+.table-row:nth-child(1){   border: 1px solid #ddd;
+    border-bottom: 0px none;
+    padding: 0px 0px;
+    line-height: 30px;  }
+.border-right{ border-right : 1px solid #ddd}
+.border-bottom{ border-bottom: 1px solid #ddd;
+    line-height: 28px; }
+.width-full { width:100%; display:inline-block; }
+.border-bottom:last-child{ border-bottom : none;}
+
+.cancel_button {
+display: inline-block;
+background: #E2E2E2;
+padding: 2px 7px;
+border: 1px solid #9E9E9E;
+border-radius: 3px;
+}
+.click_item { cursor:pointer;}
+
+.header-search { display: inline-block;
+    float: right;
+    margin: 10px 0px;
+    background: #000; }
+
+.header-search input {
+background: rgba(255, 255, 255, 1);
+border: 1px solid rgba(134, 134, 134, 1);
+box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.74) inset; padding: 4px 6px;
+}
+
+.header_dropdown {
+float: right;
+margin: 20px 0px;
+padding: 6px 10px;
+}
+.addBtn-row  {  display: inline-block;
+margin: 0px 0px 16px; }
