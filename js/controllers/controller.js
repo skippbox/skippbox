@@ -23,7 +23,7 @@ kuiApp.controller("kuiController", function ($rootScope, $scope, $location, $rou
     $scope.users = config.Users;
 
     if ($scope.contexts) {
-        $scope.selected_context = $scope.contexts[0];
+        $scope.selected_context = $scope.contexts[0].name;
         contextService.setSelectedURL($scope.contexts[0]);
     }
 
