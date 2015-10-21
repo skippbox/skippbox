@@ -1,0 +1,36 @@
+<!--
+   Copyright 2015 Skippbox, Ltd
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<section>
+
+    <div  class="label-div" ng-repeat="(k, v) in labelJson">
+        <div class="label_text"><span style="background: lightblue">{{k}} </span> : <span style="background: lightskyblue">{{v}}</span>
+            <i ng-click="removeLable(k)" class="fa fa-close"></i>
+        </div>
+    </div>
+
+    <div class="labelSection">
+        <a ng-click="showLabelAdd();" class="addLabel_btn"><i class="fa fa-plus"></i></a>
+
+        <div class="addLablel_div" ng-if="addLablelDiv">
+            <form class="">
+                <input class="form-control" type="text" ng-model="newLabel"/>
+                <button class="btn btn-mini" ng-click="addLabel(newLabel);">+</button>
+                <br/>
+            </form>
+        </div>
+    </div>
+
+</section>

@@ -160,7 +160,7 @@ kuiApp.controller("podController", function ($rootScope, $scope, k8s, $filter, c
 
     function listener(data) {
         var messageObj = data;
-        if (data && (['ADDED', 'DELETED'].indexOf(data.type) != -1)) {
+        if (data && (['ADDED', 'DELETED', 'MODIFIED'].indexOf(data.type) != -1)) {
             refreshPods();
         }
     }

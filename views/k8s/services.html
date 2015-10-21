@@ -59,13 +59,17 @@
                 <span> {{s.service.metadata.namespace}}   </span>  </td>
             <td  title="'Labels'" filter="{ name: 'text'}" sortable="'service.metadata.labels'">
 
-                <span  class="click_item"  ng-hide="editing" ng-click="editing = true; setLabelStr(s.service.metadata.labels);">{{s.service.metadata.labels}}</span>
+                <span  class="click_item"  ng-hide="editing" ng-click="editing = true; setLabelStr(s.service.metadata.labels);">
+                    {{s.service.metadata.labels}}
+                </span>
 
-                <form ng-show="editing" ng-submit="editing = false;updateLabel(labelStr, s.service.metadata.name);">
-                    <textarea id="jsonLabelArea" ng-model="labelStr" class="ng-pristine ng-valid form-control"
-                              ng-required></textarea>
+                <form ng-if="editing" ng-submit="editing = false;updateLabel(labelStr, s.service.metadata.name);">
+                    <!--<textarea id="jsonLabelArea" ng-model="labelStr" class="ng-pristine ng-valid form-control"-->
+                              <!--ng-required></textarea>-->
+                    <labelformat  labeltext="labelStr"/>
+
                     <br/>
-                    <button class="btn-small" type="cancel"><i class="glyphicon glyphicon-remove"> </i></button>
+                    <a class="btn-small" ng-click="hideLabelForm()"><i class="glyphicon glyphicon-remove"> </i></a>
                     <button class="btn-small" type="submit"><i class="glyphicon glyphicon-ok"> </i></button>
                 </form>
             </td>

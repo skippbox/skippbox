@@ -164,7 +164,7 @@ kuiApp.controller("rcController", function ($rootScope, $scope, k8s, $filter, co
 
     function listener(data) {
         var messageObj = data;
-        if (data && (['ADDED', 'DELETED'].indexOf(data.type) != -1)) {
+        if (data && (['ADDED', 'DELETED', 'MODIFIED'].indexOf(data.type) != -1)) {
             if ($scope.loaded)
                 refreshRcs();
         }

@@ -61,8 +61,9 @@
                 <td title="'Labels'" filter="{ labels: 'text'}" sortable="'pod.metadata.name'">
                     <span  class="click_item"  ng-hide="editingLabel" ng-click="editingLabel = true; setLabelStr(r.rc.metadata.labels);">{{r.rc.metadata.labels}}</span>
 
-                    <form ng-show="editingLabel" ng-submit="editingLabel = false;updateLabel(labelStr, r.rc.metadata.name);">
-                        <textarea id="jsonLabelArea" ng-model="labelStr" class="ng-pristine ng-valid form-control"  ng-required></textarea>
+                    <form ng-if="editingLabel" ng-submit="editingLabel = false;updateLabel(labelStr, r.rc.metadata.name);">
+                        <labelformat  labeltext="labelStr"/>
+                        <!--<textarea id="jsonLabelArea" ng-model="labelStr" class="ng-pristine ng-valid form-control"  ng-required></textarea>-->
                         <br/>
                         <button class="btn-small" type="cancel"><i class="glyphicon glyphicon-remove"> </i></button>
                         <button class="btn-small" type="submit"><i class="glyphicon glyphicon-ok"> </i></button>                    </form>

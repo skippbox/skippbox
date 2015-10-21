@@ -14,7 +14,7 @@
  limitations under the License.
  */
 
-kuiApp.controller("servicesController", function ($rootScope, $scope, k8s, $filter, contextService, NgTableParams) {
+kuiApp.controller("servicesController", function ($rootScope, $scope, k8s, $filter, contextService, NgTableParams, $route) {
     var self = this;
 
 //    $scope.$watch($rootScope.client, function () {
@@ -78,7 +78,6 @@ kuiApp.controller("servicesController", function ($rootScope, $scope, k8s, $filt
     }
 
     $scope.updateLabel = function (l, p) {
-
         contextService.getConnection().services.get(p, function (err, p1) {
             if (!err) {
                 p1.metadata.labels = JSON.parse(l);
@@ -94,9 +93,14 @@ kuiApp.controller("servicesController", function ($rootScope, $scope, k8s, $filt
             }
         });
 
+        $scope.editing = false;
         $scope.labelStr = null;
     }
 
+    $scope.hideLabelForm = function() {
+        $scope.editing = false;
+        $route.reload();
+    }
     $scope.$watch('jsonData', function (json) {
         $scope.pStr = $filter('json')(json);
     }, true);
@@ -163,17 +167,13 @@ kuiApp.controller("servicesController", function ($rootScope, $scope, k8s, $filt
 
     var ws = contextService.getWebSocket('services')
 
-    ws.onopen = function () {
-        console.log("Socket has been opened!");
-    };
-
     ws.onmessage = function (message) {
         listener(JSON.parse(message.data));
     };
 
     function listener(data) {
         var messageObj = data;
-        if (data && (['ADDED', 'DELETED'].indexOf(data.type) != -1)) {
+        if (data && (['ADDED', 'DELETED', 'MODIFIED'].indexOf(data.type) != -1)) {
             refreshServices();
         }
     }
