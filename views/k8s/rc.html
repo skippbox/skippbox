@@ -45,7 +45,9 @@
                         <form ng-show="{{r.id}} && pStr"
                               ng-submit="updateRc(r.id, pStr, r.rc.metadata.name);">
                             <textarea id="jsonTextarea" ng-model="pStr" class="ng-pristine ng-valid form-control edit_textarea"
-                                      ng-disabled="!editPressed"></textarea>
+                                      ng-disabled="!editPressed"
+                            placeholder="Replication Controller Definition in JSON or YAML format." >
+                            </textarea>
                         <span ng-show="editPressed">
                         <br/>
                         <a class="cancel_button"  ng-click="cancelBtn();"><i class="glyphicon glyphicon-remove"> </i></a>
@@ -58,17 +60,6 @@
                 <td title="'Namespace'" filter="{ namespace: 'text'}" sortable="'rc.metadata.namespace'">
                      <span>{{r.rc.metadata.namespace}}</span>
                 </td>
-                <td title="'Labels'" filter="{ labels: 'text'}" sortable="'pod.metadata.name'">
-                    <span  class="click_item"  ng-hide="editingLabel" ng-click="editingLabel = true; setLabelStr(r.rc.metadata.labels);">{{r.rc.metadata.labels}}</span>
-
-                    <form ng-if="editingLabel" ng-submit="editingLabel = false;updateLabel(labelStr, r.rc.metadata.name);">
-                        <labelformat  labeltext="labelStr"/>
-                        <!--<textarea id="jsonLabelArea" ng-model="labelStr" class="ng-pristine ng-valid form-control"  ng-required></textarea>-->
-                        <br/>
-                        <button class="btn-small" type="cancel"><i class="glyphicon glyphicon-remove"> </i></button>
-                        <button class="btn-small" type="submit"><i class="glyphicon glyphicon-ok"> </i></button>                    </form>
-
-                </td>
                 <td title="'Replicas'" filter="{ replicas: 'text'}" sortable="'rc.spec.replicas'">
                     <span  class="click_item"   ng-hide="editing" ng-click="editing = true">{{r.rc.spec.replicas}}</span>
                     <form ng-show="editing" ng-submit="editing = false;updateReplica(replicaCnt, r.rc.metadata.name);">
@@ -77,18 +68,22 @@
                         <button class="btn-small btn-success" type="submit"><i class="glyphicon glyphicon-ok"> </i></button>
                     </form>
                 </td>
+                <td title="'Labels'" filter="{ labels: 'text'}" sortable="'rc.metadata.labels'">
+                    <i style="float: right;font-size: 14px" ng-click="editingLabel = !editingLabel;" class="fa fa-magic click_item"> </i>
+                    <br/>
+                    <labelformat json="r.rc.metadata.labels" fn="updateLabel" name="r.rc.metadata.name" rw="editingLabel"/>
+
+
+                </td>
+
                 <td title="'Actions'">
                     <a ng-click="editPressed=!editPressed;editRc(r.id, r.rc);" class="btn btn-info"
                        title="Edit"> <i
                             class="fa fa-edit"></i></a>
-                    <!--<a ng-click="start(r.metadata.name);showrc=!showrc" class="btn btn-info" title="start"> <i-->
-                    <!--class="fa fa-play"></i></a>-->
-                    <!--<a ng-click="stop(r.metadata.name);showrc=!showrc" class="btn btn-info" title="stop"> <i class="fa fa-stop"></i></a>-->
-                    <a ng-click="delete(r.rc.metadata.name);showrc=!showrc" class="btn btn-warning" title="delete"> <i
+                    <a ng-click="delete(r.rc.metadata.name);" class="btn btn-warning" title="delete"> <i
                             class="fa fa-trash"></i></a>
                 </td>
             </tr>
         </table>
     </div>
-
 </section>

@@ -20,18 +20,30 @@ angular.module('LabelFormat', [])
         return {
             restrict: 'E',
             scope: {
-                message: '=?labeltext'
+                labelJson: '=?json',
+                message: '=?labeltext',
+                updateLabelFn: '=fn',
+                key: '=name',
+                rw: '=?rw'
+
             },
             templateUrl: 'views/partial/labelformat.html',
             link: function (scope, elem, attrs) {
                 scope.addLablelDiv = false;
+                scope.showThis = true;
+
+
                 if (scope.message) {
                     scope.labelJson = JSON.parse(scope.message);
                 }
 
+                if (!scope.labelJson) {
+                    scope.labelJson = {}
+                }
+
                 scope.removeLable = function (k) {
                     delete scope.labelJson[k];
-                    scope.$parent['labelStr'] = JSON.stringify(scope.labelJson);
+                    scope.updateLabelFn(JSON.stringify(scope.labelJson), scope.key);
                 }
 
                 scope.showLabelAdd = function () {
@@ -42,7 +54,7 @@ angular.module('LabelFormat', [])
                     var k = newLabel.substring(0, newLabel.indexOf(':'));
                     var v = newLabel.substring(newLabel.indexOf(':') + 1);
                     scope.labelJson[k] = v;
-                    scope.$parent['labelStr'] = JSON.stringify(scope.labelJson);
+                    scope.updateLabelFn(JSON.stringify(scope.labelJson), scope.key);
                 }
             }
         }

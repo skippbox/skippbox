@@ -48,7 +48,7 @@ kuiApp.controller("podController", function ($rootScope, $scope, k8s, $filter, c
             }
             return false;
         });
-        self.tableParams = new NgTableParams({ count: 5}, { counts: [5, 10, 25], data: $scope.filteredItems});
+        self.tableParams = new NgTableParams({ count: 5, total: $scope.filteredItems.length, page: 1}, { counts: [5, 10, 25], data: $scope.filteredItems});
     });
 
 
@@ -61,13 +61,15 @@ kuiApp.controller("podController", function ($rootScope, $scope, k8s, $filter, c
                 for (var i = 0; i < pd.items.length; i++) {
                     $scope.pods.push({pod: pd.items[i], id: "pod_" + i})
                 }
-                self.tableParams = new NgTableParams({ count: 5}, { counts: [5, 10, 25], data: $scope.pods});
+                self.tableParams = new NgTableParams({ count: 5, total: $scope.pods.length, page: 1}, { counts: [5, 10, 25], data: $scope.pods});
+
             }
             else {
                 console.log("Error fetching pods: " + err);
             }
         });
         $scope.podsReady = true;
+
     }
 
     $scope.setLabelStr = function (l) {
@@ -119,6 +121,7 @@ kuiApp.controller("podController", function ($rootScope, $scope, k8s, $filter, c
                 alert(JSON.stringify(err.message.message));
             }
             $scope.newPod = false;
+            $scope.cancelCreateBtn();
         });
     }
 

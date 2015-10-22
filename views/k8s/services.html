@@ -44,7 +44,8 @@
                     <form ng-show="{{s.id}} && pStr"
                           ng-submit="updateService(s.id, pStr, s.service.metadata.name);">
                         <textarea id="jsonTextarea" ng-model="pStr" class="ng-pristine ng-valid form-control edit_textarea"
-                                  ng-disabled="!editPressed"></textarea>
+                                  ng-disabled="!editPressed"
+                                  placeholder="Replication Controller Definition in JSON or YAML format." ></textarea>
                         <span ng-show="editPressed">
                         <br/>
                          <a class="cancel_button"  ng-click="cancelBtn();"><i class="glyphicon glyphicon-remove"> </i></a>
@@ -57,25 +58,15 @@
             </td>
             <td  title="'Namespace'" filter="{ name: 'text'}" sortable="'service.metadata.namespace'">
                 <span> {{s.service.metadata.namespace}}   </span>  </td>
-            <td  title="'Labels'" filter="{ name: 'text'}" sortable="'service.metadata.labels'">
-
-                <span  class="click_item"  ng-hide="editing" ng-click="editing = true; setLabelStr(s.service.metadata.labels);">
-                    {{s.service.metadata.labels}}
-                </span>
-
-                <form ng-if="editing" ng-submit="editing = false;updateLabel(labelStr, s.service.metadata.name);">
-                    <!--<textarea id="jsonLabelArea" ng-model="labelStr" class="ng-pristine ng-valid form-control"-->
-                              <!--ng-required></textarea>-->
-                    <labelformat  labeltext="labelStr"/>
-
-                    <br/>
-                    <a class="btn-small" ng-click="hideLabelForm()"><i class="glyphicon glyphicon-remove"> </i></a>
-                    <button class="btn-small" type="submit"><i class="glyphicon glyphicon-ok"> </i></button>
-                </form>
-            </td>
-
             <td  title="'ClusterIP'" filter="{ name: 'text'}" sortable="'service.spec.clusterIP'">
                 <span>  {{s.service.spec.clusterIP}} </span> </td>
+
+            <td  title="'Labels'" filter="{ name: 'text'}" sortable="'service.metadata.labels'">
+                <i style="float: right;font-size: 14px" ng-click="editing = !editing;" class="fa fa-magic click_item"> </i>
+                <br/>
+                <labelformat  json="s.service.metadata.labels" fn="updateLabel" name="s.service.metadata.name" rw="editing"/>
+            </td>
+
 
             <td  title="'Actions'">
                 <a ng-click="editPressed=!editPressed;editService(s.id, s.service);" class="btn btn-info"
