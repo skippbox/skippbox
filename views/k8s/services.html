@@ -40,10 +40,10 @@
         <tr ng-repeat="s in $data ">
             <td  title="'Name'" filter="{ name: 'text'}" sortable="'service.metadata.name'">
                <span  class="click_item"  ng-click="showservice=!showservice;editService(s.id, s.service);">{{s.service.metadata.name}}</span>
-                <div class="col-sm-12" ng-if="(showservice || editPressed) && pStr">
+                <div class="col-sm-12 " ng-if="(showservice || editPressed) && pStr">
                     <form ng-show="{{s.id}} && pStr"
                           ng-submit="updateService(s.id, pStr, s.service.metadata.name);">
-                        <textarea id="jsonTextarea" ng-model="pStr" class="ng-pristine ng-valid form-control"
+                        <textarea id="jsonTextarea" ng-model="pStr" class="ng-pristine ng-valid form-control edit_textarea"
                                   ng-disabled="!editPressed"></textarea>
                         <span ng-show="editPressed">
                         <br/>

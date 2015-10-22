@@ -44,7 +44,7 @@
                     <div class="edit_row col-sm-12" ng-if="(showrc || editPressed) && pStr">
                         <form ng-show="{{r.id}} && pStr"
                               ng-submit="updateRc(r.id, pStr, r.rc.metadata.name);">
-                            <textarea id="jsonTextarea" ng-model="pStr" class="ng-pristine ng-valid form-control"
+                            <textarea id="jsonTextarea" ng-model="pStr" class="ng-pristine ng-valid form-control edit_textarea"
                                       ng-disabled="!editPressed"></textarea>
                         <span ng-show="editPressed">
                         <br/>

@@ -15,22 +15,24 @@
 -->
 <section>
 
-    <div  class="label-div" ng-repeat="(k, v) in labelJson">
-        <div class="label_text"><span style="background: lightblue">{{k}} </span> : <span style="background: lightskyblue">{{v}}</span>
-            <i ng-click="removeLable(k)" class="fa fa-close"></i>
-        </div>
-    </div>
-
     <div class="labelSection">
-        <a ng-click="showLabelAdd();" class="addLabel_btn"><i class="fa fa-plus"></i></a>
-
-        <div class="addLablel_div" ng-if="addLablelDiv">
+        <div class="addLablel_div">
             <form class="">
                 <input class="form-control" type="text" ng-model="newLabel"/>
-                <button class="btn btn-mini" ng-click="addLabel(newLabel);">+</button>
+                <button class="btn add_label_btn1 btn-mini" ng-click="addLabel(newLabel);">+</button>
                 <br/>
             </form>
         </div>
     </div>
+
+
+
+    <div  class="label-div" ng-repeat="(k, v) in labelJson">
+        <div class="label_text"><span style="">{{k}} </span> : <span style="">{{v}}</span>
+            <i ng-click="removeLable(k)" class="fa fa-close"></i>
+        </div>
+    </div>
+
+
 
 </section>
