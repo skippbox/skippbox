@@ -164,54 +164,53 @@ kuiApp.factory('appstore', function ($q) {
     timeout: 5000,
   });
 
-  github.authenticate({
-      type: "basic",
-      username: "runseb",
-      password: "BreiZh35!"
-  });
+  getCommits = function ( callback ) {
 
-  var getCommits = function () {
+    github.repos.getCommits({
+      user: "deis",
+      repo: "charts"
+    }, function(err, res) {
+           if (!err)
+            {
+                callback(err, res[0].sha);
+            }
+            else {
+                callback(err, null);
+            }
+        });
+  };
 
-      var deferred = $q.defer();
+  getRepo = function ( callback ) {
 
-      github.repos.getCommits({
-        user: "skippbox",
-        repo: "appstore"
+    github.repos.get({
+        user: "deis",
+        repo: "charts"
         }, function(err, res) {
-          deferred.resolve(res[0].sha);
+           if (!err)
+            {
+                callback(err, res);
+            }
+            else {
+                callback(err, null);
+            }
       });
-
-      return deferred.promise;
   };
 
-  var getRepo = function () {
-
-      var deferred = $q.defer();
-
-      github.repos.get({
-        user: "skippbox",
-        repo: "appstore"
-        }, function(err, git) {
-          deferred.resolve(git);
-          console.log(git);
-      });
-
-      return deferred.promise;
-  };
-
-  var getTree = function () {
-
-      var deferred = $q.defer();
+  getTree = function ( sha, callback ) {
 
       github.gitdata.getTree({
-        user: "skippbox",
-        repo: "appstore"
-        }, function(err, res) {
-          deferred.resolve(res);
-          console.log(res);
+        user: "deis",
+        repo: "charts",
+        sha: sha
+        }, function(err, tree) {
+           if (!err)
+            {
+                callback(err, tree);
+            }
+            else {
+                callback(err, null);
+            }
       });  
-
-      return deferred.promise;
   };
 
   return {

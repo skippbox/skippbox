@@ -15,28 +15,15 @@
 -->
 <section>
         <div class="row">
-          <b>Root sha</b></br>
-          {{sha}}
-        </div>
-        <div class="row">
                 <div class="col-sm-3"><b>Name</b></div>
-                <div class="col-sm-3"><b>Type</b></div>
-                <div class="col-sm-3"><b>URL</b></div>
+                <div class="col-sm-9"><b>URL</b></div>
         </div>
         <div class="row">
+                <div ng-repeat="t in tree.tree">
                         <div ng-class="{gray: hover}" ng-mouseenter="hover=true" ng-mouseleave="hover=false" ng-click="showstore=!showstore" class="row">
-                        	<div class="col-sm-3" ng-show=true>{{r.name}}</div>
-                        	<div class="col-sm-3" ng-show=true>{{r.full_name}}</div>
-                        	<div class="col-sm-3" ng-show=true>{{r.owner.url}}</div>
-                          <div class="col-sm-12" ng-show="showstore"><pre>{{r | json}}</pre></div>
-                        </div>
-        </div>
-        <div class="row">
-                <div ng-repeat="f in followers">
-                        <div ng-class="{gray: hover}" ng-mouseenter="hover=true" ng-mouseleave="hover=false" ng-click="showpod=!showpod" class="row">
-                          <div class="col-sm-3" ng-show=true>{{f.name}}</div>
-                          <div class="col-sm-3" ng-show=true>{{f.full_name}}</div>
-                          <div class="col-sm-3" ng-show=true>{{f.url}}</div>
+                          <div class="col-sm-3" ng-show=true>{{t.path}}</div>
+                          <div class="col-sm-9" ng-show=true>{{t.url}}</div>
+                          <div class="col-sm-12" ng-show="showstore"><pre>{{t | json}}</pre></div>
                         </div>
                 </div>
         </div>

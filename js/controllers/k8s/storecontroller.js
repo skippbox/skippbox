@@ -14,32 +14,36 @@
  limitations under the License.
  */
 
-kuiApp.controller("storeController", function ($rootScope, appstore) {
-  //GitHubApi = require("github");
-  //github = new GitHubApi({
-    // required
-  //  version: "3.0.0",
-    // optional
-  //  debug: true,
-  //  protocol: "https",
-  //  host: "api.github.com", // should be api.github.com for GitHub
-  //  pathPrefix: "", // for some GHEs; none for GitHub
-  //  timeout: 5000,
-  //});
+kuiApp.controller("storeController", function ( $scope, appstore) {
 
-  $rootScope.sha = appstore.getCommits();
-  //github.authenticate({
-  //    type: "basic",
-  //    username: "runseb",
-  //    password: "BreiZh35!"
-  //});
+  appstore.getCommits( function (e, sha) {
+        if (!e)
+        {
+            $scope.newsha = sha;
+            appstore.getTree( sha, function (e, tree) {
+              if (!e)
+                {
+                  $scope.tree = tree;
+                  $scope.$apply();
+                 }
+              else
+                  console.log( 'error' + JSON.stringify(e));
+            });
+        }
+        else
+            console.log( 'error' + JSON.stringify(e));
+    });
 
-  //github.repos.getCommits({
-  //      user: "runseb",
-  //      repo: "cloudstack"
-  //}, function(err, res) {
-  //      console.log(res[0].sha);
-  //      $rootScope.sha=res[0].sha;
-  //});
+  $scope.browse = function ( sha ) {
+    appstore.getTree( sha, function (e, tree) {
+      if (!e)
+          {
+            $scope.subtree = tree;
+            $scope.$apply();
+          }
+      else
+          console.log( 'error' + JSON.stringify(e));
+    })
+  }
 
 });
