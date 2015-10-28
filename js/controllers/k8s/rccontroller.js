@@ -14,6 +14,7 @@
  limitations under the License.
  */
 
+
 kuiApp.controller("rcController", function ($rootScope, $scope, k8s, $filter, contextService, NgTableParams) {
     var self = this;
 
@@ -50,7 +51,6 @@ kuiApp.controller("rcController", function ($rootScope, $scope, k8s, $filter, co
         });
         self.tableParams = new NgTableParams({ count: 5}, { counts: [5, 10, 25], data: $scope.filteredItems});
     });
-
 
     function refreshRcs() {
         contextService.getConnection().replicationControllers.get(function (err, rlist) {

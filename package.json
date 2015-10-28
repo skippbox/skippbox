@@ -23,6 +23,7 @@
   "license": "ASL v2",
   "dependencies": {
     "fs": "0.0.2",
+    "github": "^0.2.4",
     "js-yaml": "^3.4.2",
     "node-kubernetes-client": "~0.2.3"
   }

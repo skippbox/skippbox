@@ -149,3 +149,75 @@ kuiApp.factory('config', function ($filter) {
         Clusters: clusters
     };
 });
+
+kuiApp.factory('appstore', function ($q) {
+
+  GitHubApi = require("github");
+  github = new GitHubApi({
+    // required
+    version: "3.0.0",
+    // optional
+    debug: true,
+    protocol: "https",
+    host: "api.github.com", // should be api.github.com for GitHub
+    pathPrefix: "", // for some GHEs; none for GitHub
+    timeout: 5000,
+  });
+
+  getCommits = function ( callback ) {
+
+    github.repos.getCommits({
+      user: "deis",
+      repo: "charts"
+    }, function(err, res) {
+           if (!err)
+            {
+                callback(err, res[0].sha);
+            }
+            else {
+                callback(err, null);
+            }
+        });
+  };
+
+  getRepo = function ( callback ) {
+
+    github.repos.get({
+        user: "deis",
+        repo: "charts"
+        }, function(err, res) {
+           if (!err)
+            {
+                callback(err, res);
+            }
+            else {
+                callback(err, null);
+            }
+      });
+  };
+
+  getTree = function ( sha, callback ) {
+
+      github.gitdata.getTree({
+        user: "deis",
+        repo: "charts",
+        sha: sha
+        }, function(err, tree) {
+           if (!err)
+            {
+                callback(err, tree);
+            }
+            else {
+                callback(err, null);
+            }
+      });  
+  };
+
+  return {
+    getCommits: getCommits,
+    getRepo: getRepo,
+    getTree: getTree,
+  };
+});
+
+
