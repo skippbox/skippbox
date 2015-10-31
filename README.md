@@ -15,14 +15,14 @@ Run in development
 `kui` is a [NW.js](http://nwjs.io) application similar to Docker [Kitematic](https://kitematic.com) but aimed at Kubernetes operations.
 To test `kui`:
 
-* Install [nwjs](https://github.com/nwjs/nw.js)
+Install [nwjs](https://github.com/nwjs/nw.js)
 
-* Install the Node.js dependencies
+Install the Node.js dependencies
 
     $ npm install node-kubernets-client
     $ npm install fs
 
-* Then, with a k8s API endpoint at http://localhost:8080 do:
+Then, with a k8s API endpoint at http://localhost:8080 do:
 
     $ nw .
 
