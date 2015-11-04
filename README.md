@@ -17,13 +17,13 @@ To test `kui`:
 
 Install [nwjs](https://github.com/nwjs/nw.js)
 
-   $ npm install nw
+    $ npm install nw
 
 Clone the repository and install the application:
 
-   $ git clone https://github.com/skippbox/kui.git
-   $ cd kui
-   $ npm install
+    $ git clone https://github.com/skippbox/kui.git
+    $ cd kui
+    $ npm install
 
 Then start the UI with:
 
