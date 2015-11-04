@@ -168,3 +168,74 @@ textarea.edit_textarea{
     margin: -34px -9px !important;
     display: inline-block; }
 .labelSection  .form-control:focus, .labelSection  .form-control:hover{ outline:none; box-shadow: none}
+
+
+/*  ----- CUSTOM ----- */
+
+/* NAVBAR */
+.navbar {
+  background: #468EC6;
+  color: white;
+  border-bottom-color: #3F83B4;
+}
+.navbar-brand {
+  color: white !important;
+  font-weight: 600;
+}
+.navbar-inverse .navbar-toggle {
+  border: 0 !important;
+}
+.navbar-inverse .navbar-toggle:hover, .navbar-inverse .navbar-toggle:focus {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+}
+.navbar .nav li a {
+  color: white !important;
+  font-weight: 200;
+}
+.navbar .nav li a:hover {
+  opacity: 0.7;
+}
+.navbar .nav li.active a, .navbar .nav li.active a:hover{
+  background-color: rgba(255, 255, 255, 0.2) !important;
+}
+.header-search {
+  background: transparent;
+  height: 35px;
+  margin: 7px 0px;
+}
+.header-search input {
+  width: 100%;
+  height: 100%;
+  padding-left: 15px;
+  border: 0;
+  box-shadow: none;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 5px;
+  outline: none;
+  color: white;
+}
+.header-search input::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+    color: #fff;
+    opacity: 0.8;
+}
+
+.header-refresh {
+  height: 30px;
+  width: 30px;
+  color: white;
+  border-left: 1px solid rgba(255, 255, 255, 0.5);
+  padding-left: 15px;
+  margin-right: 15px;
+  margin-left: 5px;
+  margin-top: 10px;
+}
+.header-refresh a {
+  color: white;
+  font-size: 18px;
+}
+@media (max-width: 768px) {
+    .header-search {
+      float: left;
+      width: 90%;
+    }
+}

@@ -39,20 +39,21 @@
                 <li data-ng-class="{active:isActive('/rc')}">
                     <a href="#/rc">Replication Controllers</a>
                 </li>
-                <li data-ng-class="{active:isActive('/rc')}">
+                <li data-ng-class="{active:isActive('/context')}">
                     <a href="#/context">Contexts</a>
                 </li>
-                <li data-ng-class="{active:isActive('/rc')}" >
+                <li data-ng-class="{active:isActive('/store')}" >
                     <a href="#/store">Store</a>
-                </li>
-                <li data-ng-class="{active:isActive('/rc')}">
-                    <a ng-click="refresh()"><i class="fa fa-refresh"></i> </a>
                 </li>
             </ul>
 
             <div class="pull-right header-search">
                 <input type="text" ng-model="search" placeholder="search" ng-change="searchString(search);">
             </div>
+            <div class="pull-right header-refresh">
+              <a ng-click="refresh()"><i class="fa fa-refresh"></i> </a>
+            </div>
+
 
 
         </div>
