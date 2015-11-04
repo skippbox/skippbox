@@ -35,6 +35,7 @@ kuiApp.controller("storeController", function ( $scope, appstore) {
     });
 
   $scope.browse = function ( sha ) {
+    console.log('sha: '+sha);
     appstore.getTree( sha, function (e, tree) {
       if (!e)
           {

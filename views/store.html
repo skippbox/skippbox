@@ -15,16 +15,22 @@
 -->
 <section>
         <div class="row">
-                <div class="col-sm-3"><b>Name</b></div>
-                <div class="col-sm-9"><b>URL</b></div>
+                <div class="col-sm-2"><b>Name</b></div>
+                <div class="col-sm-8"><b>URL</b></div>
+                <div class="col-sm-2"><b>View</b></div>
         </div>
         <div class="row">
                 <div ng-repeat="t in tree.tree">
-                        <div ng-class="{gray: hover}" ng-mouseenter="hover=true" ng-mouseleave="hover=false" ng-click="showstore=!showstore" class="row">
-                          <div class="col-sm-3" ng-show=true>{{t.path}}</div>
-                          <div class="col-sm-9" ng-show=true>{{t.url}}</div>
+                          <div class="col-sm-2" ng-click=browse(t.sha) ng-click="showtree=!showtree">{{t.path}}</div>
+                          <div class="col-sm-8" >{{t.url}}</div>
+                          <div ng-class="{gray: hover}" ng-mouseenter="hover=true" ng-mouseleave="hover=false" ng-click="showstore=!showstore" class="col-sm-2" ng-show=true>View</div>
                           <div class="col-sm-12" ng-show="showstore"><pre>{{t | json}}</pre></div>
-                        </div>
+                          <div ng-repeat="tt in subtree.tree" ng-show="showtree">
+                              <div class="col-sm-2" ng-click=browse(tt.sha)>{{tt.path}}</div>
+                              <div class="col-sm-8" >{{tt.url}}</div>
+                              <div ng-class="{gray: hover}" ng-mouseenter="hover=true" ng-mouseleave="hover=false" ng-click="showtree=!showtree" class="col-sm-2" ng-show=true>View</div>
+                              <div class="col-sm-12" ng-show="showtree"><pre>{{tt | json}}</pre></div>
+                          </div>
                 </div>
         </div>
         </div>
