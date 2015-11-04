@@ -17,12 +17,15 @@ To test `kui`:
 
 Install [nwjs](https://github.com/nwjs/nw.js)
 
-Install the Node.js dependencies
+   $ npm install nw
 
-    $ npm install node-kubernets-client
-    $ npm install fs
+Clone the repository and install the application:
 
-Then, with a k8s API endpoint at http://localhost:8080 do:
+   $ git clone https://github.com/skippbox/kui.git
+   $ cd kui
+   $ npm install
 
-    $ nw .
+Then start the UI with:
+
+    $ npm start
 

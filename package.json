@@ -1,11 +1,18 @@
 {
-  "name": "kube-demo",
+  "name": "kui",
   "version": "0.0.1",
-  "description": "A demo of a NW base k8s UI",
+  "description": "A NWjs based k8s UI",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/skippbox/kui.git"
+  },
   "main": "index.html",
+  "scripts": {
+    "start": "nw"
+  },
   "keywords": [
-    "proto",
     "k8s",
+    "desktop",
     "nw.js"
   ],
   "window": {
@@ -20,7 +27,7 @@
     "position": "center"
   },
   "author": "Sebastien Goasguen",
-  "license": "ASL v2",
+  "license": "Apache-2.0",
   "dependencies": {
     "fs": "0.0.2",
     "github": "^0.2.4",
