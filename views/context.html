@@ -13,22 +13,16 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 -->
-<section>
-        <div class="row table-row">
-                <div class="col-sm-4 border-right"><b>Name</b></div>
-                <div class="col-sm-4  border-right"><b>User</b></div>
-                <div class="col-sm-4"><b>Endpoint</b></div>
-        </div>
-        <div class="row table-row">
-                <div ng-repeat="c in contexts" class="width-full border-bottom">
-                        <div  ng-class="{gray: hover}" ng-mouseenter="hover=true" ng-mouseleave="hover=false" ng-click="showcontext=!showcontext" >
-                                <div class="col-sm-4" ng-show=true>{{c.name}}</div>
-                                <div class="col-sm-4" ng-show=true>{{c.user}}</div>
-                                <div class="col-sm-4" ng-show=true>{{c.cluster.server}}</div>
-                            <div class="col-sm-12" ng-show=showcontext>
-                                        <pre>{{c| json}}</pre>
-                                </div>
-                        </div>
-                </div>
-        </div>
+<section ng-controller="contextController as contextc">
+  <div class="row">
+    <table ng-table="contextc.tableParams" class="table table-bordered table-responsive" show-filter="true">
+        <tr ng-repeat="c in $data ">
+          <td title="'Name'">{{c.name}}</td>
+          <td title="'User'">{{c.user}}</td>
+          <td title="'Endpoint'">{{c.cluster.server}}</td>
+          <td title="'JSON'"><pre>{{c | json}}</pre></td>
+
+        </tr>
+    </table>
+  </div>
 </section>

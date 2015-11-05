@@ -13,19 +13,14 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 -->
-<section>
-        <div class="row">
-                <div class="col-sm-3"><b>Name</b></div>
-                <div class="col-sm-9"><b>URL</b></div>
-        </div>
-        <div class="row">
-                <div ng-repeat="t in tree.tree">
-                        <div ng-class="{gray: hover}" ng-mouseenter="hover=true" ng-mouseleave="hover=false" ng-click="showstore=!showstore" class="row">
-                          <div class="col-sm-3" ng-show=true>{{t.path}}</div>
-                          <div class="col-sm-9" ng-show=true>{{t.url}}</div>
-                          <div class="col-sm-12" ng-show="showstore"><pre>{{t | json}}</pre></div>
-                        </div>
-                </div>
-        </div>
-        </div>
+<section ng-controller="storeController as storec">
+    <div class="row">
+      <table ng-table="storec.tableParams" class="table table-bordered table-responsive" show-filter="true">
+          <tr ng-repeat="t in $data ">
+            <td title="'Name'">{{t.path}}</td>
+            <td title="'Url'">{{t.url}}</td>
+            <td title="'JSON'"><pre>{{t | json}}</pre></td>
+          </tr>
+      </table>
+    </div>
 </section>
