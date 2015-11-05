@@ -22,7 +22,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">kUI</a>
+            <a class="navbar-brand" href="#"><img src="img/icon.png"/>kUI</a>
         </div>
         <!--/.navbar-collapse -->
         <div class="collapse navbar-collapse">
@@ -47,12 +47,15 @@
                 </li>
             </ul>
 
-            <div class="pull-right header-search">
-                <input type="text" ng-model="search" placeholder="search" ng-change="searchString(search);">
-            </div>
-            <div class="pull-right header-refresh">
-              <a ng-click="refresh()"><i class="fa fa-refresh"></i> </a>
-            </div>
+            <ul class="nav navbar-right">
+              <!-- <li class="header-refresh">
+                <a ng-click="refresh()"><i class="fa fa-refresh"></i> </a>
+              </li> -->
+              <li class="header-search">
+                  <input type="text" ng-model="search" placeholder="search" ng-change="searchString(search);">
+              </li>
+            </ul>
+
 
 
 
