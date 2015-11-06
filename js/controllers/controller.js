@@ -14,7 +14,7 @@
  limitations under the License.
  */
 
-kuiApp.controller("kuiController", function ($rootScope, $scope, $location, $route, config, contextService) {
+kuiApp.controller("kuiController", function ($rootScope, $scope, $location, $route, $filter, config, contextService) {
 
     $scope.headerSrc = "views/header.html";
 
@@ -37,7 +37,9 @@ kuiApp.controller("kuiController", function ($rootScope, $scope, $location, $rou
     }
 
     $scope.changeContext = function (context) {
-        contextService.setSelectedURL(context);
+        selectedContext = $filter('filter')($scope.contexts, {name: context})[0];
+        contextService.setSelectedURL(selectedContext);
+        $scope.refresh();
     }
 
     $scope.back = function () {

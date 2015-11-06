@@ -28,6 +28,7 @@ kuiApp.factory('contextService', function (config, $rootScope, $location, $filte
         selectedURL = selectedContext.cluster.server;
         protocol = selectedURL.substring(0, selectedURL.indexOf('//') - 1);
         host = selectedURL.substring(selectedURL.indexOf('//') + 2);
+        token = selectedContext.user.token;
         contextService.createConnection();
     }
 
@@ -40,6 +41,7 @@ kuiApp.factory('contextService', function (config, $rootScope, $location, $filte
             "protocol": contextService.getProtocol(),
             "host": contextService.getHost(),
             "version": "v1",
+            "token": contextService.getToken(),
             "namespace": "default"
         });
     }
@@ -58,6 +60,10 @@ kuiApp.factory('contextService', function (config, $rootScope, $location, $filte
 
     contextService.getHost = function () {
         return host;
+    }
+
+    contextService.getToken = function() {
+        return token;
     }
 
     return contextService;
