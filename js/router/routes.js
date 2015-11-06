@@ -17,20 +17,15 @@
 kuiApp.config(function ($routeProvider) {
     $routeProvider
        .when("/pods", {
-            templateUrl: "views/k8s/pods.html",
-            controller: "podController"
+            templateUrl: "views/k8s/pods.html"
         }).when("/services", {
-            templateUrl: "views/k8s/services.html",
-            controller: "servicesController"
+            templateUrl: "views/k8s/services.html"
         }).when("/rc", {
-            templateUrl: "views/k8s/rc.html",
-            controller: "rcController"
+            templateUrl: "views/k8s/rc.html"
         }).when("/context", {
-            templateUrl: "views/context.html",
-            controller: "contextController"
+            templateUrl: "views/context.html"
         }).when("/store", {
-            templateUrl: "views/store.html",
-            controller: "storeController"
+            templateUrl: "views/store.html"
         }).otherwise({
             redirectTo: '/pods'
         });

@@ -16,7 +16,7 @@
     "nw.js"
   ],
   "window": {
-    "toolbar": false,
+    "toolbar": true,
     "resizable": true,
     "width": 1000,
     "height": 800,
