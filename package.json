@@ -16,7 +16,7 @@
     "nw.js"
   ],
   "window": {
-    "toolbar": false,
+    "toolbar": true,
     "resizable": true,
     "width": 1000,
     "height": 800,
@@ -33,5 +33,8 @@
     "github": "^0.2.4",
     "js-yaml": "^3.4.2",
     "node-kubernetes-client": "~0.2.3"
+  },
+  "devDependencies": {
+    "nw-builder": "^2.0.2"
   }
 }
