@@ -61,6 +61,7 @@ kuiApp.controller("rcController", function ($rootScope, $scope, k8s, $filter, co
                     $scope.rc.push({rc: pd.items[i], id: "rc_" + i})
                 }
                 self.tableParams = new NgTableParams({ count: 5}, { counts: [5, 10, 25], data: $scope.rc});
+                self.tableParams.reload();
             }
             else {
                 console.log("Error fetching rc: " + err);

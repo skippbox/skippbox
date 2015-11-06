@@ -62,7 +62,7 @@ kuiApp.controller("podController", function ($rootScope, $scope, k8s, $filter, c
                     $scope.pods.push({pod: pd.items[i], id: "pod_" + i})
                 }
                 self.tableParams = new NgTableParams({ count: 5, total: $scope.pods.length, page: 1}, { counts: [5, 10, 25], data: $scope.pods});
-
+                self.tableParams.reload();
             }
             else {
                 console.log("Error fetching pods: " + err);

@@ -63,6 +63,7 @@ kuiApp.controller("servicesController", function ($rootScope, $scope, k8s, $filt
                     $scope.services.push({service: pd.items[i], id: "service_" + i})
                 }
                 self.tableParams = new NgTableParams({ count: 5}, { counts: [5, 10, 25], data: $scope.services});
+                self.tableParams.reload();
             }
             else {
                 console.log("Error fetching services" + err);
