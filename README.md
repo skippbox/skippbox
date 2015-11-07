@@ -8,6 +8,13 @@ It supports multiple k8s endpoints and accesses a public application [_store_](h
 
 By default it will connect with a k8s API server running at `http://localhost:8080/api`
 
+Snapshot
+--------
+
+Here is a preview of what it looks like
+
+![Skippbox snapshot](./img/skippbox.png)
+
 Requirements
 ------------
 
@@ -35,9 +42,8 @@ Then start the UI with:
 
     $ npm start
 
-Snapshot
---------
+Support
+-------
 
-Here is a preview of what it looks like
+If you experience problems with `skippbox` or want to suggest improvements please file an [issue](https://github.com/skippbox/skippbox/issues).
 
-![Skippbox snapshot](./img/skippbox.png)

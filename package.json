@@ -1,10 +1,10 @@
 {
-  "name": "kui",
+  "name": "skippbox",
   "version": "0.0.1",
   "description": "A NWjs based k8s UI",
   "repository": {
     "type": "git",
-    "url": "https://github.com/skippbox/kui.git"
+    "url": "https://github.com/skippbox/skippbox.git"
   },
   "main": "index.html",
   "scripts": {
