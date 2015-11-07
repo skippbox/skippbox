@@ -47,7 +47,7 @@
 
 <body class="container" data-ng-controller="kuiController">
     <div ng-include src="headerSrc"></div>
-    <div id="container">
+    <div id="container" data-ng-class="{sidebarOpen:sidebarOpen}">
         <div ng-view=""></div>
     </div>
 </body>

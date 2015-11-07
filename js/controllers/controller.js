@@ -17,7 +17,7 @@
 kuiApp.controller("kuiController", function ($rootScope, $scope, $location, $route, $filter, config, contextService) {
 
     $scope.headerSrc = "views/header.html";
-
+    $scope.sidebarOpen = true;
     $scope.contexts = config.Contexts;
     $scope.clusters = config.Clusters;
     $scope.users = config.Users;
@@ -28,12 +28,28 @@ kuiApp.controller("kuiController", function ($rootScope, $scope, $location, $rou
     }
 
     var gui = require('nw.gui');
+    win = gui.Window.get();
     if (process.platform === "darwin") {
         var mb = new gui.Menu({type: 'menubar'});
         mb.createMacBuiltin('RoboPaint', {
             hideEdit: false
         });
         gui.Window.get().menu = mb;
+        win.on('minimize', function() {
+        });
+        win.on('hide', function() {
+        });
+        $( ".fullscreen-button" ).click(function() {
+         var $this = $(".fullscreen-button");
+         if ($this.hasClass("fullscreen-expand")) {
+             $this.removeClass("fullscreen-expand").addClass("fullscreen-compress");
+             return;
+         }
+         if ($this.hasClass("fullscreen-compress")) {
+             $this.removeClass("fullscreen-compress").addClass("fullscreen-expand");
+             return;
+         }
+        });
     }
 
     $scope.changeContext = function (context) {
@@ -58,6 +74,10 @@ kuiApp.controller("kuiController", function ($rootScope, $scope, $location, $rou
         $route.reload();
     }
 
+    $scope.toggleSidebar = function () {
+        $scope.sidebarOpen = !$scope.sidebarOpen;
+    }
+
     $scope.searchString = function(txt) {
         $rootScope.searchText = txt;
         $rootScope.$broadcast('searchTag', txt);
@@ -65,9 +85,10 @@ kuiApp.controller("kuiController", function ($rootScope, $scope, $location, $rou
 
 });
 
-kuiApp.controller("contextController", function ($scope, $location, config) {
+kuiApp.controller("contextController", function ($scope, $location, config, NgTableParams) {
 
     $scope.contexts = config.Contexts;
+    this.tableParams = new NgTableParams({count: 5}, {counts: [5, 10, 25], data: $scope.contexts});
     $scope.clusters = config.Clusters;
     $scope.users = config.Users;
 

@@ -14,7 +14,8 @@
  limitations under the License.
  */
 
-kuiApp.controller("storeController", function ( $scope, appstore) {
+kuiApp.controller("storeController", function ( $scope, appstore, NgTableParams) {
+  var self = this;
 
   appstore.getCommits( function (e, sha) {
         if (!e)
@@ -23,7 +24,9 @@ kuiApp.controller("storeController", function ( $scope, appstore) {
             appstore.getTree( sha, function (e, tree) {
               if (!e)
                 {
-                  $scope.tree = tree;
+                  $scope.tree = tree.tree;
+                  self.tableParams = new NgTableParams({count: 5}, {counts: [5, 10, 25], data: $scope.tree});
+
                   $scope.$apply();
                  }
               else
