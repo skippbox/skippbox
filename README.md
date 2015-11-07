@@ -1,8 +1,10 @@
 Desktop Application for Kubernetes
 ==================================
 
-_kui_ is a Desktop application to manage applications deployed on [Kubernetes](http://kubernetes.io).
+_skippbox_ is a Desktop application to manage applications deployed on [Kubernetes](http://kubernetes.io).
 It supports multiple k8s endpoints and accesses a public application [_store_](https://github.com/skippbox/appstore).
+
+*This is still a work in progress, expect frequent changes*
 
 By default it will connect with a k8s API server running at `http://localhost:8080/api`
 
@@ -33,3 +35,9 @@ Then start the UI with:
 
     $ npm start
 
+Snapshot
+--------
+
+Here is a preview of what it looks like
+
+![Skippbox snapshot](./img/skippbox.png)

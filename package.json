@@ -27,7 +27,7 @@
     "max_height": 800,
     "position": "center"
   },
-  "author": "Sebastien Goasguen",
+  "author": "The skippbox authors",
   "license": "Apache-2.0",
   "dependencies": {
     "fs": "0.0.2",
