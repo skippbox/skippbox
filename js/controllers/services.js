@@ -173,8 +173,8 @@ kuiApp.factory('appstore', function ($q) {
   getCommits = function ( callback ) {
 
     github.repos.getCommits({
-      user: "deis",
-      repo: "charts"
+      user: "skippbox",
+      repo: "appstore"
     }, function(err, res) {
            if (!err)
             {
@@ -189,8 +189,8 @@ kuiApp.factory('appstore', function ($q) {
   getRepo = function ( callback ) {
 
     github.repos.get({
-        user: "deis",
-        repo: "charts"
+        user: "skippbox",
+        repo: "appstore"
         }, function(err, res) {
            if (!err)
             {
@@ -205,8 +205,8 @@ kuiApp.factory('appstore', function ($q) {
   getTree = function ( sha, callback ) {
 
       github.gitdata.getTree({
-        user: "deis",
-        repo: "charts",
+        user: "skippbox",
+        repo: "appstore",
         sha: sha
         }, function(err, tree) {
            if (!err)
