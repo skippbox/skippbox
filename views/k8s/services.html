@@ -13,7 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 -->
-<section ng-controller="servicesController as servicesco">
+<section class="content" ng-controller="servicesController as servicesco">
     <div class="button-row">
         <a ng-click="newService=!newService"><i class="btn btn-success fa fa-plus"> Create Service </i></a>
     </div>
@@ -34,7 +34,7 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row table-container">
     <table  ng-table="servicesco.tableParams" class="table table-bordered table-responsive" show-filter="true">
         <tr ng-repeat="s in $data ">
             <td  title="'Name'" filter="{ name: 'text'}" sortable="'service.metadata.name'">

@@ -13,8 +13,8 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 -->
-<section ng-controller="storeController as storec">
-    <div class="row">
+<section class="content" ng-controller="storeController as storec">
+    <div class="row table-container">
       <table ng-table="storec.tableParams" class="table table-bordered table-responsive" show-filter="true">
           <tr ng-repeat="t in $data ">
             <td title="'Name'">{{t.path}}</td>

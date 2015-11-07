@@ -13,8 +13,8 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 -->
-<section ng-controller="contextController as contextc">
-  <div class="row">
+<section class="content" ng-controller="contextController as contextc">
+  <div class="row table-container">
     <table ng-table="contextc.tableParams" class="table table-bordered table-responsive" show-filter="true">
         <tr ng-repeat="c in $data ">
           <td title="'Name'">{{c.name}}</td>

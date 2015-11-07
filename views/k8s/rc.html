@@ -13,7 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 -->
-<section ng-controller="rcController as rcc">
+<section class="content" ng-controller="rcController as rcc">
     <div class="button-row">
        <a ng-click="newRc=!newRc"> <i class="btn btn-success fa fa-plus"> Create RC </i> </a>
     </div>
@@ -35,7 +35,7 @@
         </div>
     </div>
 
-    <div class="row" >
+    <div class="row table-container" >
         <table  ng-table="rcc.tableParams" class="table table-bordered table-responsive" show-filter="true">
             <tr  ng-repeat="r in $data">
                 <td title="'Name'" filter="{ name: 'text'}" sortable="'rc.metadata.name'">

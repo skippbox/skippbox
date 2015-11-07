@@ -13,7 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 -->
-<section ng-controller="podController as podc">
+<section class="content" ng-controller="podController as podc">
     <div class="button-row">
      <a ng-click="newPod=!newPod"><i class="btn btn-success fa fa-plus"> Create Pod </i></a>
     </div>
@@ -36,7 +36,7 @@
         </div>
     </div>
 
-    <div class="row" ng-if="podsReady">
+    <div class="row table-container" ng-if="podsReady">
         <table  ng-table="podc.tableParams" class="table table-bordered table-responsive table-hover" show-filter="true">
             <tr  ng-repeat="p in $data ">
                 <td title="'Name'" filter="{ name: 'text'}" sortable="'pod.metadata.name'">

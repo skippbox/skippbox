@@ -16,10 +16,11 @@
     "nw.js"
   ],
   "window": {
-    "toolbar": true,
+    "frame": false,
+    "toolbar": false,
     "resizable": true,
     "width": 1000,
-    "height": 800,
+    "height": 600,
     "min_width": 600,
     "min_height": 400,
     "max_width": 1000,
