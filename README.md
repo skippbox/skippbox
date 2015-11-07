@@ -34,7 +34,7 @@ Install [nwjs](https://github.com/nwjs/nw.js)
 
 Clone the repository and install the application:
 
-    $ git clone https://github.com/skippbox/kui.git
+    $ git clone https://github.com/skippbox/skippbox.git
     $ cd kui
     $ npm install
 
