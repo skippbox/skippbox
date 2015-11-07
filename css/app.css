@@ -216,11 +216,11 @@ section.content {
 /* NAVBAR */
 .navbar {
   -webkit-app-region: drag;
-  background: #468EC6;
-  color: white;
+  background: white;
+  color: #468EC6;
   height: 70px;
   padding-top: 20px;
-  border-bottom-color: #3F83B4;
+  border-bottom-color: lightgrey;
   -webkit-transition: all 0.5s ease;
 }
 .navbar .appbuttons {
@@ -250,18 +250,23 @@ section.content {
   background: transparent;
 }
 .navbar .nav li a {
-  color: white;
+  color: #606262;
 }
 
 .navbar-brand {
   padding: 7px 15px;
-  color: white !important;
+  color: #606262 !important;
   font-weight: 600;
 }
-.navbar-brand img {
+.navbar-brand img.icon {
   height: 40px;
   display: inline-block;
-  margin-right: 10px;
+  margin-right: 5px;
+  margin-top: -2px;
+}
+.navbar-brand img.logo {
+  height: 25px;
+  display: inline-block;
   margin-top: -2px;
 }
 
@@ -271,6 +276,7 @@ section.content {
   width: 300px;
   margin: 7px 10px;
   font-size: 16px !important;
+  color: #606262;
 }
 .header-search input {
   width: 100%;
@@ -278,13 +284,12 @@ section.content {
   padding-left: 15px;
   border: 0;
   box-shadow: none;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.1);
   border-radius: 5px;
   outline: none;
-  color: white;
 }
 .header-search input::-webkit-input-placeholder { /* WebKit, Blink, Edge */
-    color: #fff;
+    color: #808080;
     opacity: 0.8;
 }
 
