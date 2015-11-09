@@ -18,7 +18,7 @@ Here is a preview of what it looks like
 Requirements
 ------------
 
-You will need a Kubernetes endpoint configured in your `kubectl` configuration file.
+You will need a Kubernetes endpoint configured in your `kubectl` configuration file named `config.sample` in the root directory of the skippbox checkout.
 
 If you are not familiar with Kubernetes yet, you can use `boot2k8s` to get a one node Kubernetes cluster running locally.
 Go to the [boot2k8s](https://github.com/skippbox/boot2k8s) page and set it up.
