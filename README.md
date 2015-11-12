@@ -26,16 +26,16 @@ Go to the [boot2k8s](https://github.com/skippbox/boot2k8s) page and set it up.
 Run in development
 ------------------
 
-`kui` is a [NW.js](http://nwjs.io) application similar to Docker [Kitematic](https://kitematic.com) but aimed at Kubernetes operations.
-
-Install [nwjs](https://github.com/nwjs/nw.js)
-
-    $ npm install nw
+`skippbox`` is a [NW.js](http://nwjs.io) application similar to Docker [Kitematic](https://kitematic.com) but aimed at Kubernetes operations.
 
 Clone the repository and install the application:
 
     $ git clone https://github.com/skippbox/skippbox.git
-    $ cd kui
+    $ cd skippbox
+Install [nwjs](https://github.com/nwjs/nw.js)
+
+    $ npm install nw
+
     $ npm install
 
 Then start the UI with:
