@@ -92,11 +92,13 @@ kuiApp.factory('k8s', function ($resource, contextService) {
 
 kuiApp.factory('config', function ($filter) {
     yaml = require('js-yaml');
+    oshomedir = require('os-homedir');
+    path = require('path');
     fs = require('fs');
 
     // Get document, or throw exception on error
     try {
-        config = yaml.safeLoad(fs.readFileSync('config.sample', 'utf8'));
+        config = yaml.safeLoad(fs.readFileSync(path.join(oshomedir(),'.kube','config'), 'utf8'));
     } catch (e) {
         console.log(e);
         return;
