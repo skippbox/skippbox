@@ -14,7 +14,7 @@
  limitations under the License.
  */
 
-kuiApp.controller("storeController", function ( $scope, appstore, NgTableParams) {
+kuiApp.controller("deployController", function ( $scope, appstore, NgTableParams) {
   var self = this;
 
   appstore.getCommits( function (e, sha) {

@@ -33,7 +33,8 @@
     "fs": "0.0.2",
     "github": "^0.2.4",
     "js-yaml": "^3.4.2",
-    "node-kubernetes-client": "~0.2.3"
+    "node-kubernetes-client": "~0.2.3",
+    "os-homedir": "^1.0.1"
   },
   "devDependencies": {
     "nw-builder": "^2.0.2"

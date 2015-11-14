@@ -13,9 +13,9 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 -->
-<section class="content" ng-controller="storeController as storec">
+<section class="content" ng-controller="deployController as deployc">
     <div class="row table-container">
-      <table ng-table="storec.tableParams" class="table table-bordered table-responsive" show-filter="true">
+      <table ng-table="deployc.tableParams" class="table table-bordered table-responsive" show-filter="true">
           <tr ng-repeat="t in $data ">
             <td title="'Name'">{{t.path}}</td>
             <td title="'Url'">{{t.url}}</td>
