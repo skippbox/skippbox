@@ -100,8 +100,8 @@ kuiApp.factory('config', function ($filter) {
     try {
         config = yaml.safeLoad(fs.readFileSync(path.join(oshomedir(),'.kube','config'), 'utf8'));
     } catch (e) {
-        console.log(e);
-        return;
+        console.log(e.message);
+        return {};
     }
 
     var contexts = [];
