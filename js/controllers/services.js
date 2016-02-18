@@ -209,7 +209,8 @@ kuiApp.factory('appstore', function ($q) {
       github.gitdata.getTree({
         user: "skippbox",
         repo: "appstore",
-        sha: sha
+        sha: sha,
+        recursive: true
         }, function(err, tree) {
            if (!err)
             {
@@ -221,10 +222,28 @@ kuiApp.factory('appstore', function ($q) {
       });  
   };
 
+  getBlob = function ( sha, callback ) {
+
+      github.gitdata.getBlob({
+        user: "skippbox",
+        repo: "appstore",
+        sha: sha
+        }, function(err, blob) {
+           if (!err)
+            {
+                callback(err, blob);
+            }
+            else {
+                callback(err, null);
+            }
+      });  
+  };
+
   return {
     getCommits: getCommits,
     getRepo: getRepo,
     getTree: getTree,
+    getBlob: getBlob,
   };
 });
 
