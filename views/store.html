@@ -17,11 +17,18 @@
 
   <div class="row">
     <div class="col-sm-12">
+      
+        <pre class="panel-body">{{yaml | json}}</pre>
+      
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
       <p>
         &nbsp<i class="fa fa-refresh fa-spin" style="font-size:24px" ng-hide='hideSpiner'></i>
         <div ng-show='hideSpiner'
           data-angular-treeview="true"
-          data-tree-model="newTree"
+          data-tree-model="nestedTree"
           data-node-label="name"
           data-node-children="children"
         >
@@ -29,11 +36,4 @@
       </p>
   </div>
 
-  <div class="row">
-    <div class="col-sm-12">
-      
-        <pre class="panel-body">{{yaml | json}}</pre>
-      
-    </div>
-  </div>
 </section>

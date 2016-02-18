@@ -44,7 +44,7 @@ kuiApp.controller("deployController", function ( $scope, $filter, appstore, ngTa
                 $scope.tree = tree.tree;
                 $scope.getTreeView($scope.tree, function (tree){
 
-                  $scope.newTree = tree;
+                  $scope.nestedTree = tree;
                 });
                 $scope.hideSpiner=true;
                 $scope.$apply();
