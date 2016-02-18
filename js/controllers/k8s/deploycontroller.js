@@ -17,58 +17,59 @@
 kuiApp.controller("deployController", function ( $scope, $filter, appstore, ngTableParams) {
   var self = this;
 
-  $scope.lala = function () {
-    //console.log(node.name);
-    //console.log(node.sha);
-    //appstore.getBlob( node.sha, function (e, blob) {
-      if (true)
-      {
-        var yamllib = require('js-yaml');
-        var napa = "bmFtZTogYWxwaW5lCmhvbWU6IGh0dHA6Ly93d3cuYWxwaW5lbGludXgub3Jn\\\\nLwp2ZXJzaW9uOiAwLjEuMApkZXNjcmlwdGlvbjogU2ltcGxlIHBvZCBydW5u\\\\naW5nIEFscGluZSBMaW51eC4KbWFpbnRhaW5lcnM6CiAgLSBNYXR0IEJ1dGNo\\\\nZXIgPG1idXRjaGVyQGRlaXMuY29tPgpkZXRhaWxzOgogIFRoaXMgcGFja2Fn\\\\nZSBwcm92aWRlcyBhIGJhc2ljIEFscGluZSBMaW51eCBpbWFnZSB0aGF0IGNh\\\\nbiBiZSB1c2VkIGZvciBiYXNpYwogIGRlYnVnZ2luZyBhbmQgdHJvdWJsZXNo\\\\nb290aW5nLiBCeSBkZWZhdWx0LCBpdCBzdGFydHMgdXAsIHNsZWVwcyBmb3Ig\\\\nYSBsb25nCiAgdGltZSwgYW5kIHRoZW4gZXZlbnR1YWxseSBzdG9wcy4K\\\\n\\";
-        console.log(napa);
-        newpod = yamllib.load(atob(napa));
-        console.log(JSON.stringify(newpod));
-      }
-      else
-      {
-        console.log('nanai');
-      }
-    //});
-  }
-  $scope.lala()
-
-  /*appstore.getCommits( function (e, sha) {
+  $scope.lala = function (node) {
+    var patt = new RegExp(".yaml");
+    if (node.type === 'blob' && patt.test(node.name)){
+      appstore.getBlob( node.sha, function (e, blob) {
         if (!e)
         {
-            $scope.newsha = sha;
-            appstore.getTree( sha, function (e, tree) {
-              if (!e)
-                {
-                  $scope.tree = tree.tree;
-                  $scope.getTreeView($scope.tree, function (tree){
-
-                    $scope.newTree = tree;
-                    //$scope.$apply();
-                  });
-
-                  console.log(typeof($scope.tree));
-                  self.tableParams = new ngTableParams(
-                    {count: 5}, 
-                    {
-                      counts: [5, 10, 25], 
-                      data: $scope.tree
-                    }
-                  );
-
-                  $scope.$apply();
-                 }
-              else
-                  console.log( 'error' + JSON.stringify(e));
-            });
+          var yamllib = require('js-yaml');
+          var napa = "bmFtZTogYWxwaW5lCmhvbWU6IGh0dHA6Ly93d3cuYWxwaW5lbGludXgub3Jn\\\\nLwp2ZXJzaW9uOiAwLjEuMApkZXNjcmlwdGlvbjogU2ltcGxlIHBvZCBydW5u\\\\naW5nIEFscGluZSBMaW51eC4KbWFpbnRhaW5lcnM6CiAgLSBNYXR0IEJ1dGNo\\\\nZXIgPG1idXRjaGVyQGRlaXMuY29tPgpkZXRhaWxzOgogIFRoaXMgcGFja2Fn\\\\nZSBwcm92aWRlcyBhIGJhc2ljIEFscGluZSBMaW51eCBpbWFnZSB0aGF0IGNh\\\\nbiBiZSB1c2VkIGZvciBiYXNpYwogIGRlYnVnZ2luZyBhbmQgdHJvdWJsZXNo\\\\nb290aW5nLiBCeSBkZWZhdWx0LCBpdCBzdGFydHMgdXAsIHNsZWVwcyBmb3Ig\\\\nYSBsb25nCiAgdGltZSwgYW5kIHRoZW4gZXZlbnR1YWxseSBzdG9wcy4K\\\\n\\";
+          
+          $scope.yaml = yamllib.load(atob(blob.content));
+          console.log(JSON.stringify($scope.yaml));
+          $scope.$apply();
         }
-        else 
-            console.log( 'error' + JSON.stringify(e));
-    /*});
+        else
+        {
+          console.log('Error: ' + e);
+        }
+      });
+    }
+  }
+  //$scope.lala();
+
+  appstore.getCommits( function (e, sha) {
+      if (!e)
+      {
+          $scope.newsha = sha;
+          appstore.getTree( sha, function (e, tree) {
+            if (!e)
+              {
+                $scope.tree = tree.tree;
+                $scope.getTreeView($scope.tree, function (tree){
+
+                  $scope.newTree = tree;
+                  //$scope.$apply();
+                });
+
+                self.tableParams = new ngTableParams(
+                  {count: 5}, 
+                  {
+                    counts: [5, 10, 25], 
+                    data: $scope.tree
+                  }
+                );
+
+                $scope.$apply();
+               }
+            else
+                console.log( 'error' + JSON.stringify(e));
+          });
+      }
+      else 
+          console.log( 'error' + JSON.stringify(e));
+  });
 
   /*$scope.browse = function ( sha ) {
     console.log('sha: '+sha);
@@ -83,7 +84,7 @@ kuiApp.controller("deployController", function ( $scope, $filter, appstore, ngTa
     })
   }*/
 
-  /*$scope.getTreeView = function ( pathTree, callback ) {
+  $scope.getTreeView = function ( pathTree, callback ) {
     //console.log('comenzamos');
     var tree = [];
     //console.log("holis");
@@ -112,11 +113,12 @@ kuiApp.controller("deployController", function ( $scope, $filter, appstore, ngTa
         if (existingPath) {
             currentLevel = existingPath.children;
         } else {
-            console.log(JSON.stringify(file.sha));
+            //console.log(JSON.stringify(file.sha));
             var newPart = {
                 name: part,
                 path: file.path,
                 sha: file.sha,
+                type: file.type,
                 children: [],
             }
             currentLevel.push(newPart);
@@ -127,7 +129,7 @@ kuiApp.controller("deployController", function ( $scope, $filter, appstore, ngTa
     });
     //console.log(JSON.stringify(tree));
     callback(tree);
-  }*/
+  }
 
   //$scope.getTreeView();
 
