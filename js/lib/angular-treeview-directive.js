@@ -7,7 +7,7 @@
                     h = c.nodeLabel || "label",
                     d = c.nodeChildren || "children",
                     k = '<ul><li data-ng-repeat="node in ' + e + '"><i class="expanded" data-ng-show="node.' + d + '.length && node.expanded" data-ng-click="selectNodeHead(node, $event)"></i><i class="collapsed" data-ng-show="node.' + d + '.length && !node.expanded" data-ng-click="selectNodeHead(node, $event)"></i><i class="normal" data-ng-hide="node.' +
-                    d + '.length"></i> <span data-ng-class="node.selected" data-ng-click="selectNodeLabel(node, $event); lala(node);">{{node.' + h + '}}</span><div data-ng-show="node.expanded" data-tree-model="node.' + d + '" data-node-id=' + (c.nodeId || "id") + " data-node-label=" + h + " data-node-children=" + d + "></div></li></ul>";
+                    d + '.length"></i> <span data-ng-class="node.selected" data-ng-click="selectNodeLabel(node, $event); onChildrenClick(node);">{{node.' + h + '}}</span><div data-ng-show="node.expanded" data-tree-model="node.' + d + '" data-node-id=' + (c.nodeId || "id") + " data-node-label=" + h + " data-node-children=" + d + "></div></li></ul>";
                 e && e.length && (c.angularTreeview ? (a.$watch(e, function(m, b) {
                     g.empty().html($compile(k)(a))
                 }, !1), a.selectNodeHead = a.selectNodeHead || function(a, b) {

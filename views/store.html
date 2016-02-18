@@ -17,23 +17,22 @@
 
   <div class="row">
     <div class="col-sm-12">
-      <div
-        data-angular-treeview="true"
-        data-tree-model="newTree"
-        data-node-label="name"
-        data-node-children="children"
-      >
-      </div>
+      <p>
+        &nbsp<i class="fa fa-refresh fa-spin" style="font-size:24px" ng-hide='hideSpiner'></i>
+        <div ng-show='hideSpiner'
+          data-angular-treeview="true"
+          data-tree-model="newTree"
+          data-node-label="name"
+          data-node-children="children"
+        >
+        </div>
+      </p>
   </div>
 
   <div class="row">
     <div class="col-sm-12">
       
-        <pre class="panel-body">
-
-{{yaml | json}}
-
-        </pre>
+        <pre class="panel-body">{{yaml | json}}</pre>
       
     </div>
   </div>

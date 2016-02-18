@@ -17,17 +17,14 @@
 kuiApp.controller("deployController", function ( $scope, $filter, appstore, ngTableParams) {
   var self = this;
 
-  $scope.lala = function (node) {
+  $scope.onChildrenClick = function (node) {
     var patt = new RegExp(".yaml");
     if (node.type === 'blob' && patt.test(node.name)){
       appstore.getBlob( node.sha, function (e, blob) {
         if (!e)
         {
-          var yamllib = require('js-yaml');
-          var napa = "bmFtZTogYWxwaW5lCmhvbWU6IGh0dHA6Ly93d3cuYWxwaW5lbGludXgub3Jn\\\\nLwp2ZXJzaW9uOiAwLjEuMApkZXNjcmlwdGlvbjogU2ltcGxlIHBvZCBydW5u\\\\naW5nIEFscGluZSBMaW51eC4KbWFpbnRhaW5lcnM6CiAgLSBNYXR0IEJ1dGNo\\\\nZXIgPG1idXRjaGVyQGRlaXMuY29tPgpkZXRhaWxzOgogIFRoaXMgcGFja2Fn\\\\nZSBwcm92aWRlcyBhIGJhc2ljIEFscGluZSBMaW51eCBpbWFnZSB0aGF0IGNh\\\\nbiBiZSB1c2VkIGZvciBiYXNpYwogIGRlYnVnZ2luZyBhbmQgdHJvdWJsZXNo\\\\nb290aW5nLiBCeSBkZWZhdWx0LCBpdCBzdGFydHMgdXAsIHNsZWVwcyBmb3Ig\\\\nYSBsb25nCiAgdGltZSwgYW5kIHRoZW4gZXZlbnR1YWxseSBzdG9wcy4K\\\\n\\";
-          
+          var yamllib = require('js-yaml');          
           $scope.yaml = yamllib.load(atob(blob.content));
-          console.log(JSON.stringify($scope.yaml));
           $scope.$apply();
         }
         else
@@ -37,12 +34,10 @@ kuiApp.controller("deployController", function ( $scope, $filter, appstore, ngTa
       });
     }
   }
-  //$scope.lala();
 
   appstore.getCommits( function (e, sha) {
       if (!e)
       {
-          $scope.newsha = sha;
           appstore.getTree( sha, function (e, tree) {
             if (!e)
               {
@@ -50,17 +45,8 @@ kuiApp.controller("deployController", function ( $scope, $filter, appstore, ngTa
                 $scope.getTreeView($scope.tree, function (tree){
 
                   $scope.newTree = tree;
-                  //$scope.$apply();
                 });
-
-                self.tableParams = new ngTableParams(
-                  {count: 5}, 
-                  {
-                    counts: [5, 10, 25], 
-                    data: $scope.tree
-                  }
-                );
-
+                $scope.hideSpiner=true;
                 $scope.$apply();
                }
             else
@@ -71,49 +57,54 @@ kuiApp.controller("deployController", function ( $scope, $filter, appstore, ngTa
           console.log( 'error' + JSON.stringify(e));
   });
 
-  /*$scope.browse = function ( sha ) {
-    console.log('sha: '+sha);
+  //if we already know the sha, we don't need the previous request
+
+  /*var sha = '16203b4b087e40e27cf42255158e8d5c0cedba73';
     appstore.getTree( sha, function (e, tree) {
       if (!e)
-          {
-            $scope.subtree = tree;
-            $scope.$apply();
-          }
-      else
-          console.log( 'error' + JSON.stringify(e));
-    })
-  }*/
+        {
+          $scope.tree = tree.tree;
+          $scope.getTreeView($scope.tree, function (tree){
+
+            $scope.newTree = tree;
+            //$scope.$apply();
+          });
+
+          $scope.$apply();
+         }
+
+    });*/
 
   $scope.getTreeView = function ( pathTree, callback ) {
-    //console.log('comenzamos');
     var tree = [];
-    //console.log("holis");
-    //console.log(JSON.stringify(tree));
 
     angular.forEach(pathTree, function (file, key) {
-      //console.log(file);
-      var path = file.path;
-
       var currentLevel = tree;
-
+      var path = file.path;
       var pathParts = path.split('/');
-      //console.log(JSON.stringify(pathParts));
 
       angular.forEach(pathParts, function (part, key) {
         
         var existingPath;
-        var done = false;
-        angular.forEach(currentLevel, function (test, key) {
-          if(test.name === part && !done){
-            existingPath = test;
+        
+        for (var i = 0; i < currentLevel.length; i++) {
+          if(currentLevel[i].name === part){
+            existingPath = currentLevel[i];
+            break;
+          }
+        }
+        
+        /*var done = false;
+        angular.forEach(currentLevel, function (elem, key) {
+          if(elem.name === part && !done){
+            existingPath = elem;
             done=true;
           }
-        });
+        });*/
 
         if (existingPath) {
             currentLevel = existingPath.children;
         } else {
-            //console.log(JSON.stringify(file.sha));
             var newPart = {
                 name: part,
                 path: file.path,
@@ -127,10 +118,8 @@ kuiApp.controller("deployController", function ( $scope, $filter, appstore, ngTa
       });
 
     });
-    //console.log(JSON.stringify(tree));
     callback(tree);
   }
 
-  //$scope.getTreeView();
 
 });
