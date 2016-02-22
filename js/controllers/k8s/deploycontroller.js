@@ -18,7 +18,7 @@ kuiApp.controller("deployController", function ( $scope, $filter, appstore, ngTa
   var self = this;
 
   $scope.onChildrenClick = function (node) {
-    var patt = new RegExp(".yaml");
+    var patt = /.yaml|.yml/g;
     if (node.type === 'blob' && patt.test(node.name)){
       appstore.getBlob( node.sha, function (e, blob) {
         if (!e)
