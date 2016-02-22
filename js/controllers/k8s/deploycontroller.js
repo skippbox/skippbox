@@ -24,7 +24,10 @@ kuiApp.controller("deployController", function ( $scope, $filter, appstore, ngTa
         if (!e)
         {
           var yamllib = require('js-yaml');          
-          $scope.yaml = yamllib.load(atob(blob.content));
+          $scope.yaml = {
+            content: yamllib.load(atob(blob.content)),
+            title: node.path
+          };
           $scope.$apply();
         }
         else
@@ -32,6 +35,8 @@ kuiApp.controller("deployController", function ( $scope, $filter, appstore, ngTa
           console.log('Error: ' + e);
         }
       });
+    } else {
+      $scope.yaml = {};
     }
   }
 

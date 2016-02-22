@@ -15,17 +15,11 @@
 -->
 <section class="content" ng-controller="deployController as deployc">
 
-  <div class="row">
-    <div class="col-sm-12">
+  
+  <div class="row store-container">
+    <div class="col-sm-6">
       
-        <pre class="panel-body">{{yaml | json}}</pre>
-      
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-sm-12">
-      <p>
-        &nbsp<i class="fa fa-refresh fa-spin" style="font-size:24px" ng-hide='hideSpiner'></i>
+        <i class="fa fa-refresh fa-spin" style="font-size:24px" ng-hide='hideSpiner'></i>
         <div ng-show='hideSpiner'
           data-angular-treeview="true"
           data-tree-model="nestedTree"
@@ -33,7 +27,11 @@
           data-node-children="children"
         >
         </div>
-      </p>
+      
+    </div>
+    <div class="col-sm-6">
+      <pre><code>{{yaml.content | json}}</code></pre>
+    </div>
   </div>
 
 </section>

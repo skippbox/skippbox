@@ -378,3 +378,16 @@ table td {
   background: url(../img/max-hover.svg);
   background-size: 12px 12px;
 }
+
+/* Store */
+
+.store-container {
+  background: white;
+  clear: both;
+  margin: 20px 0px;
+  padding: 10px;
+  padding-top: 20px;
+  border: 1px solid lightgrey;
+  border-radius: 4px;
+  overflow-x: scroll;
+}
