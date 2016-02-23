@@ -14,7 +14,7 @@
  limitations under the License.
  */
 
-kuiApp.controller("deployController", function ( $scope, $filter, appstore, ngTableParams) {
+kuiApp.controller("storeController", function ( $scope, $filter, appstore, ngTableParams) {
   var self = this;
 
   $scope.onChildrenClick = function (node) {
