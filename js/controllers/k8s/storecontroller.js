@@ -47,7 +47,7 @@ kuiApp.controller("storeController", function ( $scope, $filter, k8s, appstore, 
   }
 
   $scope.getTree = function ( user, repo ) {
-    $scope.user = user;
+  $scope.user = user;
     $scope.repo = repo;
     $scope.hideSpiner=false;
     appstore.getCommits( user, repo, function (e, sha, url) {
@@ -79,6 +79,7 @@ kuiApp.controller("storeController", function ( $scope, $filter, k8s, appstore, 
 
   $scope.getTreeView = function ( pathTree, callback ) {
     var tree = [];
+    $scope.yaml = [];
 
     angular.forEach(pathTree, function (file, key) {
       var currentLevel = tree;
