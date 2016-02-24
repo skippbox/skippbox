@@ -17,16 +17,20 @@
 
   
   <div class="row store-container">
-    <div class="col-sm-6">
+    <div class="col-sm-12">
         <form class="form-inline" ng-submit="getNewStore(appstoreUrl);">
-          <div class="form-group">
-            <label for="inputName">Store:&nbsp</label>
-            <input class="form-control" id="inputName" ng-model="appstoreUrl" type="text" placeholder="Appstore URL" ng-required="true" >
+          <div class="input-group" style="width: 100%">
+            <div class="input-group-addon" style="width: 10%">Store:&nbsp</div>
+            <input class="form-control" style="width: 100%"id="inputUrl" ng-model="appstoreUrl" type="url" placeholder="Appstore URL" ng-required="true">
+            <span class="input-group-btn" style="width: 8%">
+              <button class="btn" type="submit"><i class="glyphicon glyphicon-ok"> </i></button>
+            </span>
           </div>
-          <button class="btn" ng-click="">+</button>
         </form>
         <br/><br/>
-
+    </div>
+  
+    <div class="col-sm-6">
         <i class="fa fa-refresh fa-spin" style="font-size:24px" ng-hide='hideSpiner'></i>
         <div ng-show='hideSpiner'
           data-angular-treeview="true"
