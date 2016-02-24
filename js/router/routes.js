@@ -25,8 +25,7 @@ kuiApp.config(function ($routeProvider) {
         }).when("/context", {
             templateUrl: "views/context.html"
         }).when("/store", {
-            templateUrl: "views/store.html",
-            controller: 'deployController'
+            templateUrl: "views/k8s/store.html"
         }).otherwise({
             redirectTo: '/pods'
         });

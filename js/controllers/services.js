@@ -172,15 +172,15 @@ kuiApp.factory('appstore', function ($q) {
     timeout: 5000,
   });
 
-  getCommits = function ( callback ) {
+  getCommits = function ( user, repo, callback ) {
 
     github.repos.getCommits({
-      user: "skippbox",
-      repo: "appstore"
+      user: user,
+      repo: repo
     }, function(err, res) {
            if (!err)
             {
-                callback(err, res[0].sha);
+                callback(err, res[0].sha, res);
             }
             else {
                 callback(err, null);
@@ -188,11 +188,11 @@ kuiApp.factory('appstore', function ($q) {
         });
   };
 
-  getRepo = function ( callback ) {
+  getRepo = function ( user, repo, callback ) {
 
     github.repos.get({
-        user: "skippbox",
-        repo: "appstore"
+        user: user,
+        repo: repo
         }, function(err, res) {
            if (!err)
             {
@@ -204,12 +204,13 @@ kuiApp.factory('appstore', function ($q) {
       });
   };
 
-  getTree = function ( sha, callback ) {
+  getTree = function ( user, repo, sha, callback ) {
 
       github.gitdata.getTree({
-        user: "skippbox",
-        repo: "appstore",
-        sha: sha
+        user: user,
+        repo: repo,
+        sha: sha,
+        recursive: true
         }, function(err, tree) {
            if (!err)
             {
@@ -221,10 +222,28 @@ kuiApp.factory('appstore', function ($q) {
       });  
   };
 
+  getBlob = function ( user, repo, sha, callback ) {
+
+      github.gitdata.getBlob({
+        user: user,
+        repo: repo,
+        sha: sha
+        }, function(err, blob) {
+           if (!err)
+            {
+                callback(err, blob);
+            }
+            else {
+                callback(err, null);
+            }
+      });  
+  };
+
   return {
     getCommits: getCommits,
     getRepo: getRepo,
     getTree: getTree,
+    getBlob: getBlob,
   };
 });
 
