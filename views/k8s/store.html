@@ -18,7 +18,15 @@
   
   <div class="row store-container">
     <div class="col-sm-6">
-      
+        <form class="form-inline" ng-submit="getNewStore(appstoreUrl);">
+          <div class="form-group">
+            <label for="inputName">Store:&nbsp</label>
+            <input class="form-control" id="inputName" ng-model="appstoreUrl" type="text" placeholder="Appstore URL" ng-required="true" >
+          </div>
+          <button class="btn" ng-click="">+</button>
+        </form>
+        <br/><br/>
+
         <i class="fa fa-refresh fa-spin" style="font-size:24px" ng-hide='hideSpiner'></i>
         <div ng-show='hideSpiner'
           data-angular-treeview="true"
@@ -27,11 +35,25 @@
           data-node-children="children"
         >
         </div>
-      
     </div>
+    
     <div class="col-sm-6" ng-show="yaml.content">
-      <pre><code>{{yaml.content | json}}</code></pre>
+      <div class="col-sm-12">
+        <a ng-click="createRc(yaml);"><i class="btn btn-success fa fa-plus pull-right" ng-disabled="!isRC"> Create RC</i></a>
+      </div>
+
+      <div class="col-sm-12">
+        <div class="panel panel-default">
+          <div class="panel-heading clearfix">
+            {{yaml.title}}
+          </div>
+          <div class="panel-body clearfix">
+            <pre class="panel-pre"><code>{{yaml.content | json}}</code></pre>
+          </div>
+        </div>
+      </div>
     </div>
+
   </div>
 
 </section>

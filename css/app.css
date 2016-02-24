@@ -391,3 +391,14 @@ table td {
   border-radius: 4px;
   overflow-x: scroll;
 }
+
+/* Panel */
+.panel {
+  margin-top: 5px; 
+}
+
+pre.panel-pre{ 
+  border: 0px; 
+  border-radius: 0px; 
+  background-color: inherit;
+}

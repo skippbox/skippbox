@@ -14,13 +14,18 @@
  limitations under the License.
  */
 
-kuiApp.controller("storeController", function ( $scope, $filter, appstore, ngTableParams) {
+kuiApp.controller("storeController", function ( $scope, $filter, k8s, appstore, contextService, ngTableParams) {
   var self = this;
+  $scope.yaml = [];
+  $scope.isRC = false;
+  $scope.user = "skippbox";
+  $scope.repo = "appstore";
 
   $scope.onChildrenClick = function (node) {
+    $scope.isRC = false;
     var patt = /.yaml|.yml/g;
     if (node.type === 'blob' && patt.test(node.name)){
-      appstore.getBlob( node.sha, function (e, blob) {
+      appstore.getBlob( $scope.user, $scope.repo, node.sha, function (e, blob) {
         if (!e)
         {
           var yamllib = require('js-yaml');          
@@ -28,6 +33,7 @@ kuiApp.controller("storeController", function ( $scope, $filter, appstore, ngTab
             content: yamllib.load(atob(blob.content)),
             title: node.path
           };
+          if ($scope.yaml.content.kind === "ReplicationController") $scope.isRC=true;
           $scope.$apply();
         }
         else
@@ -40,45 +46,36 @@ kuiApp.controller("storeController", function ( $scope, $filter, appstore, ngTab
     }
   }
 
-  appstore.getCommits( function (e, sha) {
+  $scope.getTree = function ( user, repo ) {
+    $scope.user = user;
+    $scope.repo = repo;
+    $scope.hideSpiner=false;
+    appstore.getCommits( user, repo, function (e, sha, url) {
       if (!e)
       {
-          appstore.getTree( sha, function (e, tree) {
-            if (!e)
-              {
-                $scope.tree = tree.tree;
-                $scope.getTreeView($scope.tree, function (tree){
+        console.log("La sha es: "+ sha)
+        $scope.appstoreUrl = url[0].url.replace(/\/commits\/.+/g, "").replace(/\/repos/g, "");
+        appstore.getTree( user, repo, sha, function (e, tree) {
+          if (!e)
+            {
+              $scope.tree = tree.tree;
+              $scope.getTreeView($scope.tree, function (tree){
 
-                  $scope.nestedTree = tree;
-                });
-                $scope.hideSpiner=true;
-                $scope.$apply();
-               }
-            else
-                console.log( 'error' + JSON.stringify(e));
-          });
+                $scope.nestedTree = tree;
+              });
+              $scope.hideSpiner=true;
+              $scope.$apply();
+             }
+          else
+              console.log( 'error' + JSON.stringify(e));
+        });
       }
       else 
           console.log( 'error' + JSON.stringify(e));
-  });
+    });
+  };
 
-  //if we already know the sha, we don't need the previous request
-
-  /*var sha = '16203b4b087e40e27cf42255158e8d5c0cedba73';
-    appstore.getTree( sha, function (e, tree) {
-      if (!e)
-        {
-          $scope.tree = tree.tree;
-          $scope.getTreeView($scope.tree, function (tree){
-
-            $scope.newTree = tree;
-            //$scope.$apply();
-          });
-
-          $scope.$apply();
-         }
-
-    });*/
+  $scope.getTree($scope.user, $scope.repo);
 
   $scope.getTreeView = function ( pathTree, callback ) {
     var tree = [];
@@ -91,14 +88,16 @@ kuiApp.controller("storeController", function ( $scope, $filter, appstore, ngTab
       angular.forEach(pathParts, function (part, key) {
         
         var existingPath;
-        
+
+        //faster
         for (var i = 0; i < currentLevel.length; i++) {
           if(currentLevel[i].name === part){
             existingPath = currentLevel[i];
             break;
           }
         }
-        
+
+        //slower
         /*var done = false;
         angular.forEach(currentLevel, function (elem, key) {
           if(elem.name === part && !done){
@@ -126,5 +125,21 @@ kuiApp.controller("storeController", function ( $scope, $filter, appstore, ngTab
     callback(tree);
   }
 
+  $scope.createRc = function (newrc) {
+    contextService.getConnection().replicationControllers.create(newrc, function (err, p1) {
+        if (err) {
+            console.log('error creating rc: ' + JSON.stringify(err));
+            alert(JSON.stringify(err.message.message));
+        }else{
+          console.log('funciona');
+        }
+    });
+  }
+
+  $scope.getNewStore = function (url) {
+    var values = url.replace(/.+github\.com\/|\/git\/.+/g, "").split("/");
+    console.log(JSON.stringify(values));
+    $scope.getTree(values[0], values[1]);
+  }
 
 });
