@@ -14,9 +14,9 @@
    limitations under the License.
  */
 
-kuiApp.config(function ($routeProvider) {
+kuiApp.config(function($routeProvider) {
     $routeProvider
-       .when("/pods", {
+        .when("/pods", {
             templateUrl: "views/k8s/pods.html"
         }).when("/services", {
             templateUrl: "views/k8s/services.html"
@@ -24,6 +24,8 @@ kuiApp.config(function ($routeProvider) {
             templateUrl: "views/k8s/rc.html"
         }).when("/context", {
             templateUrl: "views/context.html"
+        }).when("/machines", {
+            templateUrl: "views/k8s/machines.html"
         }).when("/store", {
             templateUrl: "views/k8s/store.html"
         }).otherwise({
