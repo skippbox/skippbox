@@ -14,8 +14,13 @@
  limitations under the License.
  */
 
-kuiApp.controller("podController", function($rootScope, $scope, k8s, $filter, contextService, NgTableParams) {
+kuiApp.controller("machineController", function($rootScope, $scope, k8s, $filter, contextService, NgTableParams) {
     var self = this;
+    $scope.machines = {};
+    $scope.eing = [];
+    $scope.tal = [];
+    $scope.lala = "lele";
+    $scope.hideForm = true;
 
     var shell = require('shelljs');
 
@@ -33,15 +38,25 @@ kuiApp.controller("podController", function($rootScope, $scope, k8s, $filter, co
         });
     }
 
-    $scope.createMachine = function() {
+    $scope.createMachine = function(driver, name) {
+        console.log(driver);
         var cmd = 'kmachine create -d ' + driver + ' ' + name
         var child = shell.exec(cmd, { silent: true, async: true });
+        console.log(cmd);
 
         child.stdout.on('data', function(data) {
             console.log('Stdout: ', data);
         });
 
+        $scope.newMachineNameDO = "";
+        $scope.newMachineNameAWS = "";
+        $scope.newMachineNameRackspace = "";
+        $scope.newMachineNameVB = "";
+        $scope.$apply();
+
     }
+
+    //delete machine?
 
     $scope.launchDashboard = function() {
         var gui = require('nw.gui')
@@ -51,11 +66,16 @@ kuiApp.controller("podController", function($rootScope, $scope, k8s, $filter, co
     $scope.listMachine = function() {
         var child = shell.exec("kmachine ls | awk '{print $1}' | tail -n +2", { silent: true, async: true });
         child.stdout.on('data', function(data) {
-            console.log('Stdout: ', data);
+            console.log('Stdout: ', JSON.stringify(data.split("\n")));
+            $scope.machines=data.split("\n");
+            $scope.machines.pop();
+            $scope.$apply();
         });
     }
 
-    $scope.useMachine = function() {
+    $scope.listMachine();
+
+    $scope.useMachine = function(m) {
         var cmd = 'kubectl config use-context '.concat(m);
         console.log('command: ', cmd);
         var child = shell.exec(cmd, { silent: true, async: true });
