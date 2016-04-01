@@ -50,7 +50,7 @@ kuiApp.controller("machineController", function($rootScope, $scope, k8s, $filter
 
         $scope.newMachineNameDO = "";
         $scope.newMachineNameAWS = "";
-        $scope.newMachineNameRackspace = "";
+        $scope.newMachineNameExoscale = "";
         $scope.newMachineNameVB = "";
         $scope.$apply();
 

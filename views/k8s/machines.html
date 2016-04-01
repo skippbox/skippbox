@@ -14,9 +14,6 @@
    limitations under the License.
 -->
 <section class="content" ng-controller="machineController as machinec">
-    <div class="button-row">
-        <a ng-click="newMachine=!newMachine"><i class="btn btn-success fa fa-plus"> Create Machine </i></a>
-    </div>
     <div class="row">
         <div class="col-sm-12" ng-if="newMachine">
             <form ng-submit="createMachine(npStr, yaml);">
@@ -61,12 +58,12 @@
         </div>
         <div class="col-sm-3">
             <div class="panel panel-default">
-                <div class="panel-body"><img class="img-responsive" src="img/rackspace.svg" ng-click=""/></div>
+                <div class="panel-body"><img class="img-responsive" src="img/exoscale.svg" ng-click=""/></div>
                 <div class="panel-footer"  ng-hide="false">
                   <div class="input-group">
-                    <input class="form-control" id="inputMachineName" ng-model="newMachineNameRackspace" type="string" placeholder="Name" ng-required="true">
+                    <input class="form-control" id="inputMachineName" ng-model="newMachineNameExoscale" type="string" placeholder="Name" ng-required="true">
                     <span class="input-group-btn">
-                      <button class="btn" ng-click="createMachine('rackspace', newMachineNameRackspace)"><i class="glyphicon glyphicon-ok"> </i></button>
+                      <button class="btn" ng-click="createMachine('rackspace', newMachineNameExoscale)"><i class="glyphicon glyphicon-ok"> </i></button>
                     </span>
                   </div>
                 </div>
@@ -89,10 +86,10 @@
 
     <div class="row">
         <br>
-        <div class="col-sm-2" ng-repeat="m in machines track by $index">
+        <div class="col-sm-3" ng-repeat="m in machines track by $index">
           <div class="panel panel-default" style="background-color: #c6c6c6">
             <div class="panel-body" style="text-align: center;">{{m}}</div>
-            <div class="panel-footer"><button ng-click="useMachine(m);" class="btn btn-block btn-primary">use</button></div>
+            <div class="panel-footer"><button ng-click="useMachine(m);" class="btn btn-block btn-primary">activate</button></div>
           </div>
         </div>
     </div>
