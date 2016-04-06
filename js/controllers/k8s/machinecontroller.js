@@ -17,12 +17,10 @@
 kuiApp.controller("machineController", function($rootScope, $scope, k8s, $filter, contextService, NgTableParams) {
     var self = this;
     $scope.machines = {};
-    $scope.eing = [];
-    $scope.tal = [];
-    $scope.lala = "lele";
     $scope.hideForm = true;
 
-    var shell = require('shelljs');
+    //var shell = require('shelljs');
+    var shell = require('child_process');
 
     $scope.createProxy = function() {
         var child = shell.exec('kubectl proxy --port=8080', { silent: true, async: true });
@@ -47,6 +45,13 @@ kuiApp.controller("machineController", function($rootScope, $scope, k8s, $filter
         child.stdout.on('data', function(data) {
             console.log('Stdout: ', data);
         });
+        child.stderr.on('data', function(data) {
+            console.log('stderr :', data);
+        });
+
+        child.on('close', function(code) {
+            console.log('closing code: ' + code);
+        });
 
         $scope.newMachineNameDO = "";
         $scope.newMachineNameAWS = "";
@@ -67,7 +72,7 @@ kuiApp.controller("machineController", function($rootScope, $scope, k8s, $filter
         var child = shell.exec("kmachine ls | awk '{print $1}' | tail -n +2", { silent: true, async: true });
         child.stdout.on('data', function(data) {
             console.log('Stdout: ', JSON.stringify(data.split("\n")));
-            $scope.machines=data.split("\n");
+            $scope.machines = data.split("\n");
             $scope.machines.pop();
             $scope.$apply();
         });
