@@ -16,8 +16,9 @@
 
 kuiApp.controller("machineController", function($rootScope, $scope, k8s, $filter, contextService, NgTableParams) {
     var self = this;
-    $scope.machines = {};
+    $scope.machines = [];
     $scope.hideForm = true;
+    $scope.currentMachine = "";
 
     //var shell = require('shelljs');
     var shell = require('child_process');
@@ -51,6 +52,7 @@ kuiApp.controller("machineController", function($rootScope, $scope, k8s, $filter
 
         child.on('close', function(code) {
             console.log('closing code: ' + code);
+            $scope.$apply();
         });
 
         $scope.newMachineNameDO = "";
@@ -61,34 +63,86 @@ kuiApp.controller("machineController", function($rootScope, $scope, k8s, $filter
 
     }
 
-    //delete machine?
-
-    $scope.launchDashboard = function() {
-        var gui = require('nw.gui')
-        var new_win = gui.Window.open('http://localhost:8080/api/v1/proxy/namespaces/kube-system/services/kubernetes-dashboard/');
-    }
-
-    $scope.listMachine = function() {
-        var child = shell.exec("kmachine ls | awk '{print $1}' | tail -n +2", { silent: true, async: true });
-        child.stdout.on('data', function(data) {
-            console.log('Stdout: ', JSON.stringify(data.split("\n")));
-            $scope.machines = data.split("\n");
-            $scope.machines.pop();
-            $scope.$apply();
-        });
-    }
-
-    $scope.listMachine();
-
-    $scope.useMachine = function(m) {
-        var cmd = 'kubectl config use-context '.concat(m);
+    $scope.deleteMachine = function(m) {
+        $scope.deleteProxy();
+        console.log(m);
+        var cmd = 'kmachine rm '.concat(m[0]);
         console.log('command: ', cmd);
         var child = shell.exec(cmd, { silent: true, async: true });
         child.stdout.on('data', function(data) {
             console.log('context: ', data);
         });
         child.on('close', function(code) {
+            $scope.listMachines();
+        });
+    }
+
+    $scope.startMachine = function(m) {
+        $scope.deleteProxy();
+        console.log(m);
+        var cmd = 'kmachine start '.concat(m[0]);
+        console.log('command: ', cmd);
+        var child = shell.exec(cmd, { silent: true, async: true });
+        child.stdout.on('data', function(data) {
+            console.log('context: ', data);
+        });
+        child.on('close', function(code) {
+            $scope.listMachines();
+        });
+    }
+
+    $scope.stopMachine = function(m) {
+        $scope.deleteProxy();
+        console.log(m);
+        var cmd = 'kmachine stop '.concat(m[0]);
+        console.log('command: ', cmd);
+        var child = shell.exec(cmd, { silent: true, async: true });
+        child.stdout.on('data', function(data) {
+            console.log('context: ', data);
+        });
+        child.on('close', function(code) {
+            $scope.listMachines();
+        });
+    }
+
+    $scope.launchDashboard = function() {
+        var gui = require('nw.gui')
+        var new_win = gui.Window.open('http://localhost:8080/api/v1/proxy/namespaces/kube-system/services/kubernetes-dashboard/');
+    }
+
+    $scope.listMachines = function() {
+        $scope.machines = [];
+        var child = shell.exec("kmachine ls | tail -n +2", { silent: true, async: true });
+        child.stdout.on('data', function(data) {
+            console.log('Stdout: ', JSON.stringify(data.split("\n")));
+            var result = data.split("\n");
+            result.pop();
+            angular.forEach(result, function (elem, key) {
+                var machine = elem.split(/\s+/g);
+                console.log(JSON.stringify(machine));
+                machine[4]=false;
+                $scope.machines.push(machine);
+            });
+            $scope.$apply();
+        });
+    }
+
+    $scope.listMachines();
+
+    $scope.useMachine = function(m) {
+        $scope.deleteProxy();
+        $scope.currentMachine = m;
+        console.log(m);
+        var cmd = 'kubectl config use-context '.concat(m[0]);
+        console.log('command: ', cmd);
+        var child = shell.exec(cmd, { silent: true, async: true });
+        child.stdout.on('data', function(data) {
+            console.log('context: ', data);
+        });
+        child.on('close', function(code) {
+            m[4]=true;
             $scope.createProxy();
+            $scope.$apply();
         });
     }
 

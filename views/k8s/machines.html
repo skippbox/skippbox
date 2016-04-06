@@ -87,9 +87,16 @@
     <div class="row">
         <br>
         <div class="col-sm-3" ng-repeat="m in machines track by $index">
-          <div class="panel panel-default" style="background-color: #c6c6c6">
-            <div class="panel-body" style="text-align: center;">{{m}}</div>
-            <div class="panel-footer"><button ng-click="useMachine(m);" class="btn btn-block btn-primary">activate</button></div>
+          <div class="panel panel-default">
+            <div class="panel-heading" style="text-align: center;">{{m[0]}}</div>
+            <div class="panel-body" style="text-align: center;">
+              {{m[2]}} - {{m[3]}}
+            </div>
+            <div class="panel-footer">
+              <button ng-click="useMachine(m);" class="btn btn-primary" ng-hide="m[4]">activate</button></button><button ng-click="startMachine(m)" class="btn btn-success" ng-show="m[3]==='Stopped'">start</button><button ng-click="stopMachine(m);" class="btn btn-danger" ng-show="m[3]==='Running' && !m[4]">stop</button>
+              <button ng-click="deleteMachine(m);" class="btn btn-block btn-danger" ng-show="m[4]">stop</button>
+              <button ng-click="deleteMachine(m);" class="btn btn-block btn-dft">delete</button>
+            </div>
           </div>
         </div>
     </div>
