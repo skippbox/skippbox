@@ -87,6 +87,9 @@ kuiApp.controller("machineController", function($rootScope, $scope, k8s, $filter
         child.stdout.on('data', function(data) {
             console.log('context: ', data);
         });
+        child.on('close', function(code) {
+            $scope.createProxy();
+        });
     }
 
 });
