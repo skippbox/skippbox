@@ -16,9 +16,9 @@
 
 kuiApp.controller("machineController", function($rootScope, $scope, k8s, $filter, contextService, NgTableParams) {
     var self = this;
-    $scope.machines = [];
+    $scope.data =[]
     $scope.hideForm = true;
-    $scope.currentMachine = "";
+    $scope.data.currentMachine = "";
 
     //var shell = require('shelljs');
     var shell = require('child_process');
@@ -42,6 +42,8 @@ kuiApp.controller("machineController", function($rootScope, $scope, k8s, $filter
         var cmd = 'kmachine create -d ' + driver + ' ' + name
         var child = shell.exec(cmd, { silent: true, async: true });
         console.log(cmd);
+        $scope.data.machines.push([name, '-', driver, 'Starting']);
+
 
         child.stdout.on('data', function(data) {
             console.log('Stdout: ', data);
@@ -52,14 +54,13 @@ kuiApp.controller("machineController", function($rootScope, $scope, k8s, $filter
 
         child.on('close', function(code) {
             console.log('closing code: ' + code);
-            $scope.$apply();
+            $scope.listMachines();
         });
 
         $scope.newMachineNameDO = "";
         $scope.newMachineNameAWS = "";
         $scope.newMachineNameExoscale = "";
         $scope.newMachineNameVB = "";
-        $scope.$apply();
 
     }
 
@@ -74,6 +75,7 @@ kuiApp.controller("machineController", function($rootScope, $scope, k8s, $filter
         });
         child.on('close', function(code) {
             $scope.listMachines();
+            console.log('cerramos');
         });
     }
 
@@ -111,19 +113,22 @@ kuiApp.controller("machineController", function($rootScope, $scope, k8s, $filter
     }
 
     $scope.listMachines = function() {
-        $scope.machines = [];
+        $scope.data.machines = [];
         var child = shell.exec("kmachine ls | tail -n +2", { silent: true, async: true });
         child.stdout.on('data', function(data) {
-            console.log('Stdout: ', JSON.stringify(data.split("\n")));
+            //console.log('Stdout: ', JSON.stringify(data.split("\n")));
             var result = data.split("\n");
             result.pop();
             angular.forEach(result, function (elem, key) {
                 var machine = elem.split(/\s+/g);
-                console.log(JSON.stringify(machine));
+                //console.log(JSON.stringify(machine));
                 machine[4]=false;
-                $scope.machines.push(machine);
+                $scope.data.machines.push(machine);
             });
-            $scope.$apply();
+            child.on('close', function(code) {
+                //console.log(JSON.stringify($scope.data.machines));
+                $scope.$apply();
+            });
         });
     }
 
@@ -131,7 +136,7 @@ kuiApp.controller("machineController", function($rootScope, $scope, k8s, $filter
 
     $scope.useMachine = function(m) {
         $scope.deleteProxy();
-        $scope.currentMachine = m;
+        $scope.data.currentMachine = m;
         console.log(m);
         var cmd = 'kubectl config use-context '.concat(m[0]);
         console.log('command: ', cmd);
