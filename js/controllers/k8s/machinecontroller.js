@@ -18,6 +18,7 @@ kuiApp.controller("machineController", function($rootScope, $scope, k8s, $filter
     var self = this;
     $scope.data =[]
     $scope.hideForm = true;
+    $scope.data.machines =[]
     $scope.data.currentMachine = "";
 
     //var shell = require('shelljs');
@@ -70,6 +71,7 @@ kuiApp.controller("machineController", function($rootScope, $scope, k8s, $filter
         var cmd = 'kmachine rm '.concat(m[0]);
         console.log('command: ', cmd);
         var child = shell.exec(cmd, { silent: true, async: true });
+        m[4]='Waiting';
         child.stdout.on('data', function(data) {
             console.log('context: ', data);
         });
@@ -85,6 +87,7 @@ kuiApp.controller("machineController", function($rootScope, $scope, k8s, $filter
         var cmd = 'kmachine start '.concat(m[0]);
         console.log('command: ', cmd);
         var child = shell.exec(cmd, { silent: true, async: true });
+        m[4]='Waiting';
         child.stdout.on('data', function(data) {
             console.log('context: ', data);
         });
@@ -99,6 +102,7 @@ kuiApp.controller("machineController", function($rootScope, $scope, k8s, $filter
         var cmd = 'kmachine stop '.concat(m[0]);
         console.log('command: ', cmd);
         var child = shell.exec(cmd, { silent: true, async: true });
+        m[4]='Waiting';
         child.stdout.on('data', function(data) {
             console.log('context: ', data);
         });
@@ -136,16 +140,20 @@ kuiApp.controller("machineController", function($rootScope, $scope, k8s, $filter
 
     $scope.useMachine = function(m) {
         $scope.deleteProxy();
-        $scope.data.currentMachine = m;
+        angular.forEach($scope.data.machines, function (elem, key) {
+          elem[4]=false;
+        });
         console.log(m);
         var cmd = 'kubectl config use-context '.concat(m[0]);
         console.log('command: ', cmd);
         var child = shell.exec(cmd, { silent: true, async: true });
+        m[4]='Waiting';
         child.stdout.on('data', function(data) {
             console.log('context: ', data);
         });
         child.on('close', function(code) {
-            m[4]=true;
+            m[4]=m[3];
+            console.log(JSON.stringify(m[4]));
             $scope.createProxy();
             $scope.$apply();
         });
