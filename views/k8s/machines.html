@@ -29,7 +29,20 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row" ng-show="data.showTerminal">
+    <div class="col-sm-12" style="height: 200px; overflow: auto;">
+            <div class="panel panel-default">
+                <div class="panel-heading">Terminal</div>
+                <div class="panel-body" id="terminalBottom">
+                  <p ng-repeat="output in data.outputs track by $index">
+                    >> {{output}}
+                  </p>
+                  <div>>></div>
+                </div>
+            </div>
+        </div>
+      </div>
+      <div class="row" ng-hide="data.showTerminal">
         <div class="col-sm-3">
             <div class="panel panel-default">
                 <div class="panel-body"><img class="img-responsive" src="img/digitalocean.svg"/></div>

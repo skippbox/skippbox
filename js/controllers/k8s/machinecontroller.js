@@ -14,12 +14,12 @@
  limitations under the License.
  */
 
-kuiApp.controller("machineController", function($rootScope, $scope, k8s, $filter, contextService, NgTableParams) {
+kuiApp.controller("machineController", function($rootScope, $scope, $location, $anchorScroll, k8s, $filter, contextService, NgTableParams) {
     var self = this;
     $scope.data =[]
     $scope.hideForm = true;
     $scope.data.machines =[]
-    $scope.data.currentMachine = "";
+    $scope.data.showTerminal = false;
 
     //var shell = require('shelljs');
     var shell = require('child_process');
@@ -39,23 +39,29 @@ kuiApp.controller("machineController", function($rootScope, $scope, k8s, $filter
     }
 
     $scope.createMachine = function(driver, name) {
+        $scope.data.outputs = [];
         console.log(driver);
         var cmd = 'kmachine create -d ' + driver + ' ' + name
         var child = shell.exec(cmd, { silent: true, async: true });
+        $scope.data.showTerminal = true;
         console.log(cmd);
         $scope.data.machines.push([name, '-', driver, 'Starting']);
-
-
+        
         child.stdout.on('data', function(data) {
             console.log('Stdout: ', data);
+            $scope.data.outputs.push(data);
+            $scope.$apply();
         });
         child.stderr.on('data', function(data) {
             console.log('stderr :', data);
+            $scope.data.outputs.push(data);
+            $scope.$apply();
         });
 
         child.on('close', function(code) {
             console.log('closing code: ' + code);
             $scope.listMachines();
+            $scope.data.showTerminal = false;
         });
 
         $scope.newMachineNameDO = "";
