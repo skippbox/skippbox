@@ -28,12 +28,18 @@ kuiApp.controller("machineController", function($rootScope, $scope, k8s, $filter
         child.stderr.on('data', function(data) {
             console.log('stderr :', data);
         });
+        child.on('error', function(err) {
+            console.log('Error: ' + err);
+        });
     }
 
     $scope.deleteProxy = function() {
         var child = shell.exec('pgrep kubectl | xargs kill -9', { silent: true, async: true });
         child.stderr.on('data', function(data) {
             console.log('stderr :', data);
+        });
+        child.on('error', function(err) {
+            
         });
     }
 
@@ -53,6 +59,9 @@ kuiApp.controller("machineController", function($rootScope, $scope, k8s, $filter
         child.on('close', function(code) {
             console.log('closing code: ' + code);
             $scope.$apply();
+        });
+        child.on('error', function(err) {
+            console.log('Error: ' + err);
         });
 
         $scope.newMachineNameDO = "";
@@ -75,6 +84,9 @@ kuiApp.controller("machineController", function($rootScope, $scope, k8s, $filter
         child.on('close', function(code) {
             $scope.listMachines();
         });
+        child.on('error', function(err) {
+            console.log('Error: ' + err);
+        });
     }
 
     $scope.startMachine = function(m) {
@@ -89,6 +101,9 @@ kuiApp.controller("machineController", function($rootScope, $scope, k8s, $filter
         child.on('close', function(code) {
             $scope.listMachines();
         });
+        child.on('error', function(err) {
+            console.log('Error: ' + err);
+        });
     }
 
     $scope.stopMachine = function(m) {
@@ -102,6 +117,9 @@ kuiApp.controller("machineController", function($rootScope, $scope, k8s, $filter
         });
         child.on('close', function(code) {
             $scope.listMachines();
+        });
+        child.on('error', function(err) {
+            console.log('Error: ' + err);
         });
     }
 
@@ -125,6 +143,9 @@ kuiApp.controller("machineController", function($rootScope, $scope, k8s, $filter
             });
             $scope.$apply();
         });
+        child.on('error', function(err) {
+            console.log('Error: ' + err);
+        });
     }
 
     $scope.listMachines();
@@ -143,6 +164,9 @@ kuiApp.controller("machineController", function($rootScope, $scope, k8s, $filter
             m[4]=true;
             $scope.createProxy();
             $scope.$apply();
+        });
+        child.on('error', function(err) {
+            console.log('Error: ' + err);
         });
     }
 
