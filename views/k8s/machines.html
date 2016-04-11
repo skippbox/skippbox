@@ -29,7 +29,20 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row" ng-show="data.showTerminal">
+    <div class="col-sm-12" style="height: 200px; overflow: auto;">
+            <div class="panel panel-default">
+                <div class="panel-heading">Terminal</div>
+                <div class="panel-body" id="terminalBottom">
+                  <p ng-repeat="output in data.outputs track by $index">
+                    >> {{output}}
+                  </p>
+                  <div>>></div>
+                </div>
+            </div>
+        </div>
+      </div>
+      <div class="row" ng-hide="data.showTerminal">
         <div class="col-sm-3">
             <div class="panel panel-default">
                 <div class="panel-body"><img class="img-responsive" src="img/digitalocean.svg"/></div>
@@ -86,16 +99,19 @@
 
     <div class="row">
         <br>
-        <div class="col-sm-3" ng-repeat="m in machines track by $index">
+        <div class="col-sm-3" ng-repeat="m in data.machines track by $index">
           <div class="panel panel-default">
             <div class="panel-heading" style="text-align: center;">{{m[0]}}</div>
             <div class="panel-body" style="text-align: center;">
-              {{m[2]}} - {{m[3]}}
+              <p>{{m[2]}} - {{m[3]}}</p>
+              <i class="fa fa-refresh fa-spin" ng-show="m[3]==='Starting' || m[4]==='Waiting'" style="font-size:24px"></i>
             </div>
-            <div class="panel-footer">
-              <button ng-click="useMachine(m);" class="btn btn-primary" ng-hide="m[4]">activate</button></button><button ng-click="startMachine(m)" class="btn btn-success" ng-show="m[3]==='Stopped'">start</button><button ng-click="stopMachine(m);" class="btn btn-danger" ng-show="m[3]==='Running' && !m[4]">stop</button>
-              <button ng-click="deleteMachine(m);" class="btn btn-block btn-danger" ng-show="m[4]">stop</button>
-              <button ng-click="deleteMachine(m);" class="btn btn-block btn-dft">delete</button>
+            <div class="panel-footer" ng-hide="m[3]==='Starting' || m[3]=== 'Error'">
+              <button ng-click="useMachine(m);" class="btn btn-primary" ng-hide="m[4]">activate</button><button ng-click="startMachine(m)" class="btn btn-success" ng-show="m[3]==='Stopped' && !m[4]">start</button><button ng-click="stopMachine(m);" class="btn btn-danger" ng-show="m[3]==='Running' && !m[4]">stop</button><button ng-click="startMachine(m);" class="btn btn-block btn-success" ng-show="m[4]==='Stopped'">start</button><button ng-click="stopMachine(m);" class="btn btn-block btn-danger" ng-show="m[4]=='Running'">stop</button>
+              <button ng-click="deleteMachine(m);" class="btn btn-block">delete</button>
+            </div>
+            <div class="panel-footer" ng-show="m[3]==='Error'">
+              <button ng-click="listMachines();" class="btn btn-block btn-danger">reload machines</button>
             </div>
           </div>
         </div>
