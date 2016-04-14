@@ -15,22 +15,13 @@
 -->
 <section class="content" ng-controller="machineController as machinec">
     <div class="row">
-        <div class="col-sm-12" ng-if="newMachine">
-            <form ng-submit="createMachine(npStr, yaml);">
-                <textarea id="jsonTextarea1" ng-model="npStr" class="ng-pristine ng-valid form-control edit_textarea" placeholder="Machine Definition in JSON or YAML format."></textarea>
-                <span style="float: right"> <input type="checkbox"
-                       ng-model="yaml"
-                       name="yaml"
-                        > YAML</span>
-                <br/>
-                <button class="btn cancel_button" ng-click="cancelCreateBtn();"><i class="glyphicon glyphicon-remove"> </i></button>
-                <button class="btn-small valid_button" type="submit"><i class="glyphicon glyphicon-ok"> </i></button>
-            </form>
+        <div class="button-row">
+            <a ng-click="launchDashboard()"> <i class="btn btn-success fa fa-dashboard"> Launch Dashboard </i> </a>
         </div>
     </div>
 
     <div class="row" ng-show="data.showTerminal">
-    <div class="col-sm-12" style="height: 200px; overflow: auto;">
+    <div class="col-sm-12" style="height: 200px; overflow: auto;" id="bottom">
             <div class="panel panel-default">
                 <div class="panel-heading">Terminal</div>
                 <div class="panel-body" id="terminalBottom">
