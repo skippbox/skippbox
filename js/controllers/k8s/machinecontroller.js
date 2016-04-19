@@ -18,7 +18,7 @@ kuiApp.controller("machineController", function($rootScope, $scope, $location, $
     var self = this;
     $scope.data = []
     $scope.hideForm = true;
-    $scope.data.machines = []
+    $scope.data.machines = [];
     $scope.data.showTerminal = false;
 
     //var shell = require('shelljs');
@@ -51,9 +51,7 @@ kuiApp.controller("machineController", function($rootScope, $scope, $location, $
     }
 
     $scope.createMachine = function(driver, name) {
-        //$location.hash('bottom');
         $scope.data.outputs = [];
-        console.log(driver);
         var cmd = 'kmachine create -d ' + driver + ' ' + name
         var child = shell.exec(cmd, { silent: true, async: true });
         $scope.data.showTerminal = true;
@@ -61,15 +59,11 @@ kuiApp.controller("machineController", function($rootScope, $scope, $location, $
         $scope.data.machines.push([name, '-', driver, 'Starting']);
 
         child.stdout.on('data', function(data) {
-            //$location.hash('bottom');
             console.log('Stdout: ', data);
             $scope.data.outputs.push(data);
             $scope.$apply();
-            //console.log(JSON.stringify($location.hash('bottom')));
-            //$anchorScroll();
             var objDiv = document.getElementById("bottom");
             objDiv.scrollTop = objDiv.scrollHeight;
-            console.log('Altura: ' + objDiv.scrollHeight);
         });
         child.stderr.on('data', function(data) {
             console.log('stderr :', data);
@@ -95,7 +89,6 @@ kuiApp.controller("machineController", function($rootScope, $scope, $location, $
 
     $scope.deleteMachine = function(m) {
         $scope.deleteProxy();
-        console.log(m);
         var cmd = 'kmachine rm '.concat(m[0]);
         console.log('command: ', cmd);
         var child = shell.exec(cmd, { silent: true, async: true });
@@ -114,7 +107,6 @@ kuiApp.controller("machineController", function($rootScope, $scope, $location, $
 
     $scope.startMachine = function(m) {
         $scope.deleteProxy();
-        console.log(m);
         var cmd = 'kmachine start '.concat(m[0]);
         console.log('command: ', cmd);
         var child = shell.exec(cmd, { silent: true, async: true });
@@ -133,7 +125,6 @@ kuiApp.controller("machineController", function($rootScope, $scope, $location, $
 
     $scope.stopMachine = function(m) {
         $scope.deleteProxy();
-        console.log(m);
         var cmd = 'kmachine stop '.concat(m[0]);
         console.log('command: ', cmd);
         var child = shell.exec(cmd, { silent: true, async: true });
@@ -159,11 +150,8 @@ kuiApp.controller("machineController", function($rootScope, $scope, $location, $
     }
 
     $scope.listMachines = function() {
-        console.log('Dentro de listMachines');
         $scope.data.machines = [];
         var child = shell.exec("kmachine ls | tail -n +2", { silent: true, async: true });
-        console.log('Lanzado el comando');
-        console.log(JSON.stringify($scope.data.machines));
         child.stdout.on('data', function(data) {
             console.log('Stdout: ', JSON.stringify(data));
             var result = data.split("\n");
@@ -177,7 +165,7 @@ kuiApp.controller("machineController", function($rootScope, $scope, $location, $
         });
         child.on('close', function(code) {
             console.log('closing code: ' + code);
-            $scope.$apply();
+            $scope.getCurrentContext();
         });
         child.on('error', function(err) {
             console.log('Error: ' + err);
@@ -186,12 +174,33 @@ kuiApp.controller("machineController", function($rootScope, $scope, $location, $
 
     $scope.listMachines();
 
+    $scope.getCurrentContext = function() {
+        $scope.data.currentContext = '';
+        var child = shell.exec("kubectl config current-context", { silent: true, async: true });
+        child.stdout.on('data', function(data) {
+            console.log('Stdout: ', JSON.stringify(data));
+            $scope.data.currentContext = data.replace("\n", "");
+            angular.forEach($scope.data.machines, function(elem, key) {
+                if (elem[0]===$scope.data.currentContext) $scope.useMachine($scope.data.machines[key]);
+            });
+        });
+        child.stderr.on('data', function(data) {
+            console.log('stderr: ', JSON.stringify(data));
+        });
+        child.on('close', function(code) {
+            console.log('closing code: ' + code);
+            $scope.$apply();
+        });
+        child.on('error', function(err) {
+            console.log('Error: ' + err);
+        });
+    }
+
     $scope.useMachine = function(m) {
         $scope.deleteProxy();
         angular.forEach($scope.data.machines, function(elem, key) {
             elem[4] = false;
         });
-        console.log(m);
         var cmd = 'kubectl config use-context '.concat(m[0]);
         console.log('command: ', cmd);
         var child = shell.exec(cmd, { silent: true, async: true });
