@@ -16,18 +16,13 @@
 
 <div class="navbar navbar-inverse navbar-fixed-top" data-ng-class="{sidebarOpen:sidebarOpen}">
     <div class="container">
-        <ul class="nav navbar-nav appbuttons close-project" style="-webkit-app-region: no-drag">
-            <li class="pull-left closebutton close-button" draggable="false" onClick="win.close();"></li>
-            <li class="minimize-button" onClick="win.minimize();"></li>
-            <li class="fullscreen-button fullscreen-expand" onClick="win.toggleFullscreen();"></li>
-          </ul>
-        <ul class="nav navbar-left">
+        <div class="nav navbar-left">
           <a class="navbar-brand" href="#">
             <img class="icon" src="img/icon.png"/>
             <img class="logo" src="img/logo.png"/>
           </a>
 
-        </ul>
+        </div>
         <ul class="nav navbar-right">
           <li class="header-refresh" ng-click="refresh()">
             <a><i class="fa fa-refresh"></i></a>
@@ -43,10 +38,11 @@
   <div class="sidebar-toggle" ng-click="toggleSidebar()">
     <i class="fa" data-ng-class="sidebarOpen ? 'fa-caret-square-o-left' : 'fa-caret-square-o-right'"></i>
   </div>
-
-  <div class="sidebar-header">
-
-  </div>
+  <ul class="sidebar-appbuttons">
+    <li class="app-button close-button" draggable="false" onClick="win.close();"></li>
+    <li class="app-button minimize-button" onClick="win.minimize();"></li>
+    <li class="app-button fullscreen-button" onClick="win.toggleFullscreen();"></li>
+  </ul>
   <div class="sidebar-links">
     <a href="#/pods"><div class="sidebar-link" data-ng-class="{active:isActive('/pods')}">
         <i class="fa fa-cube"></i>Pods
@@ -58,10 +54,10 @@
         <i class="fa fa-clone"></i>Replication Controllers
     </div></a>
     <a href="#/context"><div class="sidebar-link" data-ng-class="{active:isActive('/context')}">
-        <i class="fa fa-file-o"></i>Endpoints
+        <i class="fa fa-dot-circle-o"></i>Endpoints
     </div></a>
     <a href="#/machines"><div class="sidebar-link" data-ng-class="{active:isActive('/machines')}">
-        <i class="fa fa-th"></i>Machines
+        <i class="fa fa-desktop"></i>Machines
     </div></a>
     <a href="#/store"><div class="sidebar-link" data-ng-class="{active:isActive('/store')}" >
         <i class="fa fa-building-o"></i>Store

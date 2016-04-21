@@ -16,6 +16,7 @@
 body {
     padding-top: 60px;
     background: #E9E9E9;
+    overflow: hidden;
 }
 #container {
     padding:0px 0px;
@@ -148,160 +149,9 @@ textarea.edit_textarea{
 
 
 /*  ----- CUSTOM ----- */
-
-/* SIDEBAR */
-.sidebar {
-  position: fixed;
-  width: 200px;
-  height: 100%;
-  left: 0px; top: 0px;
-  background: #2c3e50;
-  border-right: 1px solid #263545;
-  -webkit-transition: all 0.5s ease;
-}
-.sidebar-header {
-  display: block;
-  width: 100%;
-  height: 80px;
-  padding: 20px 0px;
-}
-.sidebar-links {
-  margin-top: 20px;
-}
-.sidebar-link {
-  padding: 15px 10px;
-  padding-bottom: 10px;
-  font-weight: 300;
-  cursor: pointer;;
-  color: rgba(255, 255, 255, 0.7);
-  text-decoration: none;
-}
-.sidebar-link.active {
-  background: rgba(255,255,255,0.1);
-  color: white;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
-  border-top: 1px solid rgba(255,255,255,0.1);
-}
-.sidebar-link:hover {
-  background: rgba(255,255,255,0.1);
-}
-.sidebar-link i.fa {
-  margin-right: 10px;
-}
-
-.sidebar:not(.open) {
-  left: -200px;
-}
-
 section.content {
   -webkit-transition: all 0.5s ease;
 }
-.sidebarOpen section.content {
-  margin-left: 200px;
-}
-
-.sidebar-toggle {
-  display: block;
-  position: fixed;
-  bottom: 10px;
-  left: 15px;
-  font-size: 20px;
-  color: rgba(255, 255, 255, 0.5);
-  cursor: pointer;
-}
-.sidebar:not(.open) .sidebar-toggle {
-  color: rgba(0,0,0,0.5);
-}
-
-/* NAVBAR */
-.navbar {
-  -webkit-app-region: drag;
-  background: white;
-  color: #468EC6;
-  height: 70px;
-  padding-top: 20px;
-  border-bottom-color: lightgrey;
-  -webkit-transition: all 0.5s ease;
-}
-.navbar .appbuttons {
-  position: absolute;
-  top: -12px;
-  left: -2px;
-}
-.navbar .container {
-  width: 100%;
-}
-.navbar ul.nav {
-  display: inline-block !important;
-}
-.navbar ul.nav.navbar-left {
-  min-width: 300px;
-}
-.navbar .navbar-brand {
-  margin-right: 30px;
-}
-.navbar .nav li {
-  display: inline-block;
-  cursor: pointer;
-  font-size: 20px;
-}
-.navbar .nav li a:hover, .navbar .nav li a:focus {
-  opacity: 0.6;
-  background: transparent;
-}
-.navbar .nav li a {
-  color: #606262;
-}
-
-.navbar-brand {
-  padding: 7px 15px;
-  color: #606262 !important;
-  font-weight: 600;
-}
-.navbar-brand img.icon {
-  height: 40px;
-  display: inline-block;
-  margin-right: 5px;
-  margin-top: -2px;
-}
-.navbar-brand img.logo {
-  height: 25px;
-  display: inline-block;
-  margin-top: -2px;
-}
-
-.header-search {
-  background: transparent;
-  height: 35px;
-  width: 300px;
-  margin: 7px 10px;
-  font-size: 16px !important;
-  color: #606262;
-}
-.header-search input {
-  width: 100%;
-  height: 100%;
-  padding-left: 15px;
-  border: 0;
-  box-shadow: none;
-  background: rgba(0, 0, 0, 0.1);
-  border-radius: 5px;
-  outline: none;
-}
-.header-search input::-webkit-input-placeholder { /* WebKit, Blink, Edge */
-    color: #808080;
-    opacity: 0.8;
-}
-
-.button-row {
-  float: right;
-  display: inline-block;
-  margin: 20px 0px;
-}
-.button-row a {
-  margin-right: 10px;
-}
-
 
 /* TABLE */
 
@@ -328,55 +178,13 @@ table td {
   min-width: 100px;
 }
 
-
-
-
-/* Close/Minimize/Fullscreen */
-
-.close-button {
-  margin-top: 17px;
-  margin-left: 10px;
-  height: 12px;
-  width: 12px;
-  background: url(../img/close-normal.svg);
-  background-size: 12px 12px;
+.button-row {
+  float: right;
+  display: inline-block;
+  margin: 20px 0px;
 }
-
-.close-button:hover {
-  background: url(../img/close-hover.svg);
-  background-size: 12px 12px;
-}
-
-.minimize-button {
-  margin-top: 17px;
-  margin-left: 10px;
-  height: 12px;
-  width: 12px;
-  background: url(../img/min-normal.svg);
-  background-size: 12px 12px;
-}
-
-.minimize-button:hover {
-  background: url(../img/min-hover.svg);
-  background-size: 12px 12px;
-}
-
-.fullscreen-button {
-  margin-right: 15px;
-}
-
-.fullscreen-expand {
-  margin-top: 17px;
-  margin-left: 10px;
-  height: 12px;
-  width: 12px;
-  background: url(../img/max-normal.svg);
-  background-size: 12px 12px;
-}
-
-.fullscreen-expand:hover {
-  background: url(../img/max-hover.svg);
-  background-size: 12px 12px;
+.button-row a {
+  margin-right: 10px;
 }
 
 /* Store */
@@ -394,11 +202,11 @@ table td {
 
 /* Panel */
 .panel {
-  margin-top: 5px; 
+  margin-top: 5px;
 }
 
-pre.panel-pre{ 
-  border: 0px; 
-  border-radius: 0px; 
+pre.panel-pre{
+  border: 0px;
+  border-radius: 0px;
   background-color: inherit;
 }

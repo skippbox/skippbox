@@ -21,10 +21,8 @@
     "resizable": true,
     "width": 1000,
     "height": 600,
-    "min_width": 600,
+    "min_width": 800,
     "min_height": 400,
-    "max_width": 1000,
-    "max_height": 800,
     "position": "center"
   },
   "author": "The skippbox authors",

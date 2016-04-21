@@ -1,0 +1,113 @@
+/* SIDEBAR */
+
+.sidebar {
+  position: fixed;
+  width: 100px;
+  height: 100%;
+  left: 0px; top: 0px;
+  background: #2A4057;
+  border-right: 1px solid #263545;
+  box-shadow: inset -8px 0px 10px -10px;
+  -webkit-transition: all 0.5s ease;
+  display: flex;
+}
+.sidebar-links {
+  overflow-y: scroll;
+  flex: 1;
+  flex-direction: column;
+  margin-top: 40px;
+  padding: 40px 0px;
+}
+.sidebar-links::-webkit-scrollbar {
+  display: none;
+}
+.sidebar-links a {
+  text-decoration: none;
+}
+.sidebar-link {
+  padding: 15px 10px;
+  padding-bottom: 10px;
+  font-weight: 300;
+  font-size: 12px;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.5);
+  text-align: center;
+  border-top: 1px solid transparent;
+  border-bottom: 1px solid transparent;
+}
+.sidebar-link.active {
+  background: rgba(255,255,255,0.1);
+  color: white;
+  border-color: rgba(255,255,255,0.1);
+}
+.sidebar-link:hover {
+  background: rgba(255,255,255,0.05);
+}
+.sidebar-link i.fa {
+  display: block;
+  font-size: 25px;
+  margin-bottom: 5px;
+}
+
+.sidebar:not(.open) {
+  left: -200px;
+}
+
+.sidebarOpen section.content {
+  margin-left: 200px;
+}
+
+.sidebar-toggle {
+  display: block;
+  position: fixed;
+  bottom: 10px;
+  left: 15px;
+  font-size: 20px;
+  color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+}
+.sidebar:not(.open) .sidebar-toggle {
+  color: rgba(0,0,0,0.5);
+}
+
+/* Close/Minimize/Fullscreen */
+.sidebar-appbuttons {
+  display: block;
+  list-style: none;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  -webkit-app-region: drag;
+  padding: 10px 0px 0px 0px;
+  cursor: default;
+  text-align: center;
+}
+.sidebar-appbuttons li {
+  display: inline-block;
+}
+.sidebar-appbuttons .app-button {
+  height: 12px;
+  width: 12px;
+  background-size: 12px 12px;
+}
+.close-button {
+  background-image: url(../img/close-normal.svg);
+  margin-right: 8px;
+}
+.close-button:hover {
+  background-image: url(../img/close-hover.svg);
+}
+.minimize-button {
+  background-image: url(../img/min-normal.svg);
+  margin-right: 8px;
+}
+.minimize-button:hover {
+  background-image: url(../img/min-hover.svg);
+}
+.fullscreen-button {
+  background-image: url(../img/max-normal.svg);
+}
+.fullscreen-button:hover {
+  background-image: url(../img/max-hover.svg);
+}
