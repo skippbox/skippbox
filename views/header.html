@@ -14,7 +14,7 @@
    limitations under the License.
 -->
 
-<div class="navbar navbar-inverse navbar-fixed-top" data-ng-class="{sidebarOpen:sidebarOpen}">
+<div class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="nav navbar-left">
           <a class="navbar-brand" href="#">
@@ -34,10 +34,8 @@
     </div>
 </div>
 
-<div class="sidebar" data-ng-class="{open:sidebarOpen}">
-  <div class="sidebar-toggle" ng-click="toggleSidebar()">
-    <i class="fa" data-ng-class="sidebarOpen ? 'fa-caret-square-o-left' : 'fa-caret-square-o-right'"></i>
-  </div>
+<div class="sidebar">
+
   <ul class="sidebar-appbuttons">
     <li class="app-button close-button" draggable="false" onClick="win.close();"></li>
     <li class="app-button minimize-button" onClick="win.minimize();"></li>

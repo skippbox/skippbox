@@ -15,21 +15,22 @@
 -->
 <section >
 
-    <div class="labelSection" data-ng-show="rw">
-        <div class="addLablel_div">
+    <div  class="label-div" ng-repeat="(k, v) in labelJson">
+        <div class="label_text"><span style="">{{k}} </span> : <span style="">{{v}}</span>
+            <i ng-click="removeLabel(k)" class="fa fa-close"></i>
+        </div>
+    </div>
+
+    <div class="labelSection" ng-show="rw">
+        <div class="addLabel_div">
             <form class="">
-                <input class="form-control" type="text" ng-model="newLabel" placeholder="key:value"/>
-                <button class="btn add_label_btn1 btn-mini" ng-click="addLabel(newLabel);">+</button>
-                <br/>
+              <div class="input-group input-group-sm">
+                <input type="text" class="form-control" ng-model="newLabel" placeholder="key:value">
+                <span class="input-group-btn">
+                  <button class="btn btn-default add_label_btn1" ng-click="addLabel(newLabel);" type="button">+</button>
+                </span>
+              </div>
             </form>
         </div>
     </div>
-
-
-    <div  class="label-div" ng-repeat="(k, v) in labelJson">
-        <div class="label_text"><span style="">{{k}} </span> : <span style="">{{v}}</span>
-            <i ng-click="removeLable(k)" ng-if="rw" class="fa fa-close"></i>
-        </div>
-    </div>
-
 </section>

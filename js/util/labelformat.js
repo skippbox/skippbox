@@ -29,7 +29,7 @@ angular.module('LabelFormat', [])
             },
             templateUrl: 'views/partial/labelformat.html',
             link: function (scope, elem, attrs) {
-                scope.addLablelDiv = false;
+                scope.addLabelDiv = false;
                 scope.showThis = true;
 
 
@@ -41,13 +41,13 @@ angular.module('LabelFormat', [])
                     scope.labelJson = {}
                 }
 
-                scope.removeLable = function (k) {
+                scope.removeLabel = function (k) {
                     delete scope.labelJson[k];
                     scope.updateLabelFn(JSON.stringify(scope.labelJson), scope.key);
                 }
 
                 scope.showLabelAdd = function () {
-                    scope.addLablelDiv = !scope.addLablelDiv;
+                    scope.addLabelDiv = !scope.addLabelDiv;
                 }
 
                 scope.addLabel = function (newLabel) {

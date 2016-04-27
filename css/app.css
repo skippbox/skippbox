@@ -18,33 +18,19 @@ body {
     background: #E9E9E9;
     overflow: hidden;
 }
-#container {
-    padding:0px 0px;
+.container {
+  padding-left: 115px;
 }
-.gray {
-  color: gray;
+section.content {
+  -webkit-transition: all 0.5s ease;
 }
-.thumb-big
-{
-    height: 199px;
-}
-.movies-list
-{
-    text-align: center;
-}
-.availability
-{
-    padding: 9px;
-    font-size: 12px;
-    font-weight: 500;
-    color: black;
-}
-.bookThumb
-{
-    height: 149px;
-    padding-right: 21px;
+textarea.edit_textarea{
+    width: 100%;
+    height: 100px;
+    border-color: lightgrey;
 }
 
+/* BUTTONS */
 .btn-info {
   background-color: #468EC6;
   border-color: #4185B8;
@@ -53,21 +39,6 @@ body {
   background-color: #78C157;
   border-color: #6BAE4F;
 }
-.ng-table th.filter,  .ng-table th.filter .input-filter  { display:none;}
-
-.table  { margin:20px 0px ;}
-.table-row{ border: 1px solid #ddd;}
-
-.table-row:nth-child(1){   border: 1px solid #ddd;
-    border-bottom: 0px none;
-    padding: 0px 0px;
-    line-height: 30px;  }
-.border-right{ border-right : 1px solid #ddd}
-.border-bottom{ border-bottom: 1px solid #ddd;
-    line-height: 28px; }
-.width-full { width:100%; display:inline-block; }
-.border-bottom:last-child{ border-bottom : none;}
-
 .cancel_button, .valid_button {
   display: inline-block;
   background: white;
@@ -83,100 +54,7 @@ body {
 .valid_button {
   color: #568446;
 }
-
 .click_item { cursor:pointer;}
-
-.header_dropdown {
-  float: right;
-  margin: 20px 0px;
-  padding: 6px 10px;
-  padding: 20px;
-  height: 28px;
-}
-
-.label-div{
-    display: block;
-    margin: 10px 0px 0px;
-}
-.label_text {
-    display: inline-block;
-    background: #ECECEC;
-    padding: 0px;
-    margin: 0px 0px 0px 6px;
-    border: 1px solid #E2E2E2;
-}
-.label_text span{
-    margin: 6px;
-}
-.label_text i{ cursor: pointer;
-    margin: 0px 0px 0px 4px;
-    background: #DDD;
-    padding: 6px 5px;
-    color: #737373;
-    font-weight: normal;
-    font-size: 12px; }
-.labelSection { display: inline-block;}
-.addLabel_btn {   font-size: 12px;
-    padding: 4px 4px;
-    display: inline-block;
-    background: #5BC0DE;
-    color: #FFf;
-    margin: -1px 0px 0px 0px;
-    border: 1px solid #5BC0DE;
-    border-bottom: none;  }
-
-.addLabel_btn   i {
-    margin: 0px 6px 0px 2px;  }
-.addLablel_div { margin:10px 0px; padding: 0px; }
-.addLablel_div .btn.btn-mini { margin:10px 0px}
-
-textarea.edit_textarea{
-    width: 100%;
-    height: 100px;
-    border-color: lightgrey;
-}
-
-.labelSection { width:100%; display: block;}
-.add_label_btn1{
-    position: relative;
-    right: 10px;
-    float: right;
-    z-index: 999;
-    margin: -34px -9px !important;
-    display: inline-block;
-  }
-.labelSection  .form-control:focus, .labelSection  .form-control:hover{ outline:none; box-shadow: none}
-
-
-/*  ----- CUSTOM ----- */
-section.content {
-  -webkit-transition: all 0.5s ease;
-}
-
-/* TABLE */
-
-.table-container {
-  background: white;
-  clear: both;
-  margin: 20px 0px;
-  padding: 10px;
-  padding-top: 0px;
-  border: 1px solid lightgrey;
-  border-radius: 4px;
-  overflow-x: scroll;
-}
-table thead tr {
-  border: 1px solid white;
-  border-bottom: 2px solid #468EC6;
-}
-table thead tr th {
-  border: 0 !important;
-  text-align: left !important;
-}
-table td {
-  word-break: break-all;
-  min-width: 100px;
-}
 
 .button-row {
   float: right;
@@ -187,8 +65,116 @@ table td {
   margin-right: 10px;
 }
 
-/* Store */
+/* TABLE */
 
+.table-container {
+  background: white;
+  clear: both;
+  margin: 20px 0px;
+  padding: 20px;
+  border-radius: 4px;
+  border: 1px solid lightgrey;
+  overflow-x: scroll;
+}
+.table-title {
+  font-size: 25px;
+}
+.ng-table th.filter,  .ng-table th.filter .input-filter  { display:none;}
+.table, table th, table tr, table td {
+  border: 0 !important;
+  text-align: left !important;
+}
+.table thead tr {
+  border-bottom: 2px solid #468EC6 !important;
+}
+.table thead th {
+  font-weight: 400;
+}
+.table th.sortable .sort-indicator:after, .table th.sortable .sort-indicator:before {
+  opacity: .2;
+}
+.table tr {
+  border-bottom: 1px solid lightgrey !important;
+}
+.table td {
+  word-break: break-all;
+  min-width: 100px;
+}
+.table tbody tr td {
+  padding-top: 16px;
+}
+.table tbody tr td .fa {
+  padding-top: 3px;
+}
+.table-actions {
+  text-align: right !important;
+  padding-top: 10px !important;
+}
+.table-actions-header {
+  text-align: right !important;
+}
+.table .click_item {
+  color: #468EC6;
+}
+.table .labels-list {
+  max-width: 200px;
+}
+
+/* LABEL */
+
+.label-div{
+    float: left;
+}
+.label_text {
+    position: relative;
+    display: inline-block;
+    background: #ECECEC;
+    padding: 0px;
+    margin: 0px 6px 6px 0px;
+    border: 1px solid #E2E2E2;
+}
+.label_text span{
+    margin: 6px;
+}
+.label_text i {
+  display: none;
+  position: absolute;
+  right: 0px; top: 0px;
+  height: 100%;
+  padding: 0px 5px;
+  background: lightgrey;
+  cursor: pointer;
+  color: grey;
+}
+.label_text:hover i  {
+  display: block;
+}
+
+.labelSection {
+  /*min-width: 150px;*/
+  clear: both;
+  display: block;
+  width: 100%;
+}
+.addLabel_div {
+  margin-bottom: 5px;
+}
+.addLabel_div .input-group {
+  width: 150px;
+  box-shadow: none;
+}
+.addLabel_div input {
+  border: 0;
+  box-shadow: 0;
+}
+.addLabel_div .form-control {
+  outline:none;
+  box-shadow: none;
+  border: 1px solid lightgrey;
+}
+
+
+/* Store */
 .store-container {
   background: white;
   clear: both;

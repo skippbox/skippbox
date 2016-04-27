@@ -17,7 +17,6 @@
 kuiApp.controller("kuiController", function ($rootScope, $scope, $location, $route, $filter, config, contextService) {
 
     $scope.headerSrc = "views/header.html";
-    $scope.sidebarOpen = true;
     $scope.contexts = config.Contexts;
     $scope.clusters = config.Clusters;
     $scope.users = config.Users;
@@ -72,10 +71,6 @@ kuiApp.controller("kuiController", function ($rootScope, $scope, $location, $rou
 
     $scope.refresh = function () {
         $route.reload();
-    }
-
-    $scope.toggleSidebar = function () {
-        $scope.sidebarOpen = !$scope.sidebarOpen;
     }
 
     $scope.searchString = function(txt) {

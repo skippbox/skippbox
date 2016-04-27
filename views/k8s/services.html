@@ -60,14 +60,13 @@
             <td  title="'ClusterIP'" filter="{ name: 'text'}" sortable="'service.spec.clusterIP'">
                 <span>  {{s.service.spec.clusterIP}} </span> </td>
 
-            <td  title="'Labels'" filter="{ name: 'text'}" sortable="'service.metadata.labels'">
-                <i style="float: right;font-size: 14px" ng-click="editing = !editing;" class="fa fa-magic click_item"> </i>
-                <br/>
+            <td  title="'Labels'" class="labels-list" filter="{ name: 'text'}" sortable="'service.metadata.labels'">
                 <labelformat  json="s.service.metadata.labels" fn="updateLabel" name="s.service.metadata.name" rw="editing"/>
+                <i class="fa pull-left labels-add click_item" ng-class="editing ? 'fa-times' : 'fa-plus'" ng-click="editing = !editing;" />
             </td>
 
 
-            <td  title="'Actions'">
+            <td class="table-actions" title="'Actions'" header-class="'table-actions-header'">
                 <a ng-click="editPressed=!editPressed;editService(s.id, s.service);" class="btn btn-info"
                    title="Edit"> <i
                         class="fa fa-edit"></i></a>

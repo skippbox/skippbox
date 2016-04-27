@@ -16,8 +16,8 @@
     "nw.js"
   ],
   "window": {
-    "frame": false,
-    "toolbar": false,
+    "frame": true,
+    "toolbar": true,
     "resizable": true,
     "width": 1000,
     "height": 600,
@@ -36,6 +36,7 @@
     "os-homedir": "^1.0.1"
   },
   "devDependencies": {
-    "nw-builder": "^2.0.2"
+    "nw-builder": "^2.0.2",
+    "nw-dev": "^1.3.1"
   }
 }

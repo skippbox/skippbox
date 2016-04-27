@@ -38,9 +38,9 @@
 
     <div class="row table-container" ng-if="podsReady">
         <table  ng-table="podc.tableParams" class="table table-bordered table-responsive table-hover" show-filter="true">
-            <tr  ng-repeat="p in $data ">
-                <td title="'Name'" filter="{ name: 'text'}" sortable="'pod.metadata.name'">
-                    <span  class="click_item" ng-click="showpod=!showpod; editPod(p.id, p.pod);"> {{p.pod.metadata.name}} </span>
+            <tr ng-repeat="p in $data ">
+                <td title="'Pod'" filter="{ name: 'text'}" sortable="'pod.metadata.name'">
+                    <span class="click_item" ng-click="showpod=!showpod; editPod(p.id, p.pod);"> {{p.pod.metadata.name}} </span>
                     <div class="edit_row col-sm-12"  ng-if="(showpod || editPressed) && pStr">
                         <form ng-show="{{p.id}} && pStr"
                               ng-submit="updatePod(p.id, pStr, p.pod.metadata.name);">
@@ -64,13 +64,12 @@
                 <td title="'Status'" filter="{ status: 'text'}" sortable="'pod.status.phase'">
                     {{p.pod.status.phase}}
                 </td>
-                <td title="'Labels'" filter="{ labels: 'text'}" sortable="'pod.metadata.labels'">
-                    <i style="float: right;font-size: 14px" ng-click="editing = !editing;" class="fa fa-magic click_item"> </i>
-                    <br/>
+                <td title="'Labels'" class="labels-list" filter="{ labels: 'text'}" sortable="'pod.metadata.labels'">
                     <labelformat json="p.pod.metadata.labels" fn="updateLabel" name="p.pod.metadata.name" rw="editing"/>
+                    <i class="fa pull-left labels-add click_item" ng-class="editing ? 'fa-times' : 'fa-plus'" ng-click="editing = !editing;" />
                 </td>
 
-                <td class="table-actions" title="'Actions'">
+                <td class="table-actions" title="'Actions'" header-class="'table-actions-header'">
                     <a ng-click="editPressed=!editPressed;editPod(p.id, p.pod);" class="btn btn-info" title="Edit"> <i
                             class="fa fa-edit"></i></a>
                     <a ng-click="delete(p.pod.metadata.name);" class="btn btn-warning" title="delete"> <i
