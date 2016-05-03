@@ -22,6 +22,7 @@ body {
   padding-left: 115px;
 }
 section.content {
+  position: relative;
   -webkit-transition: all 0.5s ease;
 }
 textarea.edit_textarea{
@@ -118,6 +119,23 @@ textarea.edit_textarea{
 }
 .table .labels-list {
   max-width: 200px;
+}
+.table .json-cell {
+  position: relative;
+}
+.table .json-cell .expand {
+  position: absolute;
+  right: 15px; top: 20px;
+  cursor: pointer;
+}
+.table .json-cell pre {
+  max-height: 50px;
+}
+.table .json-cell.open pre{
+  max-height: none;
+}
+.pagination {
+  margin: 0;
 }
 
 /* LABEL */

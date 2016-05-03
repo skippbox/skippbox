@@ -83,8 +83,11 @@ kuiApp.controller("kuiController", function ($rootScope, $scope, $location, $rou
 kuiApp.controller("contextController", function ($scope, $location, config, NgTableParams) {
 
     $scope.contexts = config.Contexts;
+    this.openIndex = -1;
     this.tableParams = new NgTableParams({count: 5}, {counts: [5, 10, 25], data: $scope.contexts});
     $scope.clusters = config.Clusters;
     $scope.users = config.Users;
-
+    this.toggleJsonCell = function (index) {
+      this.openIndex = index === this.openIndex ? -1 : index;
+    };
 });

@@ -24,10 +24,16 @@
 
         </div>
         <ul class="nav navbar-right">
-          <li class="header-refresh" ng-click="refresh()">
+          <li class="header-button header-context">
+            <select class="btn-default context-dropdown" name="singleSelect" ng-model="selected_context"
+                    ng-change="changeContext(selected_context)">
+                <option ng-repeat="c in contexts" value="{{c.name}}">{{c.name}}</option>
+            </select>
+          </li>
+          <li class="header-button header-refresh" ng-click="refresh()">
             <a><i class="fa fa-refresh"></i></a>
           </li>
-          <li class="header-search">
+          <li class="header-button header-search">
               <i class="fa fa-search search-icon"/>
               <input type="text" ng-model="search" placeholder="search" ng-change="searchString(search);">
           </li>
@@ -62,16 +68,4 @@
         <i class="fa fa-building-o"></i>Store
     </div></a>
   </div>
-
-  <div class="sidebar-footer">
-
-  </div>
-</div>
-
-
-<div>
-    <select class="btn-info header_dropdown" name="singleSelect" ng-model="selected_context"
-            ng-change="changeContext(selected_context)">
-        <option ng-repeat="c in contexts" value="{{c.name}}">{{c.name}}</option>
-    </select>
 </div>

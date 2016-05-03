@@ -18,9 +18,12 @@
     <table ng-table="contextc.tableParams" class="table table-bordered table-responsive" show-filter="true">
         <tr ng-repeat="c in $data ">
           <td title="'Name'">{{c.name}}</td>
-          <td title="'User'">{{c.user}}</td>
+          <td title="'User'">{{c.user.username}}</td>
           <td title="'Endpoint'">{{c.cluster.server}}</td>
-          <td title="'JSON'"><pre>{{c | json}}</pre></td>
+          <td title="'JSON'" class="json-cell" ng-class="{'open': $index == contextc.openIndex}">
+            <pre>{{c | json}}</pre>
+            <i class="expand fa" ng-class="$index == contextc.openIndex ? 'fa-compress' : 'fa-expand'" ng-click="contextc.toggleJsonCell($index)"/>
+          </td>
 
         </tr>
     </table>
