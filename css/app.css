@@ -25,11 +25,6 @@ section.content {
   position: relative;
   -webkit-transition: all 0.5s ease;
 }
-textarea.edit_textarea{
-    width: 100%;
-    height: 100px;
-    border-color: lightgrey;
-}
 
 /* BUTTONS */
 .btn-info {
@@ -40,30 +35,41 @@ textarea.edit_textarea{
   background-color: #78C157;
   border-color: #6BAE4F;
 }
-.cancel_button, .valid_button {
-  display: inline-block;
-  background: white;
-  padding: 3px 7px;
-  border: 1px solid lightgrey;
-  border-radius: 3px;
-  vertical-align: bottom;
-  margin-top: -10px;
-}
-.cancel_button {
-  color: #e74c3c;
-}
-.valid_button {
-  color: #568446;
-}
 .click_item { cursor:pointer;}
 
 .button-row {
   float: right;
   display: inline-block;
-  margin: 20px 0px;
+  margin: 20px 0px 20px 0px;
+  text-align: right;
 }
 .button-row a {
   margin-right: 10px;
+}
+.btn {
+  padding: 10px;
+  border: 0;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.1) !important;
+  outline: none !important;
+}
+.btn:hover {
+  border-bottom: 2px solid transparent !important;
+}
+.btn-link, .btn-link:hover, .btn-link:active {
+  color: #3498db;
+  border-bottom: 0 !important;
+}
+.btn-success, .btn-success:hover, .btn-success:active {
+  background-color: #2ecc71 !important;
+}
+.btn-danger, .btn-danger:hover, .btn-danger:active {
+  background-color: #e74c3c;
+}
+.btn-primary, .btn-primary:hover, .btn-primary:active {
+  background-color: #3498db;
+}
+.btn-info, .btn-info:hover, .btn-info:active {
+  background-color: #34495e;
 }
 
 /* TABLE */
@@ -154,7 +160,8 @@ textarea.edit_textarea{
 .label_text span{
     margin: 6px;
 }
-.label_text i {
+.label_text span.delete {
+  margin: 0;
   display: none;
   position: absolute;
   right: 0px; top: 0px;
@@ -162,9 +169,9 @@ textarea.edit_textarea{
   padding: 0px 5px;
   background: lightgrey;
   cursor: pointer;
-  color: grey;
+  color: #2e2e2e;
 }
-.label_text:hover i  {
+.label_text:hover span.delete  {
   display: block;
 }
 
@@ -180,6 +187,9 @@ textarea.edit_textarea{
 .addLabel_div .input-group {
   width: 150px;
   box-shadow: none;
+}
+.addLabel_div .input-group .btn {
+  border: 1px solid lightgrey;
 }
 .addLabel_div input {
   border: 0;

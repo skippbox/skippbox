@@ -91,19 +91,19 @@
   background-image: url(../img/close-normal.svg);
   margin-right: 8px;
 }
-.close-button:hover {
-  background-image: url(../img/close-hover.svg);
-}
 .minimize-button {
   background-image: url(../img/min-normal.svg);
   margin-right: 8px;
 }
-.minimize-button:hover {
-  background-image: url(../img/min-hover.svg);
-}
 .fullscreen-button {
   background-image: url(../img/max-normal.svg);
 }
-.fullscreen-button:hover {
+.sidebar-appbuttons:hover .close-button {
+  background-image: url(../img/close-hover.svg);
+}
+.sidebar-appbuttons:hover .minimize-button {
+  background-image: url(../img/min-hover.svg);
+}
+.sidebar-appbuttons:hover .fullscreen-button {
   background-image: url(../img/max-hover.svg);
 }

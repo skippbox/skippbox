@@ -15,24 +15,28 @@
 -->
 <section class="content" ng-controller="rcController as rcc">
     <div class="button-row">
-       <a ng-click="newRc=!newRc"> <i class="btn btn-success fa fa-plus"> Create RC </i> </a>
+       <a ng-hide="newRc" ng-click="newRc=!newRc"> <i class="btn btn-success fa fa-plus"> Create RC </i> </a>
     </div>
 
-    <div class="row">
-        <div class="col-sm-12" ng-if="newRc">
-            <form ng-submit="createRc(npStr, yaml);">
-                <textarea id="jsonTextarea1" ng-model="npStr" class="ng-pristine ng-valid form-control"
-                        ></textarea>
-                <span style="float: right"> <input type="checkbox"
-                       ng-model="yaml"
-                       name="yaml"
-                        > YAML</span>
-                <br/>
-                <button class="btn cancel_button" ng-click="cancelCreateBtn();"><i class="glyphicon glyphicon-remove"> </i></button>
-                <button class="btn-small valid_button" type="submit"><i class="glyphicon glyphicon-ok"> </i></button>
+    <div class="row form-new" ng-if="newRc">
+        <form ng-submit="createRc(npStr, yaml);">
+            <div class="form-group">
+              <textarea id="jsonTextarea1" ng-model="npStr" class="ng-pristine ng-valid form-control"
+                        placeholder="Replication controller definition in JSON or YAML format."/>
+              <hr/>
+              <span class="actions-row">
+                  <button class="btn btn-link" ng-click="cancelCreateBtn();">Cancel</button>
+                  <button class="btn btn-success" type="submit">Create</button>
+              </span>
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" g-model="yaml" name="yaml">
+                  YAML
+                </label>
+              </div>
 
-            </form>
-        </div>
+            </div>
+        </form>
     </div>
 
     <div class="row table-container" >

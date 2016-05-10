@@ -17,7 +17,7 @@
 
     <div  class="label-div" ng-repeat="(k, v) in labelJson">
         <div class="label_text"><span style="">{{k}} </span> : <span style="">{{v}}</span>
-            <i ng-click="removeLabel(k)" class="fa fa-close"></i>
+            <span ng-click="removeLabel(k)" class="delete">x</span>
         </div>
     </div>
 
