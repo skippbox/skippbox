@@ -14,6 +14,18 @@
    limitations under the License.
 */
 
+/* FORM */
+
+.input-group input {
+  padding: 20px 10px;
+  outline: none !important;
+  box-shadow: none !important;
+  border: 1px solid lightgrey;
+}
+.input-group input:focus {
+  border: 1px solid #3498db;
+}
+
 /* FORM-NEW */
 
 .form-new {

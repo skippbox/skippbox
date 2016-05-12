@@ -14,18 +14,19 @@
    limitations under the License.
 -->
 <section class="content" ng-controller="contextController as contextc">
-  <div class="row table-container">
-    <table ng-table="contextc.tableParams" class="table table-bordered table-responsive" show-filter="true">
-        <tr ng-repeat="c in $data ">
-          <td title="'Name'">{{c.name}}</td>
-          <td title="'User'">{{c.user.username}}</td>
-          <td title="'Endpoint'">{{c.cluster.server}}</td>
-          <td title="'JSON'" class="json-cell" ng-class="{'open': $index == contextc.openIndex}">
-            <pre>{{c | json}}</pre>
+  <div class="row context-container">
+    <div class="col-md-6" ng-repeat="c in contextc.contexts">
+      <div class="context-item">
+        <div class="title">{{c.name}}</div>
+        <p><label>User:</label><span class="value">{{c.user.username}}</span></p>
+        <p><label>Endpoint:</label><span class="value">{{c.cluster.server}}</span></p>
+        <p><label>JSON:</label>
+          <div class="value json-cell" ng-class="{'open': $index == contextc.openIndex}">
+            <pre>{{$index == contextc.openIndex ? (c | json) : (c | json).replace('{\n ', '{')}}</pre>
             <i class="expand fa" ng-class="$index == contextc.openIndex ? 'fa-compress' : 'fa-expand'" ng-click="contextc.toggleJsonCell($index)"/>
-          </td>
-
-        </tr>
-    </table>
+          </div>
+        </p>
+      </div>
+    </div>
   </div>
 </section>

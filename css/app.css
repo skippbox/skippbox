@@ -71,6 +71,10 @@ section.content {
 .btn-info, .btn-info:hover, .btn-info:active {
   background-color: #34495e;
 }
+.btn-group, .btn-group-vertical {
+  border: 1px solid lightgrey;
+  border-radius: 5px;
+}
 
 /* TABLE */
 
@@ -125,20 +129,6 @@ section.content {
 }
 .table .labels-list {
   max-width: 200px;
-}
-.table .json-cell {
-  position: relative;
-}
-.table .json-cell .expand {
-  position: absolute;
-  right: 15px; top: 20px;
-  cursor: pointer;
-}
-.table .json-cell pre {
-  max-height: 50px;
-}
-.table .json-cell.open pre{
-  max-height: none;
 }
 .pagination {
   margin: 0;
@@ -207,11 +197,14 @@ section.content {
   background: white;
   clear: both;
   margin: 20px 0px;
-  padding: 10px;
+  padding: 30px;
   padding-top: 20px;
   border: 1px solid lightgrey;
   border-radius: 4px;
   overflow-x: scroll;
+}
+.store-container .spinner {
+  color: grey;
 }
 
 /* Panel */

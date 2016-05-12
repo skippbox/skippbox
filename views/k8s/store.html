@@ -14,50 +14,49 @@
    limitations under the License.
 -->
 <section class="content" ng-controller="storeController as storec">
-
-  
-  <div class="row store-container">
-    <div class="col-sm-12">
+  <div class="store-container">
+    <div class="row">
         <form class="form-inline" ng-submit="getNewStore(appstoreUrl);">
           <div class="input-group" style="width: 100%">
-            <div class="input-group-addon" style="width: 10%">Store:&nbsp</div>
-            <input class="form-control" style="width: 100%"id="inputUrl" ng-model="appstoreUrl" type="url" placeholder="Appstore URL" ng-required="true">
-            <span class="input-group-btn" style="width: 8%">
-              <button class="btn" type="submit"><i class="glyphicon glyphicon-ok"> </i></button>
+            <div class="input-group-addon" style="width: 50px">Store:&nbsp</div>
+            <input class="form-control"id="inputUrl" ng-model="appstoreUrl" type="url" placeholder="Appstore URL" ng-required="true">
+            <span class="input-group-btn" style="width: 30px">
+              <button class="btn btn-primary" type="submit"><i class="glyphicon glyphicon-ok"> </i></button>
             </span>
           </div>
         </form>
         <br/><br/>
     </div>
-  
-    <div class="col-sm-6">
-        <i class="fa fa-refresh fa-spin" style="font-size:24px" ng-hide='hideSpiner'></i>
-        <div ng-show='hideSpiner'
-          data-angular-treeview="true"
-          data-tree-model="nestedTree"
-          data-node-label="name"
-          data-node-children="children"
-        >
+
+    <div class="row">
+        <div class="col-md-12 text-center spinner" ng-hide="hideSpiner">
+          <i class="fa fa-refresh fa-spin" style="font-size:24px" ng-hide="hideSpiner"></i>
+        </div>
+        <div class="col-sm-6 store-tree">
+          <div ng-show="hideSpiner"
+            data-angular-treeview="true"
+            data-tree-model="nestedTree"
+            data-node-label="name"
+            data-node-children="children"
+          ></div>
+        </div>
+
+        <div class="col-sm-6" ng-show="yaml.content">
+          <div class="col-sm-12">
+            <a ng-click="createRc(yaml);"><i class="btn btn-success fa fa-plus pull-right" ng-disabled="!isRC"> Create RC</i></a>
+          </div>
+
+          <div class="col-sm-12">
+            <div class="panel panel-default">
+              <div class="panel-heading clearfix">
+                {{yaml.title}}
+              </div>
+              <div class="panel-body clearfix">
+                <pre class="panel-pre"><code>{{yaml.content | json}}</code></pre>
+              </div>
+            </div>
+          </div>
         </div>
     </div>
-    
-    <div class="col-sm-6" ng-show="yaml.content">
-      <div class="col-sm-12">
-        <a ng-click="createRc(yaml);"><i class="btn btn-success fa fa-plus pull-right" ng-disabled="!isRC"> Create RC</i></a>
-      </div>
-
-      <div class="col-sm-12">
-        <div class="panel panel-default">
-          <div class="panel-heading clearfix">
-            {{yaml.title}}
-          </div>
-          <div class="panel-body clearfix">
-            <pre class="panel-pre"><code>{{yaml.content | json}}</code></pre>
-          </div>
-        </div>
-      </div>
-    </div>
-
   </div>
-
 </section>
