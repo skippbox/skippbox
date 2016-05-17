@@ -16,16 +16,19 @@
 <section class="content" ng-controller="contextController as contextc">
   <div class="row context-container">
     <div class="col-md-6" ng-repeat="c in contextc.contexts">
-      <div class="context-item">
-        <div class="title">{{c.name}}</div>
-        <p><label>User:</label><span class="value">{{c.user.username}}</span></p>
-        <p><label>Endpoint:</label><span class="value">{{c.cluster.server}}</span></p>
-        <p><label>JSON:</label>
-          <div class="value json-cell" ng-class="{'open': $index == contextc.openIndex}">
-            <pre>{{$index == contextc.openIndex ? (c | json) : (c | json).replace('{\n ', '{')}}</pre>
-            <i class="expand fa" ng-class="$index == contextc.openIndex ? 'fa-compress' : 'fa-expand'" ng-click="contextc.toggleJsonCell($index)"/>
-          </div>
-        </p>
+
+      <div class="context-item panel panel-default">
+        <div class="title panel-heading clearfix">{{c.name}}</div>
+        <div class="panel-body clearfix">
+          <p><label>User:</label><span class="value">{{c.user.username}}</span></p>
+          <p><label>Endpoint:</label><span class="value">{{c.cluster.server}}</span></p>
+          <p><label>JSON:</label>
+            <div class="value json-cell" ng-class="{'open': $index == contextc.openIndex}">
+              <pre>{{$index == contextc.openIndex ? (c | json) : (c | json).replace('{\n ', '{')}}</pre>
+              <i class="expand fa" ng-class="$index == contextc.openIndex ? 'fa-compress' : 'fa-expand'" ng-click="contextc.toggleJsonCell($index)"/>
+            </div>
+          </p>
+        </div>
       </div>
     </div>
   </div>

@@ -16,6 +16,9 @@
 
 /* NAVBAR */
 .navbar {
+  position: fixed;
+  top: 0px;
+  left: 0px;
   -webkit-app-region: drag;
   background: white;
   color: #468EC6;
@@ -24,6 +27,7 @@
   border-bottom-color: lightgrey;
   -webkit-transition: all 0.5s ease;
   z-index: 10;
+  padding-left: 115px;
 }
 .navbar .container {
   width: 100%;

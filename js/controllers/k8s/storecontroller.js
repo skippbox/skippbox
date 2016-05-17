@@ -21,14 +21,25 @@ kuiApp.controller("storeController", function ( $scope, $filter, k8s, appstore, 
   $scope.user = "skippbox";
   $scope.repo = "appstore";
 
-  $scope.onChildrenClick = function (node) {
+  var rowClicked = false;
+  $scope.onRowClick = function (node) {
+    if (rowClicked) { return; }
     $scope.isRC = false;
     var patt = /.yaml|.yml/g;
+    rowClicked = true;
+    setTimeout(function () {
+      rowClicked = false;
+    }, 300);
+    if (node.children && node.children.length > 0) {
+      node.expanded = !node.expanded;
+    }
     if (node.type === 'blob' && patt.test(node.name)){
+      $scope.showYamlSpiner = true;
       appstore.getBlob( $scope.user, $scope.repo, node.sha, function (e, blob) {
+        $scope.showYamlSpiner = false;
         if (!e)
         {
-          var yamllib = require('js-yaml');          
+          var yamllib = require('js-yaml');
           $scope.yaml = {
             content: yamllib.load(atob(blob.content)),
             title: node.path
@@ -45,9 +56,40 @@ kuiApp.controller("storeController", function ( $scope, $filter, k8s, appstore, 
       $scope.yaml = {};
     }
   }
+  // $scope.nestedTree = [
+  //       { "name" : "User", "roleId" : "role1", "children" : [
+  //         { "name" : "subUser1", "roleId" : "role11", "collapsed" : true, "children" : [] },
+  //         { "name" : "subUser2", "roleId" : "role12", "collapsed" : true, "children" : [
+  //           { "name" : "subUser2-1", "roleId" : "role121", "children" : [
+  //             { "name" : "subUser2-1-1", "roleId" : "role1211", "children" : [] },
+  //             { "name" : "subUser2-1-2", "roleId" : "role1212", "children" : [] }
+  //           ]}
+  //         ]}
+  //       ]},
+  //       { "name": "test.yml", "path": "test.yml", "sha": "035cffefbfec1471e2511dc404812ac0cedd98ab", "type": "blob"},
+  //       { "name" : "Admin", "roleId" : "role2", "children" : [
+  //         { "name" : "subAdmin1", "roleId" : "role11", "collapsed" : true, "children" : [] },
+  //         { "name" : "subAdmin2", "roleId" : "role12", "children" : [
+  //           { "name" : "subAdmin2-1", "roleId" : "role121", "children" : [
+  //             { "name" : "subAdmin2-1-1", "roleId" : "role1211", "children" : [] },
+  //             { "name" : "subAdmin2-1-2", "roleId" : "role1212", "children" : [] }
+  //           ]}
+  //         ]}
+  //       ]},
+  //
+  //       { "name" : "Guest", "roleId" : "role3", "children" : [
+  //         { "name" : "subGuest1", "roleId" : "role11", "children" : [] },
+  //         { "name" : "subGuest2", "roleId" : "role12", "collapsed" : true, "children" : [
+  //           { "name" : "subGuest2-1", "roleId" : "role121", "children" : [
+  //             { "name" : "subGuest2-1-1", "roleId" : "role1211", "children" : [] },
+  //             { "name" : "subGuest2-1-2", "roleId" : "role1212", "children" : [] }
+  //           ]}
+  //         ]}
+  //       ]}
+  //     ];
 
   $scope.getTree = function ( user, repo ) {
-  $scope.user = user;
+    $scope.user = user;
     $scope.repo = repo;
     $scope.hideSpiner=false;
     appstore.getCommits( user, repo, function (e, sha, url) {
@@ -60,8 +102,9 @@ kuiApp.controller("storeController", function ( $scope, $filter, k8s, appstore, 
             {
               $scope.tree = tree.tree;
               $scope.getTreeView($scope.tree, function (tree){
-
                 $scope.nestedTree = tree;
+                console.log(tree);
+                $scope.$apply();
               });
               $scope.hideSpiner=true;
               $scope.$apply();
@@ -70,12 +113,13 @@ kuiApp.controller("storeController", function ( $scope, $filter, k8s, appstore, 
               console.log( 'error' + JSON.stringify(e));
         });
       }
-      else 
+      else
           console.log( 'error' + JSON.stringify(e));
     });
   };
 
-  $scope.getTree($scope.user, $scope.repo);
+  // $scope.getTree($scope.user, $scope.repo);
+  // $scope.hideSpiner=true;
 
   $scope.getTreeView = function ( pathTree, callback ) {
     var tree = [];
@@ -87,7 +131,7 @@ kuiApp.controller("storeController", function ( $scope, $filter, k8s, appstore, 
       var pathParts = path.split('/');
 
       angular.forEach(pathParts, function (part, key) {
-        
+
         var existingPath;
 
         //faster

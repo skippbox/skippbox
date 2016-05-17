@@ -25,17 +25,14 @@
   background: white;
   border: 1px solid lightgrey;
   border-radius: 5px;
-  margin: 5px;
   margin-bottom: 20px;
-  padding: 10px;
   overflow: hidden;
 }
 .context-item .title {
   color: white;
   background: #468EC6;
-  margin: -10px;
-  margin-bottom: 10px;
-  padding: 10px 20px;
+  margin-bottom: 0px;
+  padding: 10px 25px;
   font-weight: 300;
   font-size: 18px;
 }

@@ -8,12 +8,13 @@ div[data-angular-treeview] {
 
   /* default */
   text-decoration: none;
+  border-bottom: 1px solid #E8E8E8;
 }
 
 div[data-tree-model] ul {
   margin: 0;
   padding: 0;
-  list-style: none; 
+  list-style: none;
   border: none;
   overflow: hidden;
 }
@@ -21,32 +22,40 @@ div[data-tree-model] ul {
 div[data-tree-model] li {
   position: relative;
   padding: 0 0 0 10px;
-  line-height: 20px;
+  line-height: 40px;
+  border-top: 1px solid #E8E8E8;
+  cursor: pointer;
+}
+
+div[data-tree-model] li:hover:not(.open) {
+  background: #F4FAFF;
+}
+
+div[data-tree-model] li.selected {
+  background: #E3F2FA !important;
 }
 
 div[data-tree-model] li .expanded {
   padding: 1px 10px;
-  background-image: url("http://cfile23.uf.tistory.com/image/205B973A50C13F4B19D9BD");
+  background-image: url("../img/folder.png");
+  background-size: 16px;
   background-repeat: no-repeat;
 }
 
 div[data-tree-model] li .collapsed {
   padding: 1px 10px;
-  background-image: url("http://cfile23.uf.tistory.com/image/1459193A50C13F4B1B05FB");
+  background-image: url("../img/folder.png");
+  background-size: 16px;
   background-repeat: no-repeat;
 }
 
 div[data-tree-model] li .normal {
   padding: 1px 10px;
-  background-image: url("http://cfile23.uf.tistory.com/image/165B663A50C13F4B196CCA");
+  background-image: url("../img/file.png");
+  background-size: 16px;
   background-repeat: no-repeat;
 }
 
 div[data-tree-model] li i, div[data-tree-model] li span {
   cursor: pointer;
-}
-
-div[data-tree-model] li .selected {
-  font-weight: bold;
-  padding: 1px 5px;
 }

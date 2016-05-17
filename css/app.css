@@ -13,14 +13,22 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-body {
-    padding-top: 60px;
+
+html, body {
     background: #E9E9E9;
     overflow: hidden;
+    width: 100%;
+    height: 100%;
 }
-.container {
-  padding-left: 115px;
+.view {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  padding-left: 140px;
+  padding-right: 40px;
+  padding-top: 60px;
 }
+
 section.content {
   position: relative;
   -webkit-transition: all 0.5s ease;
