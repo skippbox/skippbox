@@ -25,7 +25,7 @@ kuiApp.controller("storeController", function ( $scope, $filter, k8s, appstore, 
   $scope.onRowClick = function (node) {
     if (rowClicked) { return; }
     $scope.isRC = false;
-    var patt = /.yaml|.yml/g;
+    var patt = /.yaml|.yml|.json/g;
     rowClicked = true;
     setTimeout(function () {
       rowClicked = false;
