@@ -48,6 +48,7 @@
 
 .context-item .json-cell {
   position: relative;
+  -webkit-user-select: auto;
 }
 .context-item .json-cell .expand {
   position: absolute;

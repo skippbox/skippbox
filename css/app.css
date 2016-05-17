@@ -19,6 +19,10 @@ html, body {
     overflow: hidden;
     width: 100%;
     height: 100%;
+    -webkit-user-select: none;
+}
+* {
+  -webkit-user-drag: none;
 }
 .view {
   width: 100%;
@@ -59,6 +63,9 @@ section.content {
   border: 0;
   border-bottom: 2px solid rgba(0, 0, 0, 0.1) !important;
   outline: none !important;
+}
+.btn-small {
+  padding: 5px 10px;
 }
 .btn:hover {
   border-bottom: 2px solid transparent !important;
@@ -214,6 +221,19 @@ section.content {
 .store-container .spinner {
   color: grey;
 }
+.store-container .yaml-panel .panel-heading {
+  display: flex;
+}
+
+.store-container .yaml-panel .panel-heading .panel-title {
+  padding-top: 7px;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.store-container .yaml-panel .panel-heading button.pull-right {
+  margin-left: 5px;
+}
 
 /* Panel */
 .panel {
@@ -224,4 +244,5 @@ pre.panel-pre{
   border: 0px;
   border-radius: 0px;
   background-color: inherit;
+  -webkit-user-select: text;
 }

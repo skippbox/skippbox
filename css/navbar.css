@@ -19,7 +19,6 @@
   position: fixed;
   top: 0px;
   left: 0px;
-  -webkit-app-region: drag;
   background: white;
   color: #468EC6;
   height: 60px;
@@ -28,7 +27,9 @@
   -webkit-transition: all 0.5s ease;
   z-index: 10;
   padding-left: 115px;
+  -webkit-app-region: drag;
 }
+
 .navbar .container {
   width: 100%;
 }

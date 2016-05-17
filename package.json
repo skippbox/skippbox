@@ -16,8 +16,8 @@
     "nw.js"
   ],
   "window": {
-    "frame": true,
-    "toolbar": true,
+    "frame": false,
+    "toolbar": false,
     "resizable": true,
     "width": 1000,
     "height": 600,

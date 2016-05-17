@@ -43,15 +43,12 @@
         <div class="col-sm-6 text-center spinner" ng-show="showYamlSpiner">
           <i class="fa fa-refresh fa-spin" style="font-size:24px"></i>
         </div>
-        <div class="col-sm-6" ng-show="yaml.content">
-          <div class="col-sm-12">
-            <a ng-click="createRc(yaml);"><i class="btn btn-success fa fa-plus pull-right" ng-disabled="!isRC"> Create RC</i></a>
-          </div>
-
+        <div class="col-sm-6 yaml-panel"  ng-show="yaml.content && !showYamlSpiner">
           <div class="col-sm-12">
             <div class="panel panel-default">
               <div class="panel-heading clearfix">
-                {{yaml.title}}
+                <h3 class="panel-title pull-left">{{yaml.title}}</h3>
+                <button class="btn btn-small btn-primary pull-right" ng-disabled="!isRC" ng-click="createRc(yaml);"><i class="fa fa-plus"> Create RC</i></button>
               </div>
               <div class="panel-body clearfix">
                 <pre class="panel-pre"><code>{{yaml.content | json}}</code></pre>

@@ -56,37 +56,6 @@ kuiApp.controller("storeController", function ( $scope, $filter, k8s, appstore, 
       $scope.yaml = {};
     }
   }
-  // $scope.nestedTree = [
-  //       { "name" : "User", "roleId" : "role1", "children" : [
-  //         { "name" : "subUser1", "roleId" : "role11", "collapsed" : true, "children" : [] },
-  //         { "name" : "subUser2", "roleId" : "role12", "collapsed" : true, "children" : [
-  //           { "name" : "subUser2-1", "roleId" : "role121", "children" : [
-  //             { "name" : "subUser2-1-1", "roleId" : "role1211", "children" : [] },
-  //             { "name" : "subUser2-1-2", "roleId" : "role1212", "children" : [] }
-  //           ]}
-  //         ]}
-  //       ]},
-  //       { "name": "test.yml", "path": "test.yml", "sha": "035cffefbfec1471e2511dc404812ac0cedd98ab", "type": "blob"},
-  //       { "name" : "Admin", "roleId" : "role2", "children" : [
-  //         { "name" : "subAdmin1", "roleId" : "role11", "collapsed" : true, "children" : [] },
-  //         { "name" : "subAdmin2", "roleId" : "role12", "children" : [
-  //           { "name" : "subAdmin2-1", "roleId" : "role121", "children" : [
-  //             { "name" : "subAdmin2-1-1", "roleId" : "role1211", "children" : [] },
-  //             { "name" : "subAdmin2-1-2", "roleId" : "role1212", "children" : [] }
-  //           ]}
-  //         ]}
-  //       ]},
-  //
-  //       { "name" : "Guest", "roleId" : "role3", "children" : [
-  //         { "name" : "subGuest1", "roleId" : "role11", "children" : [] },
-  //         { "name" : "subGuest2", "roleId" : "role12", "collapsed" : true, "children" : [
-  //           { "name" : "subGuest2-1", "roleId" : "role121", "children" : [
-  //             { "name" : "subGuest2-1-1", "roleId" : "role1211", "children" : [] },
-  //             { "name" : "subGuest2-1-2", "roleId" : "role1212", "children" : [] }
-  //           ]}
-  //         ]}
-  //       ]}
-  //     ];
 
   $scope.getTree = function ( user, repo ) {
     $scope.user = user;
@@ -118,8 +87,7 @@ kuiApp.controller("storeController", function ( $scope, $filter, k8s, appstore, 
     });
   };
 
-  // $scope.getTree($scope.user, $scope.repo);
-  // $scope.hideSpiner=true;
+  $scope.getTree($scope.user, $scope.repo);
 
   $scope.getTreeView = function ( pathTree, callback ) {
     var tree = [];
